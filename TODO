@@ -1,0 +1,21 @@
+#REQUERIMIENTOS / AYUDAS
+☐ HTML
+    ☐ index.html: Presentación
+    ☐ quiz.html: Juego (solo formulario):
+        ☐ Mínimo 5 preguntas
+        ☐ los input tienen que ser radio o checkbox (según sean respuestas únicas/múltiples)
+        ☐ Tener cuidado que no falten etiquetas
+        ☐ Poner atributo name  ulario
+☐ CSS
+    ☐ Definir altura de preguntas y respuestas.
+    ☐ Mobile first
+    ☐ responsive a 768px y 1366px
+☐ JS
+    ☐ Evitar que el formulario se reinicie al hacer submit
+    ☐ Hay que obligatoriamente responder a todas las preguntas
+    ☐ cambiar color respuesta según sea correcta/incorrecta
+
+
+#PROPIAS
+
+Recurso preguntas: https://www.vidaextra.com/vidaextra/cuanto-sabes-o-recuerdas-de-los-primeros-pokemon
