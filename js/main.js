@@ -14,53 +14,63 @@ function getQuestions(questions, num) {
     }
 
     return returnQuestions;
+}
 
+function formGenerator(question, index) {
+
+    //creamos la estructura del formulario de cada pregunta
+    const questionHTML = document.createElement("form");
+    questionHTML.className = "quizForm";
+    questionHTML.id = `question_${index}`;
+    questionHTML.name = `question_${index}`;
+    //creamos el título de cada pregunta
+    const titleHTML = document.createElement("p");
+    titleHTML.id = `title_${index}`;
+    titleHTML.className = "title";
+    const titleHTMLText = document.createTextNode(question.title);
+    //añadimos el texto al title
+    titleHTML.appendChild(titleHTMLText);
+    //añadimos el title al formulario
+    questionHTML.appendChild(titleHTML);
+
+    return questionHTML;
 
 }
+
+function answersGeneralor(answers, index) {
+    //creamos el html de las preguntas
+    const answersHTML = document.createDocumentFragment();
+
+    for (let j = 0; j < answers.length; j++) {
+        console.log("DENTRO");
+        //creamos el html de cada pregunta
+
+        //TODO:CONTINUAR POR AQUI. METER LOS LABEL Y MIRAR COMO HACER EL CSS PARA QUE PAREZCA UN BOTON Y DONDE GUARDA EL TEXTO 
+        const answerHTML = document.createElement("input");
+        answerHTML.type = "radio";
+        answerHTML.name = `question_${index}`;
+        answerHTML.id = `answer_${index}-${j}`;
+        answerHTML.value = j;
+        answersHTML.appendChild(answerHTML);
+    }
+    return answersHTML;s
+}
+
+
 
 function htmlGenerator(questions, $parent) {
     //va a recibir las preguntas y un elemento del DOM donde luego añadir los nodos creados.
 
     for (let i = 0; i < questions.length; i++) {
         let questionHTML;
-        let titleHTML;
-        let titleHTMLText;
         let question = questions[i];
         let answersHTML;
 
+        questionHTML = formGenerator(question, i);
+
+        answersHTML = answersGeneralor(question.answers, i);
 
 
-        //creamos la estructura del formulario de cada pregunta
-        questionHTML = document.createElement("form");
-        questionHTML.className = "quizForm";
-        questionHTML.id = `question_${i}`;
-        questionHTML.name = `question_${i}`;
-        //creamos el título de cada pregunta
-        titleHTML = document.createElement("p");
-        titleHTML.id = `title_${i}`;
-        titleHTML.className = "title";
-        titleHTMLText = document.createTextNode(question.title);
-        //añadimos el texto al title
-        titleHTML.appendChild(titleHTMLText);
-        //añadimos el title al formulario
-        questionHTML.appendChild(titleHTML);
-
-        //creamos el html de las preguntas
-        answersHTML = document.createDocumentFragment();
-
-        for (let j = 0; j < question.answers.length; j++) {
-            console.log("DENTRO");
-            let answerHTML;
-            //creamos el html de cada pregunta
-
-            //TODO:CONTINUAR POR AQUI. METER LOS LABEL Y MIRAR COMO HACER EL CSS PARA QUE PAREZCA UN BOTON Y DONDE GUARDA EL TEXTO
-            answerHTML = document.createElement("input");
-            answerHTML.type = "radio";
-            answerHTML.name = `question_${i}`;
-            answerHTML.id = `answer_${i}-${j}`;
-            answerHTML.value = j;
-            answersHTML.appendChild(answerHTML);
-        }
         questionHTML.appendChild(answersHTML);
 
 
