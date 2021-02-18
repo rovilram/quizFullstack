@@ -36,6 +36,7 @@ function formGenerator(question, index) {
     submitBtnHTML.id = `question_${index}Btn`;
     submitBtnHTML.className = "questionBtn";
     submitBtnHTML.value = "Corregir Pregunta";
+    submitBtnHTML.dataset.id=`question_${index}`;
     questionHTML.appendChild(submitBtnHTML);
 
     return questionHTML;
@@ -52,6 +53,7 @@ function answersGenerator(answers, index) {
 
         const answerHTMLinput = document.createElement("input");
         answerHTMLinput.type = "radio";
+        answerHTMLinput.required="true";
         answerHTMLinput.name = `question_${index}`;
         answerHTMLinput.id = `answer_${index}-${j}`;
         answerHTMLinput.value = j;
@@ -61,7 +63,9 @@ function answersGenerator(answers, index) {
         //creamos las label
         const answerHTMLlabel = document.createElement("label");
         answerHTMLlabel.for = `answer_${index}-${j}`;
-        answerHTMLlabel.class = "answerLabel";
+        answerHTMLlabel.className = "answerLabel";
+        //TODO: AJUSTAR LOS NOMBRES DE LAS LABEL Y LAS ID DE LOS INPUT
+        console.log((answers[j]));
         const answerHTMLlabelText = document.createTextNode(answers[j]);
         answerHTMLlabel.appendChild(answerHTMLlabelText);
         answersHTML.appendChild(answerHTMLlabel);
@@ -85,7 +89,6 @@ function htmlGenerator(questions, $parent) {
         answersHTML = answersGenerator(question.answers, i);
 
         const questionBtn = questionHTML.querySelector(".questionBtn");
-        console.log(questionBtn);
 
         //pegamos los nodos de las respuestas antes del botón que ya estaba generado
         questionHTML.insertBefore(answersHTML, questionBtn);
@@ -94,6 +97,14 @@ function htmlGenerator(questions, $parent) {
         $parent.appendChild(questionHTML);
     };
 }
+
+function validateAnswer(id) {
+    const input=document.querySelector(`input[name=${id}]:checked`);
+    const form=document.querySelector(`form[id=${id}]`);
+    if(input.value===form.dataset.validAnswer) console.log("TOMA YA");
+    input.style.backgroundColor="#449922";
+}
+
 
 const questions = [
     {
@@ -153,8 +164,13 @@ const $divParent = document.getElementById("questionWrapper");
 quizQuestions = getQuestions(questions, NUM_QUESTIONS);
 
 htmlGenerator(quizQuestions, $divParent);
-
 //Eventos
-document.addEventListener("click", function () {
+document.addEventListener("click", function (event) {
 //TODO: Continuar añadiendo los eventos de los botones y probarlos
+    if (event.target.className==="questionBtn")
+    {
+        event.preventDefault();
+        console.log(event.target.dataset.id);
+        validateAnswer(event.target.dataset.id);
+    }
 })
