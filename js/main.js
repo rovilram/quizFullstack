@@ -12,17 +12,14 @@ function getQuestions(questions, num) {
     return returnQuestions;
 }
 
-function formGenerator(question, index) {
+function formGenerator(question) {
 
     //creamos la estructura del formulario de cada pregunta
     const questionHTML = document.createElement("form");
     questionHTML.className = "quizForm";
-    questionHTML.id = `question_${index}`;
-    questionHTML.name = `question_${index}`;
-    questionHTML.dataset.validAnswer = question.validAnswer;
+    questionHTML.name = question.questionID;
     //creamos el título de cada pregunta
     const titleHTML = document.createElement("p");
-    titleHTML.id = `title_${index}`;
     titleHTML.className = "title";
     const titleHTMLText = document.createTextNode(question.title);
     //añadimos el texto al title
@@ -33,19 +30,18 @@ function formGenerator(question, index) {
 
     const submitBtnHTML = document.createElement("input");
     submitBtnHTML.type = "submit";
-    submitBtnHTML.id = `question_${index}Btn`;
     submitBtnHTML.className = "questionBtn";
     submitBtnHTML.value = "Corregir Pregunta";
-    submitBtnHTML.dataset.id=`question_${index}`;
     questionHTML.appendChild(submitBtnHTML);
 
     return questionHTML;
 
 }
 
-function answersGenerator(answers, index) {
+function answersGenerator(question) {
     //creamos el html de las preguntas
     const answersHTML = document.createElement("div");
+    const answers = question.answers;
     answersHTML.id = "answerWrapper";
 
     for (let j = 0; j < answers.length; j++) {
@@ -53,19 +49,18 @@ function answersGenerator(answers, index) {
 
         const answerHTMLinput = document.createElement("input");
         answerHTMLinput.type = "radio";
-        answerHTMLinput.required="true";
-        answerHTMLinput.name = `question_${index}`;
-        answerHTMLinput.id = `answer_${index}-${j}`;
+        answerHTMLinput.required = "true";
+        answerHTMLinput.name = question.questionID;
+        answerHTMLinput.id = `answer_${j}`;
         answerHTMLinput.value = j;
         answerHTMLinput.class = "answerInput"
         answersHTML.appendChild(answerHTMLinput);
 
         //creamos las label
         const answerHTMLlabel = document.createElement("label");
-        answerHTMLlabel.for = `answer_${index}-${j}`;
+        answerHTMLlabel.for = `answer_${j}`;
         answerHTMLlabel.className = "answerLabel";
         //TODO: AJUSTAR LOS NOMBRES DE LAS LABEL Y LAS ID DE LOS INPUT
-        console.log((answers[j]));
         const answerHTMLlabelText = document.createTextNode(answers[j]);
         answerHTMLlabel.appendChild(answerHTMLlabelText);
         answersHTML.appendChild(answerHTMLlabel);
@@ -76,83 +71,91 @@ function answersGenerator(answers, index) {
 
 
 
-function htmlGenerator(questions, $parent) {
+function htmlGenerator(question, $parent) {
     //va a recibir las preguntas y un elemento del DOM donde luego añadir los nodos creados.
 
-    for (let i = 0; i < questions.length; i++) {
-        let questionHTML;
-        let question = questions[i];
-        let answersHTML;
+    let questionHTML;
+    let answersHTML;
 
-        questionHTML = formGenerator(question, i);
+    questionHTML = formGenerator(question);
 
-        answersHTML = answersGenerator(question.answers, i);
+    answersHTML = answersGenerator(question);
 
-        const questionBtn = questionHTML.querySelector(".questionBtn");
+    const questionBtn = questionHTML.querySelector(".questionBtn");
 
-        //pegamos los nodos de las respuestas antes del botón que ya estaba generado
-        questionHTML.insertBefore(answersHTML, questionBtn);
+    //pegamos los nodos de las respuestas antes del botón que ya estaba generado
+    questionHTML.insertBefore(answersHTML, questionBtn);
 
 
-        $parent.appendChild(questionHTML);
-    };
+    $parent.appendChild(questionHTML);
+
 }
 
 function validateAnswer(id) {
-    const input=document.querySelector(`input[name=${id}]:checked`);
-    const form=document.querySelector(`form[id=${id}]`);
-    if(input.value===form.dataset.validAnswer) console.log("TOMA YA");
-    input.style.backgroundColor="#449922";
+    const input = document.querySelector(`input[name=${id}]:checked`);
+    const form = document.querySelector(`form[id=${id}]`);
+    if (input.value === form.dataset.validAnswer) console.log("TOMA YA");
+    input.style.backgroundColor = "#449922";
 }
 
 
 const questions = [
     {
+        questionID: 0,
         title: "title 1",
         answers: ["answer1_1", "answer1_2", "answer1_3", "answer1_4"],
         validAnswer: 1
     },
     {
+        questionID: 1,
         title: "title 2",
         answers: ["answer2_1", "answer2_2", "answer2_3", "answer2_4"],
         validAnswer: 1
     },
     {
+        questionID: 2,
         title: "title 3",
         answers: ["answer3_1", "answer3_2", "answer3_3", "answer3_4"],
         validAnswer: 1
     },
     {
+        questionID: 3,
         title: "title 4",
         answers: ["answer4_1", "answer4_2", "answer4_3", "answer4_4"],
         validAnswer: 1
     },
     {
+        questionID: 4,
         title: "title 5",
         answers: ["answer5_1", "answer5_2", "answer5_3", "answer5_4"],
         validAnswer: 1
     },
     {
+        questionID: 5,
         title: "title 6",
         answers: ["answer6_1", "answer6_2", "answer6_3", "answer6_4"],
         validAnswer: 1
     },
     {
+        questionID: 6,
         title: "title 7",
         answers: ["answer7_1", "answer7_2", "answer7_3", "answer7_4"],
         validAnswer: 1
     },
     {
+        questionID: 7,
         title: "title 8",
         answers: ["answer8_1", "answer8_2", "answer8_3", "answer8_4"],
         validAnswer: 1
     },
     {
+        questionID: 8,
         title: "title 9",
         answers: ["answer9_1", "answer9_2", "answer9_3", "answer9_4"],
         validAnswer: 1
     },
     {
+        questionID: 9,
         title: "title 10",
         answers: ["answer10_1", "answer10_2", "answer10_3", "answer10_4"],
         validAnswer: 1
@@ -163,14 +166,20 @@ let quizQuestions = [];
 const $divParent = document.getElementById("questionWrapper");
 quizQuestions = getQuestions(questions, NUM_QUESTIONS);
 
-htmlGenerator(quizQuestions, $divParent);
+for (let i = 0; i < quizQuestions.length; i++) {
+    console.log(i, quizQuestions)
+    htmlGenerator(quizQuestions[i], $divParent);
+}
+
+
+
+
+
 //Eventos
 document.addEventListener("click", function (event) {
-//TODO: Continuar añadiendo los eventos de los botones y probarlos
-    if (event.target.className==="questionBtn")
-    {
+    //TODO: Continuar añadiendo los eventos de los botones y probarlos
+    if (event.target.className === "questionBtn") {
         event.preventDefault();
-        console.log(event.target.dataset.id);
-        validateAnswer(event.target.dataset.id);
+
     }
 })
