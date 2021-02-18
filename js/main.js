@@ -1,7 +1,3 @@
-
-
-
-
 function getQuestions(questions, num) {
     //devuelve tantas preguntas como pasemos en el parámetro "num"
     //de entre el array de preguntas que le pasemos.
@@ -9,7 +5,7 @@ function getQuestions(questions, num) {
     //TODO: Hacer que el orden de las respuestas de cada pregunta también sea aleatorio
 
     const returnQuestions = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < num; i++) {
         returnQuestions[returnQuestions.length] = questions[i];
     }
 
@@ -23,6 +19,7 @@ function formGenerator(question, index) {
     questionHTML.className = "quizForm";
     questionHTML.id = `question_${index}`;
     questionHTML.name = `question_${index}`;
+    questionHTML.dataset.validAnswer = question.validAnswer;
     //creamos el título de cada pregunta
     const titleHTML = document.createElement("p");
     titleHTML.id = `title_${index}`;
@@ -33,27 +30,44 @@ function formGenerator(question, index) {
     //añadimos el title al formulario
     questionHTML.appendChild(titleHTML);
 
+
+    const submitBtnHTML = document.createElement("input");
+    submitBtnHTML.type = "submit";
+    submitBtnHTML.id = `question_${index}Btn`;
+    submitBtnHTML.className = "questionBtn";
+    submitBtnHTML.value = "Corregir Pregunta";
+    questionHTML.appendChild(submitBtnHTML);
+
     return questionHTML;
 
 }
 
-function answersGeneralor(answers, index) {
+function answersGenerator(answers, index) {
     //creamos el html de las preguntas
-    const answersHTML = document.createDocumentFragment();
+    const answersHTML = document.createElement("div");
+    answersHTML.id = "answerWrapper";
 
     for (let j = 0; j < answers.length; j++) {
-        console.log("DENTRO");
         //creamos el html de cada pregunta
 
-        //TODO:CONTINUAR POR AQUI. METER LOS LABEL Y MIRAR COMO HACER EL CSS PARA QUE PAREZCA UN BOTON Y DONDE GUARDA EL TEXTO 
-        const answerHTML = document.createElement("input");
-        answerHTML.type = "radio";
-        answerHTML.name = `question_${index}`;
-        answerHTML.id = `answer_${index}-${j}`;
-        answerHTML.value = j;
-        answersHTML.appendChild(answerHTML);
+        const answerHTMLinput = document.createElement("input");
+        answerHTMLinput.type = "radio";
+        answerHTMLinput.name = `question_${index}`;
+        answerHTMLinput.id = `answer_${index}-${j}`;
+        answerHTMLinput.value = j;
+        answerHTMLinput.class = "answerInput"
+        answersHTML.appendChild(answerHTMLinput);
+
+        //creamos las label
+        const answerHTMLlabel = document.createElement("label");
+        answerHTMLlabel.for = `answer_${index}-${j}`;
+        answerHTMLlabel.class = "answerLabel";
+        const answerHTMLlabelText = document.createTextNode(answers[j]);
+        answerHTMLlabel.appendChild(answerHTMLlabelText);
+        answersHTML.appendChild(answerHTMLlabel);
+
     }
-    return answersHTML;s
+    return answersHTML;
 }
 
 
@@ -68,10 +82,13 @@ function htmlGenerator(questions, $parent) {
 
         questionHTML = formGenerator(question, i);
 
-        answersHTML = answersGeneralor(question.answers, i);
+        answersHTML = answersGenerator(question.answers, i);
 
+        const questionBtn = questionHTML.querySelector(".questionBtn");
+        console.log(questionBtn);
 
-        questionHTML.appendChild(answersHTML);
+        //pegamos los nodos de las respuestas antes del botón que ya estaba generado
+        questionHTML.insertBefore(answersHTML, questionBtn);
 
 
         $parent.appendChild(questionHTML);
@@ -136,3 +153,8 @@ const $divParent = document.getElementById("questionWrapper");
 quizQuestions = getQuestions(questions, NUM_QUESTIONS);
 
 htmlGenerator(quizQuestions, $divParent);
+
+//Eventos
+document.addEventListener("click", function () {
+//TODO: Continuar añadiendo los eventos de los botones y probarlos
+})
