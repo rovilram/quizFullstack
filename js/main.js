@@ -32,6 +32,7 @@ function formGenerator(question) {
     submitBtnHTML.type = "submit";
     submitBtnHTML.id = "questionBtn";
     submitBtnHTML.value = "Corregir Pregunta";
+    submitBtnHTML.classList.add("hidden");
     questionHTML.appendChild(submitBtnHTML);
 
     return questionHTML;
@@ -49,7 +50,6 @@ function answersGenerator(question) {
 
         const answerHTMLinput = document.createElement("input");
         answerHTMLinput.type = "radio";
-        answerHTMLinput.required = "true";
         answerHTMLinput.name = `quID_${question.questionID}`;
         answerHTMLinput.id = `answer_${j}`;
         answerHTMLinput.value = j;
@@ -90,7 +90,7 @@ function htmlGenerator(question, $parent) {
 
 }
 const validateAnswer = ($selectedInput, $label, validAnswer) => {
-    
+
     if ($selectedInput === null) {
         console.log("hay que seleccionar un elemento");
         return false; //no se puede continuar
@@ -110,7 +110,10 @@ const validateAnswer = ($selectedInput, $label, validAnswer) => {
 
 
 }
-
+const printQuestion = (question) => {
+    htmlGenerator(question, $divParent);
+    validAnswer = question.validAnswer;
+}
 
 const questions = [
     {
@@ -180,6 +183,7 @@ const $divParent = document.getElementById("questionWrapper");
 let quizQuestions = [];//para guardar las preguntas elegidas para el quiz
 let selectedInput; //value del input seleccionado
 let validAnswer; //respuesta válida recogida del objeto
+let questionIndex = 0; //contador para recorrer las preguntas del quiz
 
 //guardamos las NUM_QUESTIONS que vamos a necesitar en el quiz
 quizQuestions = getQuestions(questions, NUM_QUESTIONS);
@@ -187,9 +191,9 @@ quizQuestions = getQuestions(questions, NUM_QUESTIONS);
 
 
 //Mostramos la primera de las preguntas
-htmlGenerator(quizQuestions[0], $divParent);
+htmlGenerator(quizQuestions[questionIndex], $divParent);
 //guardamos cual es la respuesta válida
-validAnswer = quizQuestions[0].validAnswer;
+validAnswer = quizQuestions[questionIndex].validAnswer;
 
 
 //Eventos
@@ -206,12 +210,53 @@ validAnswer = quizQuestions[0].validAnswer;
 // })
 //evento click del botón.
 
-document.getElementById("questionBtn").addEventListener(
+/* document.getElementById("questionBtn").addEventListener(
     "click", (e) => {
-        e.preventDefault();
-        const $selectedInput = document.querySelector("input[type=radio]:checked");
+        // e.preventDefault();
+        console.log("CLICK BOTON");
+/*         const $selectedInput = document.querySelector("input[type=radio]:checked");
         const $label = document.querySelector(`label`);
-        if (validateAnswer($selectedInput, $label, validAnswer)) console.log("Podemos continuar");
+        if (validateAnswer($selectedInput, $label, validAnswer)) console.log("Podemos continuar"); 
     }
+); */
 
-);
+/* document.querySelectorAll("label").forEach($label => {
+    $label.addEventListener(
+        "click", (e) => {
+            console.log("click en etiqueta");
+            const $selectedInput = document.querySelector(`#${e.target.htmlFor}`);
+            console.log(e.target.htmlFor);
+            if (validateAnswer($selectedInput, $label, validAnswer)) {
+                questionIndex++;
+                setTimeout(() => {
+                    document.querySelector(".quizForm").remove();
+                    printQuestion(quizQuestions[questionIndex]);
+                }, 2000);
+            }
+        })
+}) */
+
+document.addEventListener("click", e => {
+    if (e.target.id === "questionBtn") {
+        //dejo este evento porque no se si es necesario en un futuro para pasar datos a backend
+        console.log("CLICK BOTON");
+        e.preventDefault(); //con esto hacemos que no tenga el comportamiento establecido
+    }
+    else if (e.target.tagName === "LABEL") {
+        console.log("ETIQUETAAAAAA");
+        console.log("click en etiqueta");
+        document.getElementById("questionBtn").click(); //simulo el haber pinchado sobre el botón
+        const $label = document.querySelectorAll("label");
+        const $selectedInput = document.querySelector(`#${e.target.htmlFor}`);
+        console.log(e.target.htmlFor);
+        if (validateAnswer($selectedInput, $label, validAnswer)) {
+            questionIndex++;
+            setTimeout(() => {
+                document.querySelector(".quizForm").remove();
+                printQuestion(quizQuestions[questionIndex]);
+            }, 2000);
+        }
+
+
+    }
+})

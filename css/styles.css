@@ -9,3 +9,8 @@ body {
 .invalid {
     background-color:red;
 }
+
+.hidden {
+    display: none;
+    background-color: green;
+}
