@@ -17,7 +17,7 @@ function formGenerator(question) {
     //creamos la estructura del formulario de cada pregunta
     const questionHTML = document.createElement("form");
     questionHTML.className = "quizForm";
-    questionHTML.name = question.questionID;
+    questionHTML.name = `quID_${question.questionID}`;
     //creamos el título de cada pregunta
     const titleHTML = document.createElement("p");
     titleHTML.className = "title";
@@ -30,7 +30,7 @@ function formGenerator(question) {
 
     const submitBtnHTML = document.createElement("input");
     submitBtnHTML.type = "submit";
-    submitBtnHTML.className = "questionBtn";
+    submitBtnHTML.id = "questionBtn";
     submitBtnHTML.value = "Corregir Pregunta";
     questionHTML.appendChild(submitBtnHTML);
 
@@ -50,7 +50,7 @@ function answersGenerator(question) {
         const answerHTMLinput = document.createElement("input");
         answerHTMLinput.type = "radio";
         answerHTMLinput.required = "true";
-        answerHTMLinput.name = question.questionID;
+        answerHTMLinput.name = `quID_${question.questionID}`;
         answerHTMLinput.id = `answer_${j}`;
         answerHTMLinput.value = j;
         answerHTMLinput.class = "answerInput"
@@ -58,9 +58,8 @@ function answersGenerator(question) {
 
         //creamos las label
         const answerHTMLlabel = document.createElement("label");
-        answerHTMLlabel.for = `answer_${j}`;
+        answerHTMLlabel.htmlFor = `answer_${j}`;
         answerHTMLlabel.className = "answerLabel";
-        //TODO: AJUSTAR LOS NOMBRES DE LAS LABEL Y LAS ID DE LOS INPUT
         const answerHTMLlabelText = document.createTextNode(answers[j]);
         answerHTMLlabel.appendChild(answerHTMLlabelText);
         answersHTML.appendChild(answerHTMLlabel);
@@ -90,12 +89,26 @@ function htmlGenerator(question, $parent) {
     $parent.appendChild(questionHTML);
 
 }
+const validateAnswer = ($selectedInput, $label, validAnswer) => {
+    
+    if ($selectedInput === null) {
+        console.log("hay que seleccionar un elemento");
+        return false; //no se puede continuar
+    }
+    else {
+        const $labelSelected = document.querySelector(`label[for=answer_${$selectedInput.value}]`);
+        if ($selectedInput.value == validAnswer) {
+            $selectedInput.style.backgroundColor = "green";
+            $labelSelected.style.backgroundColor = "green";
+        }
+        else {
+            $selectedInput.style.backgroundColor = "red";
+            $labelSelected.style.backgroundColor = "red";
+        }
+        return true;
+    }
 
-function validateAnswer(id) {
-    const input = document.querySelector(`input[name=${id}]:checked`);
-    const form = document.querySelector(`form[id=${id}]`);
-    if (input.value === form.dataset.validAnswer) console.log("TOMA YA");
-    input.style.backgroundColor = "#449922";
+
 }
 
 
@@ -161,25 +174,44 @@ const questions = [
         validAnswer: 1
     }
 ];
+
 const NUM_QUESTIONS = 5;
-let quizQuestions = [];
 const $divParent = document.getElementById("questionWrapper");
+let quizQuestions = [];//para guardar las preguntas elegidas para el quiz
+let selectedInput; //value del input seleccionado
+let validAnswer; //respuesta válida recogida del objeto
+
+//guardamos las NUM_QUESTIONS que vamos a necesitar en el quiz
 quizQuestions = getQuestions(questions, NUM_QUESTIONS);
 
-for (let i = 0; i < quizQuestions.length; i++) {
-    console.log(i, quizQuestions)
-    htmlGenerator(quizQuestions[i], $divParent);
-}
 
 
-
+//Mostramos la primera de las preguntas
+htmlGenerator(quizQuestions[0], $divParent);
+//guardamos cual es la respuesta válida
+validAnswer = quizQuestions[0].validAnswer;
 
 
 //Eventos
-document.addEventListener("click", function (event) {
-    //TODO: Continuar añadiendo los eventos de los botones y probarlos
-    if (event.target.className === "questionBtn") {
-        event.preventDefault();
+//No hago delegación de eventos de momento
+// document.addEventListener("click", function (event) {
+//     //TODO: Continuar añadiendo los eventos de los botones y probarlos
+//     if (event.target.className === "questionBtn") {
+//         event.preventDefault();
+//         console.log(event);
+//         console.log(quizQuestions[0].questionID, quizQuestions[0].validAnswer);
+//         event.validAnswer
 
+//     }
+// })
+//evento click del botón.
+
+document.getElementById("questionBtn").addEventListener(
+    "click", (e) => {
+        e.preventDefault();
+        const $selectedInput = document.querySelector("input[type=radio]:checked");
+        const $label = document.querySelector(`label`);
+        if (validateAnswer($selectedInput, $label, validAnswer)) console.log("Podemos continuar");
     }
-})
+
+);
