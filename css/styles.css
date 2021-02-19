@@ -1,4 +1,5 @@
 body {
+    margin:0;
     background-color: ghostwhite;
 }
 
@@ -13,4 +14,64 @@ body {
 .hidden {
     display: none;
     background-color: green;
+}
+
+.header {
+    height:10vh;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    margin:0;
+}
+
+.footer {
+    height: 10vh;
+    background-color: red;
+}
+
+#titleWrapper {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 20vh;
+}
+
+.title {
+    margin:0;
+}
+
+#questionWrapper {
+    height: 80vh;
+}
+
+
+.answerInput {
+    visibility:hidden;
+    width: 0;
+    height: 0;
+    margin:0;   
+}
+
+#answersWrapper {
+    height: 60vh;
+    background-color: orange;
+}
+
+
+
+.answerWrapper {
+    height: 15vh;
+    background-color: seagreen;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.answerLabel {
+
 }

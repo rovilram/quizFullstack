@@ -31,8 +31,13 @@ function formGenerator(question) {
     const titleHTMLText = document.createTextNode(question.title);
     //añadimos el texto al title
     titleHTML.appendChild(titleHTMLText);
-    //añadimos el title al formulario
-    questionHTML.appendChild(titleHTML);
+    //creamos un wrapper para el título y lo añadimos dentro
+    const titleWrapper=document.createElement("div");
+    titleWrapper.id="titleWrapper";
+    titleWrapper.appendChild(titleHTML);
+
+    //añadimos el wrapper al formulario
+    questionHTML.appendChild(titleWrapper);
 
 
     const submitBtnHTML = document.createElement("input");
@@ -62,7 +67,7 @@ function answersGenerator(question) {
         answerHTMLinput.name = `quID_${question.questionID}`;
         answerHTMLinput.id = `answer_${j}`;
         answerHTMLinput.value = j;
-        answerHTMLinput.class = "answerInput"
+        answerHTMLinput.className = "answerInput"
 
         //creamos las label
         const answerHTMLlabel = document.createElement("label");
@@ -111,12 +116,12 @@ const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
     else {
         result.choiseAnswer = $selectedInput.value;
         if ($selectedInput.value == validAnswer) {
-            $selectedLabel.style.backgroundColor = "green";
+            $selectedLabel.parentNode.style.backgroundColor = "green";
             result.isRight = true;
             
         }
         else {
-            $selectedLabel.style.backgroundColor = "red";
+            $selectedLabel.parentNode.style.backgroundColor = "red";
             result.isRight = false;
         }
         return result;
@@ -293,10 +298,15 @@ document.addEventListener("click", e => {
             else {
                 setTimeout(() => {
                     document.querySelector(".quizForm").remove();
-                    printQuestion(quizQuestions[questionIndex]);
+                    printQuestion(quizQuestions[questionIndex);
                 }, 2000);
             }
-        }
+          
+          }
+    }
+    else if (e.target.classList.contains("answerWrapper")) {
+      e.target.lastChild.click(); //hacemos lo mismo que hacemo click en el label
+      console.log("click")
     }
 })
 
