@@ -19,3 +19,11 @@
 #PROPIAS
 
 Recurso preguntas: https://www.vidaextra.com/vidaextra/cuanto-sabes-o-recuerdas-de-los-primeros-pokemon
+Otras opciones pueden ser instrumentos de música, preguntas de lectura y comprensión, de matemáticas....
+
+Meter en objeto un campo para imagen de la pregunta y en cada respuesta meter también una imagen. Si están o no aparecerán en el html.
+
+Contador de aciertos VS fallos
+
+Al inicio poder elegir el número de preguntas e incluso la temática.
+
