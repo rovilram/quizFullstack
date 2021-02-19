@@ -89,20 +89,20 @@ function htmlGenerator(question, $parent) {
     $parent.appendChild(questionHTML);
 
 }
-const validateAnswer = ($selectedInput, $label, validAnswer) => {
+const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
+
 
     if ($selectedInput === null) {
         return false; //no se puede continuar mientras no elijan una respuesta (solo válida para versión con botón)
     }
     else {
-        const $labelSelected = document.querySelector(`label[for=answer_${$selectedInput.value}]`);
         if ($selectedInput.value == validAnswer) {
             $selectedInput.style.backgroundColor = "green";
-            $labelSelected.style.backgroundColor = "green";
+            $selectedLabel.style.backgroundColor = "green";
         }
         else {
             $selectedInput.style.backgroundColor = "red";
-            $labelSelected.style.backgroundColor = "red";
+            $selectedLabel.style.backgroundColor = "red";
         }
         return true;
     }
@@ -203,7 +203,9 @@ document.addEventListener("click", e => {
         document.getElementById("questionBtn").click(); //simulo el haber pinchado sobre el botón
         const $label = document.querySelectorAll("label");
         const $selectedInput = document.querySelector(`#${e.target.htmlFor}`);
-        if (validateAnswer($selectedInput, $label, validAnswer)) {
+        const $selectedLabel = document.querySelector(`label[for=answer_${$selectedInput.value}]`);
+
+        if (validateAnswer($selectedInput, $selectedLabel, validAnswer)) {
             questionIndex++;
             setTimeout(() => {
                 document.querySelector(".quizForm").remove();
