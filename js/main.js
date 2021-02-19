@@ -32,7 +32,7 @@ function formGenerator(question) {
     submitBtnHTML.type = "submit";
     submitBtnHTML.id = "questionBtn";
     submitBtnHTML.value = "Corregir Pregunta";
-    submitBtnHTML.classList.add("hidden");
+    submitBtnHTML.classList.add("hidden"); //el botón lo oculto, por si fuera necesario su uso para backend
     questionHTML.appendChild(submitBtnHTML);
 
     return questionHTML;
@@ -92,8 +92,7 @@ function htmlGenerator(question, $parent) {
 const validateAnswer = ($selectedInput, $label, validAnswer) => {
 
     if ($selectedInput === null) {
-        console.log("hay que seleccionar un elemento");
-        return false; //no se puede continuar
+        return false; //no se puede continuar mientras no elijan una respuesta (solo válida para versión con botón)
     }
     else {
         const $labelSelected = document.querySelector(`label[for=answer_${$selectedInput.value}]`);
@@ -188,67 +187,22 @@ let questionIndex = 0; //contador para recorrer las preguntas del quiz
 //guardamos las NUM_QUESTIONS que vamos a necesitar en el quiz
 quizQuestions = getQuestions(questions, NUM_QUESTIONS);
 
-
-
-//Mostramos la primera de las preguntas
-htmlGenerator(quizQuestions[questionIndex], $divParent);
-//guardamos cual es la respuesta válida
-validAnswer = quizQuestions[questionIndex].validAnswer;
-
+//generamos la primera pregunta
+printQuestion(quizQuestions[0]);
 
 //Eventos
-//No hago delegación de eventos de momento
-// document.addEventListener("click", function (event) {
-//     //TODO: Continuar añadiendo los eventos de los botones y probarlos
-//     if (event.target.className === "questionBtn") {
-//         event.preventDefault();
-//         console.log(event);
-//         console.log(quizQuestions[0].questionID, quizQuestions[0].validAnswer);
-//         event.validAnswer
-
-//     }
-// })
-//evento click del botón.
-
-/* document.getElementById("questionBtn").addEventListener(
-    "click", (e) => {
-        // e.preventDefault();
-        console.log("CLICK BOTON");
-/*         const $selectedInput = document.querySelector("input[type=radio]:checked");
-        const $label = document.querySelector(`label`);
-        if (validateAnswer($selectedInput, $label, validAnswer)) console.log("Podemos continuar"); 
-    }
-); */
-
-/* document.querySelectorAll("label").forEach($label => {
-    $label.addEventListener(
-        "click", (e) => {
-            console.log("click en etiqueta");
-            const $selectedInput = document.querySelector(`#${e.target.htmlFor}`);
-            console.log(e.target.htmlFor);
-            if (validateAnswer($selectedInput, $label, validAnswer)) {
-                questionIndex++;
-                setTimeout(() => {
-                    document.querySelector(".quizForm").remove();
-                    printQuestion(quizQuestions[questionIndex]);
-                }, 2000);
-            }
-        })
-}) */
+//Lo hago con delegación de eventos, porque me he dado cuenta de que cada vez que genero un nuevo formulario y elimino el anterior deja de funcionar el trigger.
+// Creo que eso pasa porque no vuelve a recargar los elementos HTML y los que hay son nuevos y por lo tanto no les asocia los eventos.
 
 document.addEventListener("click", e => {
     if (e.target.id === "questionBtn") {
         //dejo este evento porque no se si es necesario en un futuro para pasar datos a backend
-        console.log("CLICK BOTON");
         e.preventDefault(); //con esto hacemos que no tenga el comportamiento establecido
     }
     else if (e.target.tagName === "LABEL") {
-        console.log("ETIQUETAAAAAA");
-        console.log("click en etiqueta");
         document.getElementById("questionBtn").click(); //simulo el haber pinchado sobre el botón
         const $label = document.querySelectorAll("label");
         const $selectedInput = document.querySelector(`#${e.target.htmlFor}`);
-        console.log(e.target.htmlFor);
         if (validateAnswer($selectedInput, $label, validAnswer)) {
             questionIndex++;
             setTimeout(() => {
