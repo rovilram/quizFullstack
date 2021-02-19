@@ -5,10 +5,17 @@ function getQuestions(questions, num) {
     //TODO: Hacer que el orden de las respuestas de cada pregunta también sea aleatorio
 
     const returnQuestions = [];
+    //para hacer aleatorios las preguntas
+    /* const questionNumber = questions.length;
+    let=randomQuestion;
     for (let i = 0; i < num; i++) {
+        randomQuestion=Math.random()*questionNumber
         returnQuestions[returnQuestions.length] = questions[i];
+    } */
+    for (let i = 0; i < num; i++) {
+        returnQuestions.push(questions[i]);
     }
-
+    console.log(returnQuestions)
     return returnQuestions;
 }
 
@@ -43,18 +50,19 @@ function answersGenerator(question) {
     //creamos el html de las preguntas
     const answersHTML = document.createElement("div");
     const answers = question.answers;
-    answersHTML.id = "answerWrapper";
+    answersHTML.id = "answersWrapper";
+
 
     for (let j = 0; j < answers.length; j++) {
         //creamos el html de cada pregunta
-
+        const answerWrapper = document.createElement("div");
+        answerWrapper.className = "answerWrapper"
         const answerHTMLinput = document.createElement("input");
         answerHTMLinput.type = "radio";
         answerHTMLinput.name = `quID_${question.questionID}`;
         answerHTMLinput.id = `answer_${j}`;
         answerHTMLinput.value = j;
         answerHTMLinput.class = "answerInput"
-        answersHTML.appendChild(answerHTMLinput);
 
         //creamos las label
         const answerHTMLlabel = document.createElement("label");
@@ -63,6 +71,11 @@ function answersGenerator(question) {
         const answerHTMLlabelText = document.createTextNode(answers[j]);
         answerHTMLlabel.appendChild(answerHTMLlabelText);
         answersHTML.appendChild(answerHTMLlabel);
+
+        answerWrapper.appendChild(answerHTMLinput);
+        answerWrapper.appendChild(answerHTMLlabel);
+
+        answersHTML.appendChild(answerWrapper);
 
     }
     return answersHTML;
@@ -127,66 +140,116 @@ const printResults = (results) => {
 }
 const questions = [
     {
-        questionID: 0,
-        title: "title 1",
-        answers: ["answer1_1", "answer1_2", "answer1_3", "answer1_4"],
-        validAnswer: 1
+      "questionID": 0,
+      "title": "Officia exercitation reprehenderit ad Lorem velit.",
+      "answers": [
+        "commodo nostrud anim voluptate deserunt",
+        "ea nulla tempor irure ad",
+        "dolore exercitation pariatur veniam et",
+        "eiusmod veniam sunt cupidatat ex"
+      ],
+      "validAnswer": 1
     },
     {
-        questionID: 1,
-        title: "title 2",
-        answers: ["answer2_1", "answer2_2", "answer2_3", "answer2_4"],
-        validAnswer: 1
+      "questionID": 1,
+      "title": "Excepteur mollit elit consectetur duis ad dolor nisi nisi amet Lorem sunt ex dolore nisi.",
+      "answers": [
+        "ipsum dolore irure nulla laborum",
+        "mollit dolor ea duis dolor",
+        "reprehenderit non cupidatat est qui",
+        "irure amet dolore exercitation mollit"
+      ],
+      "validAnswer": 2
     },
     {
-        questionID: 2,
-        title: "title 3",
-        answers: ["answer3_1", "answer3_2", "answer3_3", "answer3_4"],
-        validAnswer: 1
+      "questionID": 2,
+      "title": "Pariatur mollit Lorem Lorem voluptate.",
+      "answers": [
+        "non duis irure excepteur nostrud",
+        "officia sunt do mollit do",
+        "minim aliquip do aute et",
+        "excepteur aliquip duis consectetur culpa"
+      ],
+      "validAnswer": 3
     },
     {
-        questionID: 3,
-        title: "title 4",
-        answers: ["answer4_1", "answer4_2", "answer4_3", "answer4_4"],
-        validAnswer: 1
+      "questionID": 3,
+      "title": "Ea do exercitation minim est deserunt cupidatat minim nulla sunt ut occaecat sit aliqua.",
+      "answers": [
+        "officia qui laboris officia adipisicing",
+        "do proident aliquip ipsum sit",
+        "excepteur culpa laborum elit aliqua",
+        "do magna laboris excepteur in"
+      ],
+      "validAnswer": 3
     },
     {
-        questionID: 4,
-        title: "title 5",
-        answers: ["answer5_1", "answer5_2", "answer5_3", "answer5_4"],
-        validAnswer: 1
+      "questionID": 4,
+      "title": "Ex ex adipisicing esse culpa id exercitation elit sunt deserunt cupidatat esse cupidatat ut.",
+      "answers": [
+        "quis velit ad deserunt adipisicing",
+        "cupidatat ea laboris in id",
+        "culpa dolore tempor excepteur tempor",
+        "veniam pariatur dolor sit irure"
+      ],
+      "validAnswer": 3
     },
     {
-        questionID: 5,
-        title: "title 6",
-        answers: ["answer6_1", "answer6_2", "answer6_3", "answer6_4"],
-        validAnswer: 1
+      "questionID": 5,
+      "title": "Anim anim ea reprehenderit excepteur occaecat aliqua minim ullamco mollit non deserunt.",
+      "answers": [
+        "irure aute nostrud id ipsum",
+        "dolor est deserunt cupidatat irure",
+        "et anim ut fugiat reprehenderit",
+        "aliquip officia minim proident id"
+      ],
+      "validAnswer": 3
     },
     {
-        questionID: 6,
-        title: "title 7",
-        answers: ["answer7_1", "answer7_2", "answer7_3", "answer7_4"],
-        validAnswer: 1
+      "questionID": 6,
+      "title": "Quis nostrud laboris do velit ullamco cillum quis sint do nulla.",
+      "answers": [
+        "duis pariatur anim non ea",
+        "ullamco aute non labore ex",
+        "deserunt velit Lorem cupidatat dolor",
+        "voluptate eu voluptate commodo ullamco"
+      ],
+      "validAnswer": 3
     },
     {
-        questionID: 7,
-        title: "title 8",
-        answers: ["answer8_1", "answer8_2", "answer8_3", "answer8_4"],
-        validAnswer: 1
+      "questionID": 7,
+      "title": "Qui do sint laborum exercitation ullamco cupidatat ullamco.",
+      "answers": [
+        "labore non qui mollit ea",
+        "non duis laborum labore non",
+        "reprehenderit mollit sint minim magna",
+        "irure consectetur consectetur labore proident"
+      ],
+      "validAnswer": 2
     },
     {
-        questionID: 8,
-        title: "title 9",
-        answers: ["answer9_1", "answer9_2", "answer9_3", "answer9_4"],
-        validAnswer: 1
+      "questionID": 8,
+      "title": "Commodo deserunt laborum consequat eiusmod pariatur tempor ullamco cillum ea.",
+      "answers": [
+        "est aute quis dolor amet",
+        "sint ad veniam fugiat aliquip",
+        "tempor do pariatur occaecat culpa",
+        "commodo aute incididunt aliqua mollit"
+      ],
+      "validAnswer": 0
     },
     {
-        questionID: 9,
-        title: "title 10",
-        answers: ["answer10_1", "answer10_2", "answer10_3", "answer10_4"],
-        validAnswer: 1
+      "questionID": 9,
+      "title": "Adipisicing irure fugiat consequat adipisicing laborum Lorem deserunt.",
+      "answers": [
+        "sit ad eu magna sit",
+        "labore Lorem sit deserunt est",
+        "eu eiusmod id anim mollit",
+        "aliqua ex ex laborum ea"
+      ],
+      "validAnswer": 1
     }
-];
+  ];
 
 const NUM_QUESTIONS = 5;
 const $divParent = document.getElementById("questionWrapper");
