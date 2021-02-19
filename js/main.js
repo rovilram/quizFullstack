@@ -90,30 +90,41 @@ function htmlGenerator(question, $parent) {
 
 }
 const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
-
+    const result = {};
 
     if ($selectedInput === null) {
         return false; //no se puede continuar mientras no elijan una respuesta (solo válida para versión con botón)
     }
     else {
+        result.choiseAnswer = $selectedInput.value;
         if ($selectedInput.value == validAnswer) {
-            $selectedInput.style.backgroundColor = "green";
             $selectedLabel.style.backgroundColor = "green";
+            result.isRight = true;
+            
         }
         else {
-            $selectedInput.style.backgroundColor = "red";
             $selectedLabel.style.backgroundColor = "red";
+            result.isRight = false;
         }
-        return true;
+        return result;
     }
-
-
+    
+    
 }
 const printQuestion = (question) => {
     htmlGenerator(question, $divParent);
     validAnswer = question.validAnswer;
 }
 
+const printResults = (results) => {
+    let points=0;
+    const totalPoints=results.length;
+    results.forEach(result => {
+        console.log(result);
+        if(result.isRight) points++;
+    });
+    console.log(`Has conseguido ${points} puntos de ${totalPoints}`);
+}
 const questions = [
     {
         questionID: 0,
@@ -183,6 +194,8 @@ let quizQuestions = [];//para guardar las preguntas elegidas para el quiz
 let selectedInput; //value del input seleccionado
 let validAnswer; //respuesta válida recogida del objeto
 let questionIndex = 0; //contador para recorrer las preguntas del quiz
+let results = []; //guardará los objetos con el resultado de cada pregunta
+let result = {}; //guardará el resultado de una pregunta
 
 //guardamos las NUM_QUESTIONS que vamos a necesitar en el quiz
 quizQuestions = getQuestions(questions, NUM_QUESTIONS);
@@ -205,14 +218,22 @@ document.addEventListener("click", e => {
         const $selectedInput = document.querySelector(`#${e.target.htmlFor}`);
         const $selectedLabel = document.querySelector(`label[for=answer_${$selectedInput.value}]`);
 
-        if (validateAnswer($selectedInput, $selectedLabel, validAnswer)) {
+        result = validateAnswer($selectedInput, $selectedLabel, validAnswer);
+        if (result) {
+            result.quID = quizQuestions[questionIndex].questionID;
+            results.push(result);
+            console.log(results);
             questionIndex++;
-            setTimeout(() => {
-                document.querySelector(".quizForm").remove();
-                printQuestion(quizQuestions[questionIndex]);
-            }, 2000);
+            if (results.length === NUM_QUESTIONS) {
+                printResults(results);
+            }
+            else {
+                setTimeout(() => {
+                    document.querySelector(".quizForm").remove();
+                    printQuestion(quizQuestions[questionIndex]);
+                }, 2000);
+            }
         }
-
-
     }
 })
+
