@@ -383,7 +383,7 @@ document.addEventListener("click", e => {
           //TODO unificar estas dos funciones
           printQuestion(quizQuestions[questionIndex], $formParent);
           changeScreen($screenParent, questionIndex, NUM_QUESTIONS);
-        }, 100); //TODO: Volver a poner un tiempo mayor de espera
+        }, 1000); //TODO: Volver a poner un tiempo mayor de espera
       }
     }
   }
