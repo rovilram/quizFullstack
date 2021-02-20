@@ -1,3 +1,13 @@
+const randomizeArray = (array) => { //para mezclar las respuestas
+  for (let i = 0; i < array.length-1; i++) {
+    if (Math.random() > 0.5) {
+      [array[i], array[i + 1]] = [array[i + 1], array[i]];
+    }
+  }
+  return array;
+} 
+
+
 function getQuestions(questions, num) {
   //devuelve tantas preguntas como pasemos en el parámetro "num"
   //de entre el array de preguntas que le pasemos.
@@ -6,16 +16,20 @@ function getQuestions(questions, num) {
 
   const returnQuestions = [];
   //para hacer aleatorios las preguntas
-  /* const questionNumber = questions.length;
-  let=randomQuestion;
+  const questionNumber = questions.length;
+  let randomQuestion;
   for (let i = 0; i < num; i++) {
-      randomQuestion=Math.random()*questionNumber
-      returnQuestions[returnQuestions.length] = questions[i];
-  } */
-  for (let i = 0; i < num; i++) {
-    returnQuestions.push(questions[i]);
+    do {
+      randomQuestion = Math.floor(Math.random() * questionNumber);
+    }
+    while (returnQuestions.includes(questions[randomQuestion]));
+    questions[randomQuestion].answer=randomizeArray(questions[randomQuestion].answers);
+    //TODO: SEGUIR POR AQUI. Estoy mezclando las respuestas, pero ahora no se cual es la buena.
+    returnQuestions[i] = questions[randomQuestion];
+
   }
-  console.log(returnQuestions)
+
+  console.log("Preguntas aleatorias para el Test", returnQuestions)
   return returnQuestions;
 }
 
@@ -144,7 +158,7 @@ const createNode = (element, message, className, container) => {
   tempNode.innerText = message;
   tempNode.className = className;
   container.appendChild(tempNode);
-  //  return tempNode; //Lo devolvemos por si queremos usarlo en la llamada a la función
+  return tempNode; //Lo devolvemos por si queremos usarlo en la llamada a la función
 }
 
 
@@ -157,27 +171,27 @@ const printResults = (results, $screenParent, $formParent) => {
   const divNewGame = document.createElement("div");
 
 
-  results.forEach(result => { 
+  results.forEach(result => {
     console.log(result);
     if (result.isRight) points++;
   });
-  
+
   if ($formParent.querySelector(".quizForm")) $formParent.querySelector(".quizForm").remove();
   if ($screenParent.querySelector(".footScreen")) $screenParent.querySelector(".footScreen").remove();
 
   div.className = "quizForm resultScreen";
   divFinished.className = "finished"
 
-  createNode("h2", "Partida finalizada","finishedHeader", divFinished);
-  createNode("span", "has acertado","finishedText", divFinished);
-  createNode("div", points,"finishedNumber", divFinished);
-  createNode("span", "de", "finishedText",divFinished);
-  createNode("div", totalPoints,"finishedNumber", divFinished);
-  createNode("span", "preguntas", "finishedText",divFinished);
+  createNode("h2", "Partida finalizada", "finishedHeader", divFinished);
+  createNode("span", "has acertado", "finishedText", divFinished);
+  createNode("div", points, "finishedNumber", divFinished);
+  createNode("span", "de", "finishedText", divFinished);
+  createNode("div", totalPoints, "finishedNumber", divFinished);
+  createNode("span", "preguntas", "finishedText", divFinished);
 
   div.appendChild(divFinished);
 
-  divNewGame.className="newGame";
+  divNewGame.className = "newGame";
 
   createNode("span", "¿Quieres Jugar una nueva partida?", "newGameText", divNewGame);
   createNode("div", "Pulsa aquí", "finishedBtn newGameButton", divNewGame);
