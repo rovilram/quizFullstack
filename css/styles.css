@@ -1,11 +1,7 @@
 :root {
   --main-bg-color: #f5f5f5;
   --second-bg-color: #d8d4d6;
-  --body-bg-color: #ADD7DF;
-}
-
-* {
-  box-sizing: border-box;
+  --body-bg-color: #add7df;
 }
 
 body {
@@ -15,7 +11,7 @@ body {
     #2bbade,
     #86bbe8,
     #b9bee3,
-    #ADD7DF,
+    #add7df,
     #d8d4d6
   );
 }
@@ -33,10 +29,11 @@ body {
 }
 
 .header {
-  height: 10vh;
+  height: 15vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 3rem;
 }
 
 h1 {
@@ -45,6 +42,13 @@ h1 {
 
 #footerWrapper {
   height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footScreen {
+    font-weight: bold;
 }
 
 .quizForm {
@@ -69,19 +73,18 @@ h1 {
   border-radius: 10px;
   font-weight: bold;
   text-align: center;
-  max-height: 20vh;
+  max-height: 15vh;
 }
 
 .title {
   margin: 0;
-  
 }
 
 #questionWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 80vh;
+  height: 75vh;
 }
 
 .answerInput {
@@ -112,18 +115,35 @@ h1 {
   max-height: 10vh;
   text-align: center;
   padding: 0 2%;
+  opacity: 0.5;
   transition: background-color 0.5s;
+  border: 1px solid black;
 }
 
 .answerWrapper:hover {
   background-color: var(--body-bg-color);
 }
 
-.finished {
+.resultScreen {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.finished,
+.finishedBtn {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  opacity: 0.5;
+  transition: background-color 0.5s;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: var(--main-bg-color);
+  width: 96%;
+  margin: 1vh 2%;
+  padding: 2vh 0;
 }
 
 .finishedHeader {
@@ -134,6 +154,7 @@ h1 {
 }
 .finishedNumber {
   font-size: 3rem;
+  font-weight: bold;
 }
 
 .finishedHeader {

@@ -1,11 +1,11 @@
 const randomizeArray = (array) => { //para mezclar las respuestas
-  for (let i = 0; i < array.length-1; i++) {
+  for (let i = 0; i < array.length - 1; i++) {
     if (Math.random() > 0.5) {
       [array[i], array[i + 1]] = [array[i + 1], array[i]];
     }
   }
   return array;
-} 
+}
 
 
 function getQuestions(questions, num) {
@@ -23,7 +23,7 @@ function getQuestions(questions, num) {
       randomQuestion = Math.floor(Math.random() * questionNumber);
     }
     while (returnQuestions.includes(questions[randomQuestion]));
-    questions[randomQuestion].answer=randomizeArray(questions[randomQuestion].answers);
+    questions[randomQuestion].answer = randomizeArray(questions[randomQuestion].answers);
     //TODO: SEGUIR POR AQUI. Estoy mezclando las respuestas, pero ahora no se cual es la buena.
     returnQuestions[i] = questions[randomQuestion];
 
@@ -152,7 +152,6 @@ const printQuestion = (question, $div) => {
 }
 //TODO: ver donde podemos usar esta función para limpiar código
 const createNode = (element, message, className, container) => {
-  //  createNode("h2", "Partida finalizada","finishedHeader", divFinished);
 
   const tempNode = document.createElement(element);
   tempNode.innerText = message;
@@ -169,6 +168,8 @@ const printResults = (results, $screenParent, $formParent) => {
   const div = document.createElement("div");
   const divFinished = document.createElement("div");
   const divNewGame = document.createElement("div");
+  const divGoIndex = document.createElement("div");
+
 
 
   results.forEach(result => {
@@ -191,15 +192,15 @@ const printResults = (results, $screenParent, $formParent) => {
 
   div.appendChild(divFinished);
 
-  divNewGame.className = "newGame";
-
-  createNode("span", "¿Quieres Jugar una nueva partida?", "newGameText", divNewGame);
-  createNode("div", "Pulsa aquí", "finishedBtn newGameButton", divNewGame);
-  createNode("span", "¿Quieres volver al inicio?", "newGameText", divNewGame);
-  createNode("div", "Pulsa aquí", "finishedBtn  toIndexButton", divNewGame);
+  divNewGame.className = "finishedBtn newGame";
+  createNode("span", "Jugar nueva partida", "finishedBtnText newGame", divNewGame);
+  divGoIndex.className = "finishedBtn goIndex"
+  createNode("span", "Volver al inicio", "finishedBtnText goIndex", divGoIndex);
 
 
   div.appendChild(divNewGame);
+  div.appendChild(divGoIndex);
+
 
 
   $formParent.appendChild(div);
@@ -389,6 +390,12 @@ document.addEventListener("click", e => {
   else if (e.target.classList.contains("answerWrapper")) {
     e.target.lastChild.click(); //hacemos lo mismo que si se hace click en el label
     console.log("click")
+  }
+  else if (e.target.classList.contains("goIndex")) {
+    window.location.assign("index.html");
+  }
+  else if (e.target.classList.contains("newGame")) {
+    window.location.assign("quiz.html");
   }
 })
 
