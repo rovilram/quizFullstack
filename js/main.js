@@ -102,7 +102,7 @@ function answersGenerator(question) {
     let subWrapper = Math.floor(i / 2);
 
     const answerWrapper = document.createElement("div");
-    answerWrapper.className = "answerWrapper"
+    answerWrapper.className = "answerWrapper btn"
 
     const answerHTMLinput = document.createElement("input");
     answerHTMLinput.type = "radio";
@@ -214,9 +214,9 @@ const printResults = (results, $screenParent, $formParent) => {
 
   div.appendChild(divFinished);
 
-  divNewGame.className = "finishedBtn newGame";
+  divNewGame.className = "finishedBtn newGame btn";
   createNode("span", "Jugar nueva partida", "finishedBtnText newGame", divNewGame);
-  divGoIndex.className = "finishedBtn goIndex"
+  divGoIndex.className = "finishedBtn goIndex btn"
   createNode("span", "Volver al inicio", "finishedBtnText goIndex", divGoIndex);
 
 

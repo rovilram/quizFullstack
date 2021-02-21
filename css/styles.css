@@ -199,14 +199,18 @@ h1 {
   align-items: flex-start;
 }
 .indexText p {
-  margin:10px;
+  margin: 10px;
 }
-.indexText form{
-  display:flex;
+.indexText form {
+  display: flex;
   flex-direction: column;
 }
 .indexText form input {
   text-align: center;
+}
+
+.btn {
+  cursor: grab;
 }
 
 @media screen and (min-width: 768px) {
@@ -240,9 +244,6 @@ h1 {
   align-items: center;
 }
 
-
-
-
 @media screen and (min-width: 1366px) {
   #wrapper {
     width: 1366px;
@@ -258,10 +259,4 @@ h1 {
     justify-content: space-around;
     font-size: 1.25rem;
   }
-
 }
-
-
-
-
-
