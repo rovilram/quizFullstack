@@ -260,7 +260,7 @@ const questions = [
     ],
     "validAnswer": 0
   },
-  {
+  { 
     "questionID": 1,
     "title": "Si yo tengo 5 manzanas, y me regalan 10 manzanas. ¿Cuántas manzanas tengo?",
     "answers": [

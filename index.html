@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Akaya+Kanadaka&family=RocknRoll+One&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
-    <script defer src="js/main.js"></script>
 </head>
 
 <body>
@@ -22,7 +21,20 @@
 
     <div id="wrapper">
         <div id="questionWrapper">
+            <div class="indexText">
+                <p>Estás ante un pequeño juego educativo que te será muy útil si tienes 5 años.</p>
+                <p>Para jugar tan solo tienes que leer atentamente la pregunta, y elegir la que creas correcta.</p>
+                <p>También puedes contestar pulsando las teclas 1 al 4 y si quieres salir del juego puedes pulsar la
+                    tecla "ESC".</p>
+            </div>
+            <div class="indexText">
+                <p>¿Cuántas preguntas quieres que tenga el juego?</p>
+                <form action="quiz.html">
+                    <input type="number" name="numQuestion" id="numQuestion" step=1 value=5 min=1>
+                    <input type="submit" value="¡A JUGAR!">
+                </form>
 
+            </div>
         </div>
     </div>
 

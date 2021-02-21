@@ -24,6 +24,7 @@ body {
   );
   font-family: "Akaya Kanadaka", cursive;
   font-size: 1.2em;
+  height: 100vh;
 }
 
 .valid {
@@ -43,7 +44,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3rem;
+  font-size: 2rem;
   font-family: "RocknRoll One", sans-serif;
 }
 
@@ -96,6 +97,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   height: 75vh;
+  justify-content: space-evenly;
 }
 
 .answerInput {
@@ -181,6 +183,30 @@ h1 {
   margin: 0;
 }
 
+.indexText {
+  background-color: var(--main-bg-color);
+  align-items: center;
+  border-radius: 10px;
+  text-align: justify;
+  padding: 10px 2%;
+  width: 95%;;
+  opacity: 0.5;
+  transition: background-color 0.5s;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+}
+.indexText p {
+  margin:10px;
+}
+.indexText form{
+  display:flex;
+  flex-direction: column;
+}
+.indexText form input {
+  text-align: center;
+}
+
 @media screen and (min-width: 768px) {
   #wrapper {
     width: 768px;
@@ -214,3 +240,6 @@ h1 {
     margin: 0 auto;
   }
 }
+
+
+
