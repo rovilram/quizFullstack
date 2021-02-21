@@ -49,8 +49,6 @@ function getQuestions(questions, num) {
     returnQuestions[i] = questions[randomQuestion];
 
   }
-
-  console.log("Preguntas aleatorias para el Test", returnQuestions)
   return returnQuestions;
 }
 
@@ -97,7 +95,6 @@ function answersGenerator(question) {
   for (let j = 0; j < answers.length / 2; j++) {
 
     subDivArray[j] = createNode("div", "", "answersSubWraper");
-    console.log(subDivArray[j]);
   }
 
   for (let i = 0; i < answers.length; i++) { //creamos el html de cada pregunta
@@ -199,7 +196,6 @@ const printResults = (results, $screenParent, $formParent) => {
 
 
   results.forEach(result => {
-    console.log(result);
     if (result.isRight) points++;
   });
 
@@ -231,8 +227,6 @@ const printResults = (results, $screenParent, $formParent) => {
 
   $formParent.appendChild(div);
   $screenParent.appendChild(screen);
-
-  console.log(`Has conseguido ${points} puntos de ${totalPoints}`);
 }
 
 const changeScreen = ($div, questionIndex, numQuestions, message) => { //TODO: PONER MENSAJE CADA VEZ QUE FALLAS O ACIERTAS
@@ -260,7 +254,7 @@ const questions = [
     ],
     "validAnswer": 0
   },
-  { 
+  {
     "questionID": 1,
     "title": "Si yo tengo 5 manzanas, y me regalan 10 manzanas. ¿Cuántas manzanas tengo?",
     "answers": [
@@ -373,12 +367,12 @@ const $screenParent = document.getElementById("footerWrapper");
 
 //vemos si en el URL nos dicen cuantas preguntas usar:
 if (!isNaN(window.location.search.split("=")[1])) {
-  numQuestions=window.location.search.split("=")[1];
+  numQuestions = window.location.search.split("=")[1];
 }
-else numQuestions=5;
+else numQuestions = 5;
 
-if (numQuestions<1) numQuestions=1;
-if (numQuestions>questions.length) numQuestions=10;
+if (numQuestions < 1) numQuestions = 1;
+if (numQuestions > questions.length) numQuestions = 10;
 
 
 
@@ -410,7 +404,6 @@ document.addEventListener("click", e => {
     if (result) {
       result.quID = quizQuestions[questionIndex].questionID;
       results.push(result);
-      console.log(results);
       questionIndex++;
       if (results.length === numQuestions) {
         setTimeout(() => {
@@ -428,7 +421,6 @@ document.addEventListener("click", e => {
   }
   else if (e.target.classList.contains("answerWrapper")) {
     e.target.lastChild.click(); //hacemos lo mismo que si se hace click en el label
-    console.log("click")
   }
   else if (e.target.classList.contains("goIndex")) {
     window.location.assign("index.html");
@@ -438,11 +430,11 @@ document.addEventListener("click", e => {
   }
 })
 
-document.addEventListener("keydown", (e) => { //se puede responder con el teclado
+document.addEventListener("keyup", (e) => { //se puede responder con el teclado
   if (e.code === "Digit1" || e.code === "Numpad1") document.querySelector('label[for="answer_0"]').click();
-  if (e.code === "Digit2" || e.code === "Numpad2") document.querySelector('label[for="answer_1"]').click();
-  if (e.code === "Digit3" || e.code === "Numpad3") document.querySelector('label[for="answer_2"]').click();
-  if (e.code === "Digit4" || e.code === "Numpad4") document.querySelector('label[for="answer_3"]').click();
-
+  else if (e.code === "Digit2" || e.code === "Numpad2") document.querySelector('label[for="answer_1"]').click();
+  else if (e.code === "Digit3" || e.code === "Numpad3") document.querySelector('label[for="answer_2"]').click();
+  else if (e.code === "Digit4" || e.code === "Numpad4") document.querySelector('label[for="answer_3"]').click();
+  else if (e.code === "Escape") window.location.assign("index.html");
 })
 
