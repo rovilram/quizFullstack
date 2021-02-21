@@ -17,7 +17,18 @@ const randomizeAnswer = (question) => { //para mezclar las respuestas
   }
   return question;
 }
+//TODO: ver donde podemos usar esta función para limpiar código
+const createNode = (element, message, className, container) => {
 
+  const tempNode = document.createElement(element);
+  tempNode.innerText = message;
+  tempNode.className = className;
+  if (container)
+  {
+    container.appendChild(tempNode);
+  }
+  else return tempNode; //Lo devolvemos por si queremos usarlo en la llamada a la función
+}
 
 function getQuestions(questions, num) {
   //devuelve tantas preguntas como pasemos en el parámetro "num"
@@ -82,30 +93,45 @@ function answersGenerator(question) {
   const answers = question.answers;
   answersHTML.id = "answersWrapper";
 
+  const subDivArray = [];
+  //para empaquetar las preguntas de dos en dos
+  for (let j=0; j<answers.length/2;j++) {
 
-  for (let j = 0; j < answers.length; j++) {
-    //creamos el html de cada pregunta
+    subDivArray[j]= createNode ("div", "", "answersSubWraper");
+    console.log(subDivArray[j]);
+  }
+
+  for (let i = 0; i < answers.length; i++) { //creamos el html de cada pregunta
+    //vemos en que subWrapper hay que ponerlo:
+    let subWrapper = Math.floor(i/2);
+
     const answerWrapper = document.createElement("div");
     answerWrapper.className = "answerWrapper"
+
     const answerHTMLinput = document.createElement("input");
     answerHTMLinput.type = "radio";
     answerHTMLinput.name = `quID_${question.questionID}`;
-    answerHTMLinput.id = `answer_${j}`;
-    answerHTMLinput.value = j;
+    answerHTMLinput.id = `answer_${i}`;
+    answerHTMLinput.value = i;
     answerHTMLinput.className = "answerInput"
 
     //creamos las label
     const answerHTMLlabel = document.createElement("label");
-    answerHTMLlabel.htmlFor = `answer_${j}`;
+    answerHTMLlabel.htmlFor = `answer_${i}`;
     answerHTMLlabel.className = "answerLabel";
-    const answerHTMLlabelText = document.createTextNode(answers[j]);
+    const answerHTMLlabelText = document.createTextNode(answers[i]);
     answerHTMLlabel.appendChild(answerHTMLlabelText);
-    answersHTML.appendChild(answerHTMLlabel);
 
     answerWrapper.appendChild(answerHTMLinput);
     answerWrapper.appendChild(answerHTMLlabel);
 
-    answersHTML.appendChild(answerWrapper);
+
+    subDivArray[subWrapper].appendChild(answerWrapper);
+
+    for (let j=0;j<subDivArray.length;j++)
+    {
+      answersHTML.appendChild(subDivArray[j]);
+    }
 
   }
   return answersHTML;
@@ -160,15 +186,6 @@ const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
 const printQuestion = (question, $div) => {
   htmlGenerator(question, $div);
   validAnswer = question.validAnswer;
-}
-//TODO: ver donde podemos usar esta función para limpiar código
-const createNode = (element, message, className, container) => {
-
-  const tempNode = document.createElement(element);
-  tempNode.innerText = message;
-  tempNode.className = className;
-  container.appendChild(tempNode);
-  return tempNode; //Lo devolvemos por si queremos usarlo en la llamada a la función
 }
 
 
@@ -387,7 +404,9 @@ document.addEventListener("click", e => {
       console.log(results);
       questionIndex++;
       if (results.length === NUM_QUESTIONS) {
-        printResults(results, $screenParent, $formParent);
+        setTimeout(() => {
+          printResults(results, $screenParent, $formParent);
+        }, 1000);
       }
       else {
         setTimeout(() => {
