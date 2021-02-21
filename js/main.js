@@ -235,12 +235,12 @@ const printResults = (results, $screenParent, $formParent) => {
   console.log(`Has conseguido ${points} puntos de ${totalPoints}`);
 }
 
-const changeScreen = ($div, questionIndex, NUM_QUESTIONS, message) => { //TODO: PONER MENSAJE CADA VEZ QUE FALLAS O ACIERTAS
+const changeScreen = ($div, questionIndex, numQuestions, message) => { //TODO: PONER MENSAJE CADA VEZ QUE FALLAS O ACIERTAS
   const screen = document.createElement("div");;
   if ($div.querySelector(".footScreen")) $div.querySelector(".footScreen").remove();
 
   screen.className = "footScreen";
-  screen.innerText = `Pregunta ${questionIndex + 1} de ${NUM_QUESTIONS}`;
+  screen.innerText = `Pregunta ${questionIndex + 1} de ${numQuestions}`;
   $div.insertAdjacentElement("afterbegin", screen);
 }
 
@@ -361,7 +361,7 @@ const questions = [
   }
 ];
 
-const NUM_QUESTIONS = 5;
+let numQuestions;
 let quizQuestions = [];//para guardar las preguntas elegidas para el quiz
 let selectedInput; //value del input seleccionado
 let validAnswer; //respuesta válida recogida del objeto
@@ -371,12 +371,23 @@ let result = {}; //guardará el resultado de una pregunta
 const $formParent = document.getElementById("questionWrapper");
 const $screenParent = document.getElementById("footerWrapper");
 
-//guardamos las NUM_QUESTIONS que vamos a necesitar en el quiz
-quizQuestions = getQuestions(questions, NUM_QUESTIONS);
+//vemos si en el URL nos dicen cuantas preguntas usar:
+if (!isNaN(window.location.search.split("=")[1])) {
+  numQuestions=window.location.search.split("=")[1];
+}
+else numQuestions=5;
+
+if (numQuestions<1) numQuestions=1;
+if (numQuestions>questions.length) numQuestions=10;
+
+
+
+//guardamos las numQuestions que vamos a necesitar en el quiz
+quizQuestions = getQuestions(questions, numQuestions);
 
 //generamos la primera pregunta
 printQuestion(quizQuestions[0], $formParent);
-changeScreen($screenParent, questionIndex, NUM_QUESTIONS);
+changeScreen($screenParent, questionIndex, numQuestions);
 
 
 
@@ -401,7 +412,7 @@ document.addEventListener("click", e => {
       results.push(result);
       console.log(results);
       questionIndex++;
-      if (results.length === NUM_QUESTIONS) {
+      if (results.length === numQuestions) {
         setTimeout(() => {
           printResults(results, $screenParent, $formParent);
         }, 1000);
@@ -410,7 +421,7 @@ document.addEventListener("click", e => {
         setTimeout(() => {
           //TODO unificar estas dos funciones
           printQuestion(quizQuestions[questionIndex], $formParent);
-          changeScreen($screenParent, questionIndex, NUM_QUESTIONS);
+          changeScreen($screenParent, questionIndex, numQuestions);
         }, 1000); //TODO: Volver a poner un tiempo mayor de espera
       }
     }
