@@ -1,10 +1,21 @@
-const randomizeArray = (array) => { //para mezclar las respuestas
+const randomizeAnswer = (question) => { //para mezclar las respuestas
+  let array = question.answers;
+  let validAnswer = question.validAnswer;
   for (let i = 0; i < array.length - 1; i++) {
     if (Math.random() > 0.5) {
       [array[i], array[i + 1]] = [array[i + 1], array[i]];
+      question.answers=array;
+      if (validAnswer === i + 1) {
+        validAnswer = i;
+        question.validAnswer = validAnswer;
+      }
+      else if (validAnswer === i) {
+        validAnswer = i + 1;
+        question.validAnswer = validAnswer;
+      }
     }
   }
-  return array;
+  return question;
 }
 
 
@@ -23,8 +34,8 @@ function getQuestions(questions, num) {
       randomQuestion = Math.floor(Math.random() * questionNumber);
     }
     while (returnQuestions.includes(questions[randomQuestion]));
-    questions[randomQuestion].answer = randomizeArray(questions[randomQuestion].answers);
-    //TODO: SEGUIR POR AQUI. Estoy mezclando las respuestas, pero ahora no se cual es la buena.
+    questions[randomQuestion] = randomizeAnswer(questions[randomQuestion]);
+    //TODO: Asegurarse de que está cogiendo bien la respuesta correcta tras desordenar
     returnQuestions[i] = questions[randomQuestion];
 
   }

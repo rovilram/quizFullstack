@@ -3,17 +3,17 @@
     ☐ index.html: Presentación
     ☐ quiz.html: Juego (solo formulario):
         ☐ Mínimo 5 preguntas
-        ☐ los input tienen que ser radio o checkbox (según sean respuestas únicas/múltiples)
+        ✔ los input tienen que ser radio o checkbox (según sean respuestas únicas/múltiples) @done(21-02-21 00:44)
         ☐ Tener cuidado que no falten etiquetas
-        ☐ Poner atributo name  ulario
+        ✔ Poner atributo name  formulario @done(21-02-21 00:45)
 ☐ CSS
     ☐ Definir altura de preguntas y respuestas.
     ☐ Mobile first
     ☐ responsive a 768px y 1366px
 ☐ JS
-    ☐ Evitar que el formulario se reinicie al hacer submit
-    ☐ Hay que obligatoriamente responder a todas las preguntas
-    ☐ cambiar color respuesta según sea correcta/incorrecta
+    ✔ Evitar que el formulario se reinicie al hacer submit @done(21-02-21 00:45)
+    ✔ Hay que obligatoriamente responder a todas las preguntas @done(21-02-21 00:45)
+    ✔ cambiar color respuesta según sea correcta/incorrecta @done(21-02-21 00:45)
 
 
 #PROPIAS
@@ -23,7 +23,7 @@ Otras opciones pueden ser instrumentos de música, preguntas de lectura y compre
 
 Meter en objeto un campo para imagen de la pregunta y en cada respuesta meter también una imagen. Si están o no aparecerán en el html.
 
-Contador de aciertos VS fallos
+✔ Contador de aciertos VS fallos @done(21-02-21 00:45)
 
 Al inicio poder elegir el número de preguntas e incluso la temática.
 
