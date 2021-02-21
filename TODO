@@ -1,16 +1,16 @@
-#REQUERIMIENTOS / AYUDAS
-☐ HTML
-    ☐ index.html: Presentación
-    ☐ quiz.html: Juego (solo formulario):
-        ☐ Mínimo 5 preguntas
+✔ #REQUERIMIENTOS / AYUDAS @done(21-02-21 23:40)
+✔ HTML @done(21-02-21 23:39)
+    ✔ index.html: Presentación @done(21-02-21 23:39)
+    ✔ quiz.html: Juego (solo formulario): @done(21-02-21 23:39)
+        ✔ Mínimo 5 preguntas @done(21-02-21 23:39)
         ✔ los input tienen que ser radio o checkbox (según sean respuestas únicas/múltiples) @done(21-02-21 00:44)
-        ☐ Tener cuidado que no falten etiquetas
+        ✔ Tener cuidado que no falten etiquetas @done(21-02-21 23:39)
         ✔ Poner atributo name  formulario @done(21-02-21 00:45)
-☐ CSS
-    ☐ Definir altura de preguntas y respuestas.
-    ☐ Mobile first
-    ☐ responsive a 768px y 1366px
-☐ JS
+✔ CSS @done(21-02-21 23:39)
+    ✔ Definir altura de preguntas y respuestas. @done(21-02-21 23:39)
+    ✔ Mobile first @done(21-02-21 23:39)
+    ✔ responsive a 768px y 1366px @done(21-02-21 23:39)
+✔ JS @done(21-02-21 23:39)
     ✔ Evitar que el formulario se reinicie al hacer submit @done(21-02-21 00:45)
     ✔ Hay que obligatoriamente responder a todas las preguntas @done(21-02-21 00:45)
     ✔ cambiar color respuesta según sea correcta/incorrecta @done(21-02-21 00:45)
@@ -18,13 +18,11 @@
 
 #PROPIAS
 
+✔ Contador de aciertos VS fallos @done(21-02-21 00:45)
+✔ Al inicio poder elegir el número de preguntas @done(21-02-21 23:40)
+✔ hacer que se pueda responder con las teclas 1 2 3 y 4 @done(21-02-21 01:25)
+Al inicio poder elegir la temática.
+Meter en objeto un campo para imagen de la pregunta y en cada respuesta meter también una imagen. Si están o no aparecerán en el html.
 Recurso preguntas: https://www.vidaextra.com/vidaextra/cuanto-sabes-o-recuerdas-de-los-primeros-pokemon
 Otras opciones pueden ser instrumentos de música, preguntas de lectura y comprensión, de matemáticas....
-
-Meter en objeto un campo para imagen de la pregunta y en cada respuesta meter también una imagen. Si están o no aparecerán en el html.
-
-✔ Contador de aciertos VS fallos @done(21-02-21 00:45)
-
-Al inicio poder elegir el número de preguntas e incluso la temática.
-
-✔ hacer que se pueda responder con las teclas 1 2 3 y 4 @done(21-02-21 01:25)
+Hacer algún tipo de animación con la pregunta, respuestas, o con todo el formulario
