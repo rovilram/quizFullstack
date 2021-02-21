@@ -367,12 +367,13 @@ const $screenParent = document.getElementById("footerWrapper");
 
 //vemos si en el URL nos dicen cuantas preguntas usar:
 if (!isNaN(window.location.search.split("=")[1])) {
-  numQuestions = window.location.search.split("=")[1];
+  numQuestions = parseInt(window.location.search.split("=")[1]);
 }
 else numQuestions = 5;
 
 if (numQuestions < 1) numQuestions = 1;
 if (numQuestions > questions.length) numQuestions = 10;
+
 
 
 
@@ -383,6 +384,7 @@ quizQuestions = getQuestions(questions, numQuestions);
 printQuestion(quizQuestions[0], $formParent);
 changeScreen($screenParent, questionIndex, numQuestions);
 
+console.log(numQuestions);
 
 
 //Eventos
@@ -405,6 +407,7 @@ document.addEventListener("click", e => {
       result.quID = quizQuestions[questionIndex].questionID;
       results.push(result);
       questionIndex++;
+      console.log(results.length, numQuestions)
       if (results.length === numQuestions) {
         setTimeout(() => {
           printResults(results, $screenParent, $formParent);
