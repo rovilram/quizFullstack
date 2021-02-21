@@ -4,7 +4,7 @@ const randomizeAnswer = (question) => { //para mezclar las respuestas
   for (let i = 0; i < array.length - 1; i++) {
     if (Math.random() > 0.5) {
       [array[i], array[i + 1]] = [array[i + 1], array[i]];
-      question.answers=array;
+      question.answers = array;
       if (validAnswer === i + 1) {
         validAnswer = i;
         question.validAnswer = validAnswer;
@@ -23,8 +23,7 @@ const createNode = (element, message, className, container) => {
   const tempNode = document.createElement(element);
   tempNode.innerText = message;
   tempNode.className = className;
-  if (container)
-  {
+  if (container) {
     container.appendChild(tempNode);
   }
   else return tempNode; //Lo devolvemos por si queremos usarlo en la llamada a la función
@@ -95,15 +94,15 @@ function answersGenerator(question) {
 
   const subDivArray = [];
   //para empaquetar las preguntas de dos en dos
-  for (let j=0; j<answers.length/2;j++) {
+  for (let j = 0; j < answers.length / 2; j++) {
 
-    subDivArray[j]= createNode ("div", "", "answersSubWraper");
+    subDivArray[j] = createNode("div", "", "answersSubWraper");
     console.log(subDivArray[j]);
   }
 
   for (let i = 0; i < answers.length; i++) { //creamos el html de cada pregunta
     //vemos en que subWrapper hay que ponerlo:
-    let subWrapper = Math.floor(i/2);
+    let subWrapper = Math.floor(i / 2);
 
     const answerWrapper = document.createElement("div");
     answerWrapper.className = "answerWrapper"
@@ -128,8 +127,7 @@ function answersGenerator(question) {
 
     subDivArray[subWrapper].appendChild(answerWrapper);
 
-    for (let j=0;j<subDivArray.length;j++)
-    {
+    for (let j = 0; j < subDivArray.length; j++) {
       answersHTML.appendChild(subDivArray[j]);
     }
 
@@ -253,111 +251,111 @@ const changeScreen = ($div, questionIndex, NUM_QUESTIONS, message) => { //TODO: 
 const questions = [
   {
     "questionID": 0,
-    "title": "Officia exercitation reprehenderit ad Lorem velit.",
+    "title": "¿Quién es el mejor amigo de Bob Esponja?",
     "answers": [
-      "commodo nostrud anim voluptate deserunt",
-      "ea nulla tempor irure ad",
-      "dolore exercitation pariatur veniam et",
-      "eiusmod veniam sunt cupidatat ex"
-    ],
-    "validAnswer": 1
-  },
-  {
-    "questionID": 1,
-    "title": "Excepteur mollit elit consectetur duis ad dolor nisi nisi amet Lorem sunt ex dolore nisi.",
-    "answers": [
-      "ipsum dolore irure nulla laborum",
-      "mollit dolor ea duis dolor",
-      "reprehenderit non cupidatat est qui",
-      "irure amet dolore exercitation mollit"
-    ],
-    "validAnswer": 2
-  },
-  {
-    "questionID": 2,
-    "title": "Pariatur mollit Lorem Lorem voluptate.",
-    "answers": [
-      "non duis irure excepteur nostrud",
-      "officia sunt do mollit do",
-      "minim aliquip do aute et",
-      "excepteur aliquip duis consectetur culpa"
-    ],
-    "validAnswer": 3
-  },
-  {
-    "questionID": 3,
-    "title": "Ea do exercitation minim est deserunt cupidatat minim nulla sunt ut occaecat sit aliqua.",
-    "answers": [
-      "officia qui laboris officia adipisicing",
-      "do proident aliquip ipsum sit",
-      "excepteur culpa laborum elit aliqua",
-      "do magna laboris excepteur in"
-    ],
-    "validAnswer": 3
-  },
-  {
-    "questionID": 4,
-    "title": "Ex ex adipisicing esse culpa id exercitation elit sunt deserunt cupidatat esse cupidatat ut.",
-    "answers": [
-      "quis velit ad deserunt adipisicing",
-      "cupidatat ea laboris in id",
-      "culpa dolore tempor excepteur tempor",
-      "veniam pariatur dolor sit irure"
-    ],
-    "validAnswer": 3
-  },
-  {
-    "questionID": 5,
-    "title": "Anim anim ea reprehenderit excepteur occaecat aliqua minim ullamco mollit non deserunt.",
-    "answers": [
-      "irure aute nostrud id ipsum",
-      "dolor est deserunt cupidatat irure",
-      "et anim ut fugiat reprehenderit",
-      "aliquip officia minim proident id"
-    ],
-    "validAnswer": 3
-  },
-  {
-    "questionID": 6,
-    "title": "Quis nostrud laboris do velit ullamco cillum quis sint do nulla.",
-    "answers": [
-      "duis pariatur anim non ea",
-      "ullamco aute non labore ex",
-      "deserunt velit Lorem cupidatat dolor",
-      "voluptate eu voluptate commodo ullamco"
-    ],
-    "validAnswer": 3
-  },
-  {
-    "questionID": 7,
-    "title": "Qui do sint laborum exercitation ullamco cupidatat ullamco.",
-    "answers": [
-      "labore non qui mollit ea",
-      "non duis laborum labore non",
-      "reprehenderit mollit sint minim magna",
-      "irure consectetur consectetur labore proident"
-    ],
-    "validAnswer": 2
-  },
-  {
-    "questionID": 8,
-    "title": "Commodo deserunt laborum consequat eiusmod pariatur tempor ullamco cillum ea.",
-    "answers": [
-      "est aute quis dolor amet",
-      "sint ad veniam fugiat aliquip",
-      "tempor do pariatur occaecat culpa",
-      "commodo aute incididunt aliqua mollit"
+      "Patricio",
+      "Calamardo",
+      "El señor cangrejo",
+      "Pepa Pig"
     ],
     "validAnswer": 0
   },
   {
-    "questionID": 9,
-    "title": "Adipisicing irure fugiat consequat adipisicing laborum Lorem deserunt.",
+    "questionID": 1,
+    "title": "Si yo tengo 5 manzanas, y me regalan 10 manzanas. ¿Cuántas manzanas tengo?",
     "answers": [
-      "sit ad eu magna sit",
-      "labore Lorem sit deserunt est",
-      "eu eiusmod id anim mollit",
-      "aliqua ex ex laborum ea"
+      "15 peras",
+      "15 manzanas",
+      "7 manzanas",
+      "14 manzanas"
+    ],
+    "validAnswer": 1
+  },
+  {
+    "questionID": 2,
+    "title": "Charmandler, ¿qué tipo de pokemon es?",
+    "answers": [
+      "No es un pokemon",
+      "Agua",
+      "Fuego",
+      "Hielo"
+    ],
+    "validAnswer": 2
+  },
+  {
+    "questionID": 3,
+    "title": "14-7",
+    "answers": [
+      "Siete",
+      "Doce",
+      "Cuatro",
+      "Naranja"
+    ],
+    "validAnswer": 0
+  },
+  {
+    "questionID": 4,
+    "title": "¿De que color es el caballo blanco de Santiago?",
+    "answers": [
+      "Era un burro",
+      "Verde",
+      "Blanco",
+      "Gris"
+    ],
+    "validAnswer": 2
+  },
+  {
+    "questionID": 5,
+    "title": "¿Cuál es el animal que come con las patas?",
+    "answers": [
+      "El humano",
+      "El pato",
+      "La nariz",
+      "El gato"
+    ],
+    "validAnswer": 1
+  },
+  {
+    "questionID": 6,
+    "title": "¿Qué tipo de instrumento es el violín?",
+    "answers": [
+      "Percusión",
+      "Viento",
+      "Cuerda",
+      "Mariposa"
+    ],
+    "validAnswer": 2
+  },
+  {
+    "questionID": 7,
+    "title": "¿Cuál de estos Pokemon es de tipo dragon?",
+    "answers": [
+      "Charizard",
+      "Pikachu",
+      "La patrulla canina",
+      "Dragonite"
+    ],
+    "validAnswer": 3
+  },
+  {
+    "questionID": 8,
+    "title": "Sigue la serie: Blanco, rojo, amarillo, blanco, ...",
+    "answers": [
+      "Blanco",
+      "Rojo",
+      "Amarillo",
+      "Azul"
+    ],
+    "validAnswer": 1
+  },
+  {
+    "questionID": 9,
+    "title": "Si tengo diez coches y me quitan dos, ¿Cuántos coches me quedan?",
+    "answers": [
+      "No tengo carnet de conducir",
+      "Ocho",
+      "10",
+      "Cinco"
     ],
     "validAnswer": 1
   }
@@ -430,10 +428,10 @@ document.addEventListener("click", e => {
 })
 
 document.addEventListener("keydown", (e) => { //se puede responder con el teclado
-  if (e.code==="Digit1"||e.code==="Numpad1") document.querySelector('label[for="answer_0"]').click();
-  if (e.code==="Digit2"||e.code==="Numpad2") document.querySelector('label[for="answer_1"]').click();
-  if (e.code==="Digit3"||e.code==="Numpad3") document.querySelector('label[for="answer_2"]').click();
-  if (e.code==="Digit4"||e.code==="Numpad4") document.querySelector('label[for="answer_3"]').click();
+  if (e.code === "Digit1" || e.code === "Numpad1") document.querySelector('label[for="answer_0"]').click();
+  if (e.code === "Digit2" || e.code === "Numpad2") document.querySelector('label[for="answer_1"]').click();
+  if (e.code === "Digit3" || e.code === "Numpad3") document.querySelector('label[for="answer_2"]').click();
+  if (e.code === "Digit4" || e.code === "Numpad4") document.querySelector('label[for="answer_3"]').click();
 
 })
 
