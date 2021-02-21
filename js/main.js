@@ -410,3 +410,11 @@ document.addEventListener("click", e => {
   }
 })
 
+document.addEventListener("keydown", (e) => { //se puede responder con el teclado
+  if (e.code==="Digit1"||e.code==="Numpad1") document.querySelector('label[for="answer_0"]').click();
+  if (e.code==="Digit2"||e.code==="Numpad2") document.querySelector('label[for="answer_1"]').click();
+  if (e.code==="Digit3"||e.code==="Numpad3") document.querySelector('label[for="answer_2"]').click();
+  if (e.code==="Digit4"||e.code==="Numpad4") document.querySelector('label[for="answer_3"]').click();
+
+})
+
