@@ -1,8 +1,13 @@
+//TODO: HACER ALGUNA ANIMACIón de movimiento con los botones cuando aciertas o fallas
+
+
 //------------------------------------------------------------------
-//numQuestions = getNumQuestions()
+//numQuestions = getNumQuestions(maxNum)
 //Mira si en la URL viene dado un valor de preguntas 
-//sino da un valor predefinido
-const getNumQuestions = () => {
+//sino da un valor predefinido.
+//el máximo puede ser maxNum (longitud del array questions)
+//el mínimo puede ser 1
+const getNumQuestions = (maxNum) => {
     let numQuestions;
     //vemos si en el URL nos dicen cuantas preguntas usar:
     if (!isNaN(window.location.search.split("=")[1])) {
@@ -13,7 +18,7 @@ const getNumQuestions = () => {
     if (numQuestions < 1) {
         numQuestions = 1;
     }
-    else if (numQuestions > questions.length) {
+    else if (numQuestions > maxNum) {
         numQuestions = 10;
     }
     return numQuestions;
@@ -25,8 +30,6 @@ const randomizeAnswer = (question) => {
     let array = question.answers;
     //para modificar la respuesta válida si cambiamos su orden
     let validAnswer = question.validAnswer;
-
-    console.log("ANTES", array, validAnswer)
 
     //mezclamos sin usar el método Array.sort()
     for (let i = 0; i < array.length - 1; i++) {
@@ -43,7 +46,6 @@ const randomizeAnswer = (question) => {
             question.validAnswer = validAnswer;
         }
     }
-    console.log("DESPUES", array, validAnswer)
 
     return question;
 }
@@ -52,7 +54,7 @@ const randomizeAnswer = (question) => {
 //returnQuestions = getQuestions(questions, num)
 //devuelve tantas preguntas como pasemos en el parámetro "num"
 //de entre el array de preguntas que le pasemos.
-getQuestions = (questions, num) => {
+const getQuestions = (questions, num) => {
     const returnQuestions = [];
     let randomQuestion;//índice generado aleatoriamente
 
@@ -64,7 +66,6 @@ getQuestions = (questions, num) => {
         while (returnQuestions.includes(questions[randomQuestion]));
         //guarda la pregunta aleatoria y mezcla sus respuestas
         returnQuestions[i] = randomizeAnswer(questions[randomQuestion]);
-        console.log("FUERA", returnQuestions[i].validAnswer)
     }
     return returnQuestions;
 }
@@ -77,6 +78,9 @@ getQuestions = (questions, num) => {
 //Si container existe añadimos el nuevo nodo en container y devolvemos true;
 //si container no existe devolvemos el nodo
 const createNode = (tipo, message = "", className = "", container = false) => {
+    //TODO: Preguntar operador ternario
+    //TODO: hacer objeto con parámetros?
+
     const HTMLnode = document.createElement(tipo);
     if (message) HTMLnode.innerText = message;
 
@@ -97,7 +101,7 @@ const generateForm = (question) => {
 
     //HTMLnode=createNode(tipo, message, className, container)
 
-    const questionHTML = createNode("form", "", "quizForm");
+    const questionHTML = createNode("form", "", "quizForm invisible");
     questionHTML.name = `quID_${question.questionID}`;
 
     //creamos el título de cada pregunta
@@ -151,7 +155,7 @@ function generateAnswers(question) {
         answerHTMLinput.value = i;
 
         //creamos las label
-        const answerHTMLlabel = createNode("label", answers[i], "answerLabel");
+        const answerHTMLlabel = createNode("label", answers[i], "answerLabel btn");
         answerHTMLlabel.htmlFor = `answer_${i}`;
 
         //los metemos en el wrapper de respuesta
@@ -198,7 +202,7 @@ const generateHTML = (question, $parent) => {
 
 //------------------------------------------------------------------
 //return result = validateAnswer ($selectedInput, $selectedLabel, validAnswer)
-const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => { 
+const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
     const result = {};
 
     if ($selectedInput === null) {
@@ -229,20 +233,26 @@ const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
 const printQuestion = (quizQuestions, questionIndex, $formParent, $screenParent) => {
     generateHTML(quizQuestions[questionIndex], $formParent);
     changeScreen($screenParent, questionIndex, quizQuestions.length);
+
+    //para animación cuando se pinta la pregunta
+    window.setTimeout(function () {
+        document.querySelector(".quizForm").classList.remove("invisible");
+    }, 100);
+
+
 }
 
 //------------------------------------------------------------------
 //va a generar el nodo html de los resultados
 //printResults = (results, $screenParent, $formParent)
 const printResults = (results, $screenParent, $formParent) => {
-    //TODO: NO ESCRIBE EL 0 CUANDO NO ACIERTAS NI UNA
     let points = 0;
     const totalPoints = results.length;
     const screen = createNode("div");
-    const divResultsScreen = createNode("div", "", "quizForm resultScreen");
+    const divResultsScreen = createNode("div", "", "quizForm resultScreen invisible");
     const divFinished = createNode("div", "", "finished");
     const divNewGame = createNode("div", "", "finishedBtn newGame btn");
-    const divGoIndex = createNode("div", "","finishedBtn goIndex btn");
+    const divGoIndex = createNode("div", "", "finishedBtn goIndex btn");
 
     //vemos la puntuación obtenida
     results.forEach(result => {
@@ -256,7 +266,7 @@ const printResults = (results, $screenParent, $formParent) => {
     //creamos los nodos del HTML
     createNode("h2", "Partida finalizada", "finishedHeader", divFinished);
     createNode("span", "has acertado", "finishedText", divFinished);
-    createNode("div", parseInt(points), "finishedNumber", divFinished);
+    createNode("div", points.toString(), "finishedNumber", divFinished);
     createNode("span", "de", "finishedText", divFinished);
     createNode("div", totalPoints, "finishedNumber", divFinished);
     createNode("span", "preguntas", "finishedText", divFinished);
@@ -271,10 +281,14 @@ const printResults = (results, $screenParent, $formParent) => {
 
     $formParent.appendChild(divResultsScreen);
     $screenParent.appendChild(screen);
+
+    //para animación cuando se pinta la pantalla de resultados
+    window.setTimeout(function () {
+        document.querySelector(".quizForm").classList.remove("invisible");
+    })
+
+
 }
-
-
-
 //------------------------------------------------------------------
 //changeScreen = ($div, questionIndex, numQuestions, message)
 //cambia el screen del footer con datos sobre la evolución del juego
@@ -283,12 +297,11 @@ const changeScreen = ($div, questionIndex, numQuestions, message) => {
     const screen = createNode("div",
         `Pregunta ${questionIndex + 1} de ${numQuestions}`, "footScreen");
     //borrar el footscreen que había antes
-    if ($div.querySelector(".footScreen")) $div.querySelector(".footScreen").remove();
+    if ($div.querySelector(".footScreen")) {
+        $div.querySelector(".footScreen").remove();
+    }
 
     //añade el nuevo nodo como primer hijo del footer
     $div.insertAdjacentElement("afterbegin", screen);
 }
-
-
-
 
