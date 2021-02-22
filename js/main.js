@@ -127,13 +127,8 @@ const $screenParent = document.getElementById("footerWrapper");
 quizQuestions = getQuestions(questions, numQuestions);
 
 //generamos la primera pregunta
-// printQuestion(quizQuestions[0], $formParent);
-// changeScreen($screenParent, questionIndex, numQuestions);
-//TODO: Creo que debería juntar las dos funciones en una
-console.log("MAIN",$formParent)
 printQuestion(quizQuestions, questionIndex, $formParent, $screenParent)
 
-console.log(numQuestions);
 
 
 //GESTIÓN DE LOS EVENTOS
@@ -158,7 +153,6 @@ document.addEventListener("click", e => {
       result.quID = quizQuestions[questionIndex].questionID;
       results.push(result);
       questionIndex++;
-      console.log(results.length, numQuestions)
       if (results.length === numQuestions) {
         setTimeout(() => {
           printResults(results, $screenParent, $formParent);

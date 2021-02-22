@@ -75,14 +75,14 @@ const createNode = (tipo, message, className, container) => {
     HTMLnode.innerText = (message) ?? message;
     HTMLnode.className = (className) ?? className;
     if (container) {
-        container.appendChild();
+        container.appendChild(HTMLnode);
         return true;
     } else {
         return HTMLnode;
     }
 }
 
-function formGenerator(question) {
+function generateForm(question) {
 
     //creamos la estructura del formulario de cada pregunta
     const questionHTML = document.createElement("form");
@@ -114,7 +114,7 @@ function formGenerator(question) {
 
 }
 
-function answersGenerator(question) {
+function generateAnswers(question) {
     //creamos el html de las preguntas
     const answersHTML = document.createElement("div");
     const answers = question.answers;
@@ -163,27 +163,25 @@ function answersGenerator(question) {
 }
 
 
+//------------------------------------------------------------------
+//va a generar el nodo HTML con el form de cada pregunta y lo va a añadir al documento.
+//va a recibir las preguntas y un elemento del DOM donde luego añadir los nodos creados.
+const generateHTML = (question, $parent) => {
 
-function generateHTML(question, $parent) {
-    //va a recibir las preguntas y un elemento del DOM donde luego añadir los nodos creados.
+    //llamamos a las funciones que hacen los nodos del formulario y de las respuestas
+    const questionHTML=generateForm(question);
+    const answersHTML=generateAnswers(question);
 
-    let questionHTML;
-    let answersHTML;
+    //borramos el formulario anterior si existe
+    if ($parent.querySelector(".quizForm")) {
+        $parent.querySelector(".quizForm").remove();
+    }
 
-    console.log("HTML GENERATOR", $parent);
-    //primero borramos el formulario anterior si existe
-    if ($parent.querySelector(".quizForm")) $parent.querySelector(".quizForm").remove();
+    //pegamos los nodos de las respuestas antes del botón que ya estaba generado en el nodo del formulario
+    questionHTML
+        .insertBefore(answersHTML, questionHTML.querySelector(".questionBtn"));
 
-    questionHTML = formGenerator(question);
-
-    answersHTML = answersGenerator(question);
-
-    const questionBtn = questionHTML.querySelector(".questionBtn");
-
-    //pegamos los nodos de las respuestas antes del botón que ya estaba generado
-    questionHTML.insertBefore(answersHTML, questionBtn);
-
-
+    //pegamos el nuevo nodo en el documento html
     $parent.appendChild(questionHTML);
 
 }
@@ -225,9 +223,8 @@ const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
     changeScreen($screenParent, questionIndex, numQuestions);
 */
 const printQuestion = (quizQuestions, questionIndex, $formParent, $screenParent) => {
-    console.log("PRINT QUESTION",$formParent);
     generateHTML(quizQuestions[questionIndex], $formParent);
-    changeScreen($screenParent, questionIndex, numQuestions);
+    changeScreen($screenParent, questionIndex, quizQuestions.length);
 }
 
 const printResults = (results, $screenParent, $formParent) => {
