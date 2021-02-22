@@ -164,7 +164,7 @@ function answersGenerator(question) {
 
 
 
-function htmlGenerator(question, $parent) {
+function generateHTML(question, $parent) {
     //va a recibir las preguntas y un elemento del DOM donde luego añadir los nodos creados.
 
     let questionHTML;
@@ -195,7 +195,8 @@ const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
     }
     else {
         result.choiseAnswer = $selectedInput.value;
-        if ($selectedInput.value == validAnswer) {
+        //TODO: HAY QUE PASAR DE ALGUNA FORMA questions y questionsIndex como parametro
+        if ($selectedInput.value == questions[questionIndex].validAnswer) {
             $selectedLabel.parentNode.style.backgroundColor = "green";
             result.isRight = true;
 
@@ -216,7 +217,7 @@ const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
 //printQuestion(quizQuestions, questionIndex, numQuestion, $formParent, $screenParent)
 /*  ANTIGUA FUNCIÓN
     const printQuestion = (question, $div) => {
-    htmlGenerator(question, $div);
+    generateHTML(question, $div);
     validAnswer = question.validAnswer;
 } */
 /* ANTES ESTO SE HACÍA EN LA LLAMADA DE LA FUNCIÓN, Y AHORA HAY QUE HACERLO DENTRO
@@ -225,8 +226,8 @@ const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
 */
 const printQuestion = (quizQuestions, questionIndex, $formParent, $screenParent) => {
     console.log("PRINT QUESTION",$formParent);
-    htmlGenerator(quizQuestions[questionIndex], $formParent);
-    //aquí changeScreen
+    generateHTML(quizQuestions[questionIndex], $formParent);
+    changeScreen($screenParent, questionIndex, numQuestions);
 }
 
 const printResults = (results, $screenParent, $formParent) => {
