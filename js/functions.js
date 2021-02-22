@@ -25,6 +25,9 @@ const randomizeAnswer = (question) => {
     let array = question.answers;
     //para modificar la respuesta válida si cambiamos su orden
     let validAnswer = question.validAnswer;
+
+    console.log("ANTES", array, validAnswer)
+
     //mezclamos sin usar el método Array.sort()
     for (let i = 0; i < array.length - 1; i++) {
         if (Math.random() > 0.5) {
@@ -40,6 +43,8 @@ const randomizeAnswer = (question) => {
             question.validAnswer = validAnswer;
         }
     }
+    console.log("DESPUES", array, validAnswer)
+
     return question;
 }
 
@@ -59,21 +64,24 @@ getQuestions = (questions, num) => {
         while (returnQuestions.includes(questions[randomQuestion]));
         //guarda la pregunta aleatoria y mezcla sus respuestas
         returnQuestions[i] = randomizeAnswer(questions[randomQuestion]);
+        console.log("FUERA", returnQuestions[i].validAnswer)
     }
     return returnQuestions;
 }
 
 
 //------------------------------------------------------------------
-//HTMLnode=createNode = (tipo, message, className, container)
+//HTMLnode=createNode(tipo, message, className, container)
 //creamos un nuevo nodo del tipo tipo, con el texto message en su interior
 //y de la clase className
 //Si container existe añadimos el nuevo nodo en container y devolvemos true;
 //si container no existe devolvemos el nodo
-const createNode = (tipo, message, className, container) => {
+const createNode = (tipo, message = "", className = "", container = false) => {
     const HTMLnode = document.createElement(tipo);
-    HTMLnode.innerText = (message) ?? message;
-    HTMLnode.className = (className) ?? className;
+    if (message) HTMLnode.innerText = message;
+
+    if (className) HTMLnode.className = className;
+
     if (container) {
         container.appendChild(HTMLnode);
         return true;
@@ -82,48 +90,50 @@ const createNode = (tipo, message, className, container) => {
     }
 }
 
-function generateForm(question) {
+//------------------------------------------------------------------
+// questionHTML=generateForm(question)
+// hace el nodo del formulario de una pregunta y lo devuelve
+const generateForm = (question) => {
 
-    //creamos la estructura del formulario de cada pregunta
-    const questionHTML = document.createElement("form");
-    questionHTML.className = "quizForm";
+    //HTMLnode=createNode(tipo, message, className, container)
+
+    const questionHTML = createNode("form", "", "quizForm");
     questionHTML.name = `quID_${question.questionID}`;
+
     //creamos el título de cada pregunta
-    const titleHTML = document.createElement("p");
-    titleHTML.className = "title";
-    const titleHTMLText = document.createTextNode(question.title);
-    //añadimos el texto al title
-    titleHTML.appendChild(titleHTMLText);
+    const titleHTML = createNode("p", question.title, "title");
+
     //creamos un wrapper para el título y lo añadimos dentro
-    const titleWrapper = document.createElement("div");
+    const titleWrapper = createNode("div", "");
     titleWrapper.id = "titleWrapper";
     titleWrapper.appendChild(titleHTML);
 
     //añadimos el wrapper al formulario
     questionHTML.appendChild(titleWrapper);
 
-
-    const submitBtnHTML = document.createElement("input");
+    const submitBtnHTML = createNode("input", "", "hidden");
     submitBtnHTML.type = "submit";
     submitBtnHTML.id = "questionBtn";
     submitBtnHTML.value = "Corregir Pregunta";
-    submitBtnHTML.classList.add("hidden"); //el botón lo oculto, por si fuera necesario su uso para backend
     questionHTML.appendChild(submitBtnHTML);
 
     return questionHTML;
-
 }
 
+
+//------------------------------------------------------------------
+//answersHTML = generateAnswers(question)
+//creamos un nodo que contiene las label e input de cada pregunta
+//y lo devolvemos
 function generateAnswers(question) {
-    //creamos el html de las preguntas
-    const answersHTML = document.createElement("div");
     const answers = question.answers;
+
+    const answersHTML = createNode("div");
     answersHTML.id = "answersWrapper";
 
     const subDivArray = [];
     //para empaquetar las preguntas de dos en dos
     for (let j = 0; j < answers.length / 2; j++) {
-
         subDivArray[j] = createNode("div", "", "answersSubWraper");
     }
 
@@ -131,34 +141,32 @@ function generateAnswers(question) {
         //vemos en que subWrapper hay que ponerlo:
         let subWrapper = Math.floor(i / 2);
 
-        const answerWrapper = document.createElement("div");
-        answerWrapper.className = "answerWrapper btn"
+        const answerWrapper = createNode("div", "", "answerWrapper btn");
 
-        const answerHTMLinput = document.createElement("input");
+        //creamos los input
+        const answerHTMLinput = createNode("input", "", "answerInput");
         answerHTMLinput.type = "radio";
         answerHTMLinput.name = `quID_${question.questionID}`;
         answerHTMLinput.id = `answer_${i}`;
         answerHTMLinput.value = i;
-        answerHTMLinput.className = "answerInput"
 
         //creamos las label
-        const answerHTMLlabel = document.createElement("label");
+        const answerHTMLlabel = createNode("label", answers[i], "answerLabel");
         answerHTMLlabel.htmlFor = `answer_${i}`;
-        answerHTMLlabel.className = "answerLabel";
-        const answerHTMLlabelText = document.createTextNode(answers[i]);
-        answerHTMLlabel.appendChild(answerHTMLlabelText);
 
+        //los metemos en el wrapper de respuesta
         answerWrapper.appendChild(answerHTMLinput);
         answerWrapper.appendChild(answerHTMLlabel);
 
-
+        //lo metemos en el subWrapper de respuesta que corresponde
         subDivArray[subWrapper].appendChild(answerWrapper);
 
-        for (let j = 0; j < subDivArray.length; j++) {
-            answersHTML.appendChild(subDivArray[j]);
-        }
-
+        //unimos los subDivArray en answersHTML
+        subDivArray.forEach(subDiv => {
+            answersHTML.appendChild(subDiv)
+        })
     }
+    //devolvemos el nodo con todas las respuestas.
     return answersHTML;
 }
 
@@ -169,8 +177,8 @@ function generateAnswers(question) {
 const generateHTML = (question, $parent) => {
 
     //llamamos a las funciones que hacen los nodos del formulario y de las respuestas
-    const questionHTML=generateForm(question);
-    const answersHTML=generateAnswers(question);
+    const questionHTML = generateForm(question);
+    const answersHTML = generateAnswers(question);
 
     //borramos el formulario anterior si existe
     if ($parent.querySelector(".quizForm")) {
@@ -185,7 +193,12 @@ const generateHTML = (question, $parent) => {
     $parent.appendChild(questionHTML);
 
 }
-const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
+
+
+
+//------------------------------------------------------------------
+//return result = validateAnswer ($selectedInput, $selectedLabel, validAnswer)
+const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => { 
     const result = {};
 
     if ($selectedInput === null) {
@@ -193,8 +206,7 @@ const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
     }
     else {
         result.choiseAnswer = $selectedInput.value;
-        //TODO: HAY QUE PASAR DE ALGUNA FORMA questions y questionsIndex como parametro
-        if ($selectedInput.value == questions[questionIndex].validAnswer) {
+        if ($selectedInput.value == validAnswer) {
             $selectedLabel.parentNode.style.backgroundColor = "green";
             result.isRight = true;
 
@@ -213,71 +225,67 @@ const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
 
 //------------------------------------------------------------------
 //printQuestion(quizQuestions, questionIndex, numQuestion, $formParent, $screenParent)
-/*  ANTIGUA FUNCIÓN
-    const printQuestion = (question, $div) => {
-    generateHTML(question, $div);
-    validAnswer = question.validAnswer;
-} */
-/* ANTES ESTO SE HACÍA EN LA LLAMADA DE LA FUNCIÓN, Y AHORA HAY QUE HACERLO DENTRO
-    printQuestion(quizQuestions[0], $formParent);
-    changeScreen($screenParent, questionIndex, numQuestions);
-*/
+//va a generar el HTML del formulario y cambiar el texto en el div.footer
 const printQuestion = (quizQuestions, questionIndex, $formParent, $screenParent) => {
     generateHTML(quizQuestions[questionIndex], $formParent);
     changeScreen($screenParent, questionIndex, quizQuestions.length);
 }
 
+//------------------------------------------------------------------
+//va a generar el nodo html de los resultados
+//printResults = (results, $screenParent, $formParent)
 const printResults = (results, $screenParent, $formParent) => {
+    //TODO: NO ESCRIBE EL 0 CUANDO NO ACIERTAS NI UNA
     let points = 0;
     const totalPoints = results.length;
-    const screen = document.createElement("div");;
-    const div = document.createElement("div");
-    const divFinished = document.createElement("div");
-    const divNewGame = document.createElement("div");
-    const divGoIndex = document.createElement("div");
+    const screen = createNode("div");
+    const divResultsScreen = createNode("div", "", "quizForm resultScreen");
+    const divFinished = createNode("div", "", "finished");
+    const divNewGame = createNode("div", "", "finishedBtn newGame btn");
+    const divGoIndex = createNode("div", "","finishedBtn goIndex btn");
 
-
-
+    //vemos la puntuación obtenida
     results.forEach(result => {
         if (result.isRight) points++;
     });
 
+    //eliminamos del DOM los formularios y footScreen anteriores
     if ($formParent.querySelector(".quizForm")) $formParent.querySelector(".quizForm").remove();
     if ($screenParent.querySelector(".footScreen")) $screenParent.querySelector(".footScreen").remove();
 
-    div.className = "quizForm resultScreen";
-    divFinished.className = "finished"
-
+    //creamos los nodos del HTML
     createNode("h2", "Partida finalizada", "finishedHeader", divFinished);
     createNode("span", "has acertado", "finishedText", divFinished);
-    createNode("div", points, "finishedNumber", divFinished);
+    createNode("div", parseInt(points), "finishedNumber", divFinished);
     createNode("span", "de", "finishedText", divFinished);
     createNode("div", totalPoints, "finishedNumber", divFinished);
     createNode("span", "preguntas", "finishedText", divFinished);
 
-    div.appendChild(divFinished);
+    divResultsScreen.appendChild(divFinished);
 
-    divNewGame.className = "finishedBtn newGame btn";
     createNode("span", "Jugar nueva partida", "finishedBtnText newGame", divNewGame);
-    divGoIndex.className = "finishedBtn goIndex btn"
     createNode("span", "Volver al inicio", "finishedBtnText goIndex", divGoIndex);
 
+    divResultsScreen.appendChild(divNewGame);
+    divResultsScreen.appendChild(divGoIndex);
 
-    div.appendChild(divNewGame);
-    div.appendChild(divGoIndex);
-
-
-
-    $formParent.appendChild(div);
+    $formParent.appendChild(divResultsScreen);
     $screenParent.appendChild(screen);
 }
 
-const changeScreen = ($div, questionIndex, numQuestions, message) => { //TODO: PONER MENSAJE CADA VEZ QUE FALLAS O ACIERTAS
-    const screen = document.createElement("div");;
+
+
+//------------------------------------------------------------------
+//changeScreen = ($div, questionIndex, numQuestions, message)
+//cambia el screen del footer con datos sobre la evolución del juego
+//TODO: PONER MENSAJE CADA VEZ QUE FALLAS O ACIERTAS. Para eso está el parámetro sin uso message
+const changeScreen = ($div, questionIndex, numQuestions, message) => {
+    const screen = createNode("div",
+        `Pregunta ${questionIndex + 1} de ${numQuestions}`, "footScreen");
+    //borrar el footscreen que había antes
     if ($div.querySelector(".footScreen")) $div.querySelector(".footScreen").remove();
 
-    screen.className = "footScreen";
-    screen.innerText = `Pregunta ${questionIndex + 1} de ${numQuestions}`;
+    //añade el nuevo nodo como primer hijo del footer
     $div.insertAdjacentElement("afterbegin", screen);
 }
 

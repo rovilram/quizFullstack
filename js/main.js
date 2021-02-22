@@ -110,7 +110,7 @@ const questions = [
     "validAnswer": 1
   }
 ];
-
+//TODO: REFACTORIZAR TODO EL MAIN
 let numQuestions = getNumQuestions(); //número de preguntas del quiz
 let quizQuestions = [];//para guardar las preguntas elegidas para el quiz
 
@@ -148,7 +148,7 @@ document.addEventListener("click", e => {
     const $selectedLabel =
       document.querySelector(`label[for=answer_${$selectedInput.value}]`);
 
-    result = validateAnswer($selectedInput, $selectedLabel, validAnswer);
+    result = validateAnswer($selectedInput, $selectedLabel, quizQuestions[questionIndex].validAnswer);
     if (result) {
       result.quID = quizQuestions[questionIndex].questionID;
       results.push(result);
