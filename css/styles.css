@@ -215,11 +215,11 @@ h1 {
 }
 
 .valid {
-  background-color:lightgreen;
+  background-color:springgreen;
   opacity:1;
 }
 .valid:hover {
-  background-color:lightgreen;
+  background-color:springgreen;
 }
 
 /* @keyframes valid {
