@@ -163,7 +163,7 @@ const main = (d) => {
       "validAnswer": 2
     }
   ];
-  let numQuestions = getNumQuestions(); //número de preguntas del quiz
+  let numQuestions = getNumQuestions(questions.length); //número de preguntas del quiz
   let quizQuestions = [];//para guardar las preguntas elegidas para el quiz
   let questionIndex = 0; //contador para recorrer las preguntas del quiz
   let results = []; //guardará los objetos con el resultado de cada pregunta
@@ -203,7 +203,7 @@ const main = (d) => {
 
       if (result) {
         result.quID = quizQuestions[questionIndex].questionID;
-        results[questionIndex] = result;
+        results.push(result);
         questionIndex++;
         if (results.length === numQuestions) {
           setTimeout(() => {
@@ -232,21 +232,15 @@ const main = (d) => {
   })
   //eventos de teclado 
   d.addEventListener("keyup", (e) => {
-    if (e.code === "Digit1" || e.code === "Numpad1") {
-      d.querySelector('label[for="answer_0"]').click();
-    }
-    else if (e.code === "Digit2" || e.code === "Numpad2") {
-      d.querySelector('label[for="answer_1"]').click();
-    }
-    else if (e.code === "Digit3" || e.code === "Numpad3") {
-      d.querySelector('label[for="answer_2"]').click();
-    }
-    else if (e.code === "Digit4" || e.code === "Numpad4") {
-      d.querySelector('label[for="answer_3"]').click();
-    }
-    else if (e.code === "Escape") {
+    if (e.code === "Escape") {
       window.location.assign("index.html");
-    }
+    } 
+    //generamos los eventos de teclado dinámicamente sobre el número de etiquetas de preguntas que tenemos
+    d.querySelectorAll('.answerLabel').forEach ((label, index) => {
+      if ((e.code === `Digit${index+1}`)||(e.code === `Numpad${index+1}`)) {
+        d.querySelector(`label[for="answer_${index}"]`).click();
+      }//TODO: Preguntar si hay alguna forma de "optimizar" esto
+    })
   })
 
 }

@@ -14,7 +14,6 @@ const getNumQuestions = (maxNum) => {
         numQuestions = parseInt(window.location.search.split("=")[1]);
     }
     else numQuestions = 5; //predeterminado 5
-
     if (numQuestions < 1) {
         numQuestions = 1;
     }
@@ -223,7 +222,6 @@ const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
     else {
         result.choiseAnswer = $selectedInput.value;
         if ($selectedInput.value == validAnswer) {
-            console.log($selectedLabel.parentNode);
             $selectedLabel.parentNode.classList.add("valid");
             $selectedLabel
             .parentNode
@@ -237,7 +235,6 @@ const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
 
         }
         else {
-            console.log($selectedLabel.parentNode);
             $selectedLabel.parentNode.classList.add("invalid");
             $selectedLabel
             .parentNode
