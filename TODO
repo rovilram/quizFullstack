@@ -23,12 +23,11 @@
 ✔ hacer que se pueda responder con las teclas 1 2 3 y 4 @done(21-02-21 01:25)
 Al inicio poder elegir la temática.
 
-Meter en objeto un campo para imagen de la pregunta y en cada respuesta meter también una imagen. Si están o no aparecerán en el html.
-
+✘ Meter en objeto un campo para imagen de la pregunta y en cada respuesta meter también una imagen. Si están o no aparecerán en el html. @cancelled(21-02-23 11:35)
+✘ @cancelled(21-02-23 11:35)
 Recurso preguntas: https://www.vidaextra.com/vidaextra/cuanto-sabes-o-recuerdas-de-los-primeros-pokemon
 
 Otras opciones pueden ser instrumentos de música, preguntas de lectura y comprensión, de matemáticas....
 
-Hacer algún tipo de animación con la pregunta, respuestas, o con todo el formulario
-
+✔ Hacer algún tipo de animación con la pregunta, respuestas, o con todo el formulario @done(21-02-23 11:35)
 Poner algún mensaje al final del juego en función del resultado obtenido

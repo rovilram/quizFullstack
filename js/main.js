@@ -1,5 +1,5 @@
-
-const main = () => {
+//main function: le pasamos por parámetro el document
+const main = (d) => {
   const questions = [
     {
       "questionID": 0,
@@ -110,6 +110,57 @@ const main = () => {
         "Cinco"
       ],
       "validAnswer": 1
+    },
+    {
+      "questionID": 10,
+      "title": "¿Cuál es el segundo instrumento favorito de Beethoven?",
+      "answers": [
+        "Gong",
+        "Triángulo",
+        "Clarinete",
+        "Guitarra",
+        "Clavicordio",
+        "Saxofón"
+      ],
+      "validAnswer": 2
+    },
+    {
+      "questionID": 11,
+      "title": "¿Qué tipo de instrumento es el piano?",
+      "answers": [
+        "Viento",
+        "Percusión",
+        "Cuerda",
+        "Fuego",
+        "Tierra"
+      ],
+      "validAnswer": 2
+    },
+    {
+      "questionID": 12,
+      "title": "¿En qye ciudad nació Beethoven?",
+      "answers": [
+        "Illescas",
+        "Madrid",
+        "Nueva York",
+        "Bonn",
+        "París",
+        "Viena"
+      ],
+      "validAnswer": 3
+    },
+    {
+      "questionID": 13,
+      "title": "¿Cuál era el instrumento favorito de Bethoven?",
+      "answers": [
+        "Corneta",
+        "Violín",
+        "Piano",
+        "Clarinete",
+        "Arpa",
+        "Pandereta"
+      ],
+      "validAnswer": 2
     }
   ];
   let numQuestions = getNumQuestions(); //número de preguntas del quiz
@@ -117,9 +168,9 @@ const main = () => {
   let questionIndex = 0; //contador para recorrer las preguntas del quiz
   let results = []; //guardará los objetos con el resultado de cada pregunta
   let result = {}; //guardará el resultado de una pregunta
-  const $formParent = document.getElementById("questionWrapper");
-  const $screenParent = document.getElementById("footerWrapper");
-  let clickFlag=false; //Flag para evitar hacer dos veces seguidas click en evento
+  const $formParent = d.getElementById("questionWrapper");
+  const $screenParent = d.getElementById("footerWrapper");
+  let clickFlag = false; //Flag para evitar hacer dos veces seguidas click en evento
 
 
   //guardamos las numQuestions que vamos a necesitar en el quiz
@@ -130,7 +181,7 @@ const main = () => {
 
 
   //GESTIÓN DE LOS EVENTOS
-  document.addEventListener("click", e => {
+  d.addEventListener("click", e => {
 
     //dejo este evento porque no se si es necesario en un futuro para pasar datos a backend
     if (e.target.id === "questionBtn") {
@@ -138,12 +189,12 @@ const main = () => {
     }
     else if (e.target.classList.contains("answerLabel")) {
       if (clickFlag) return false; //para que no se pueda hacer varios clicks seguidos en respuestas
-      clickFlag=true;
-      document.getElementById("questionBtn").click(); //simulo el haber pinchado sobre el botón
+      clickFlag = true;
+      d.getElementById("questionBtn").click(); //simulo el haber pinchado sobre el botón
       const $selectedInput =
-        document.querySelector(`#${e.target.htmlFor}`);
+        d.querySelector(`#${e.target.htmlFor}`);
       const $selectedLabel =
-        document.querySelector(`label[for=answer_${$selectedInput.value}]`);
+        d.querySelector(`label[for=answer_${$selectedInput.value}]`);
 
       result = validateAnswer(
         $selectedInput,
@@ -158,13 +209,13 @@ const main = () => {
         if (results.length === numQuestions) {
           setTimeout(() => {
             printResults(results, $screenParent, $formParent);
-            clickFlag=false;
+            clickFlag = false;
           }, 1000);
         }
         else {
           setTimeout(() => {
             printQuestion(quizQuestions, questionIndex, $formParent, $screenParent);
-            clickFlag=false;
+            clickFlag = false;
           }, 1000);
         }
       }
@@ -181,18 +232,18 @@ const main = () => {
     }
   })
   //eventos de teclado 
-  document.addEventListener("keyup", (e) => { 
+  d.addEventListener("keyup", (e) => {
     if (e.code === "Digit1" || e.code === "Numpad1") {
-      document.querySelector('label[for="answer_0"]').click();
+      d.querySelector('label[for="answer_0"]').click();
     }
     else if (e.code === "Digit2" || e.code === "Numpad2") {
-      document.querySelector('label[for="answer_1"]').click();
+      d.querySelector('label[for="answer_1"]').click();
     }
     else if (e.code === "Digit3" || e.code === "Numpad3") {
-      document.querySelector('label[for="answer_2"]').click();
+      d.querySelector('label[for="answer_2"]').click();
     }
     else if (e.code === "Digit4" || e.code === "Numpad4") {
-      document.querySelector('label[for="answer_3"]').click();
+      d.querySelector('label[for="answer_3"]').click();
     }
     else if (e.code === "Escape") {
       window.location.assign("index.html");
@@ -202,4 +253,4 @@ const main = () => {
 }
 
 
-window.onload = main;
+window.onload = main(document);

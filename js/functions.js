@@ -19,7 +19,7 @@ const getNumQuestions = (maxNum) => {
         numQuestions = 1;
     }
     else if (numQuestions > maxNum) {
-        numQuestions = 10;
+        numQuestions = maxNum;
     }
     return numQuestions;
 }
@@ -83,8 +83,9 @@ const createNode = (tipo, message = "", className = "", container = false) => {
 
     const HTMLnode = document.createElement(tipo);
     if (message) HTMLnode.innerText = message;
-
     if (className) HTMLnode.className = className;
+
+    
 
     if (container) {
         container.appendChild(HTMLnode);
