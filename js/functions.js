@@ -73,32 +73,18 @@ const getQuestions = (questions, num) => {
 
 //------------------------------------------------------------------
 //HTMLnode=createNode(tipo, message, className, container)
-//creamos un nuevo nodo del tipo tipo, con el texto message en su interior
-//y de la clase className
-//Si container existe añadimos el nuevo nodo en container y devolvemos true;
-//si container no existe devolvemos el nodo
-//OLD: const createNode = (tipo, message = "", className = "", container = false) => {
-const createNode = (htmlElement, { id, className, text, name, type, value, htmlFor }, container) => {
-    /*     
-        nodeObject = {
-            id: "",
-            className:"",
-            text: "",
-            name:"",
-            type:"",
-            value:"",
-            htmlFor:""
-        } 
-    */
+// Crea un nuevo nodo HTML del tipo htmlElement
+//si queremos lo mete dentro del elemento que le pasemos en container
+//El parametro htmlAttributes es un objeto que tiene como propiedades
+//los atributos css (con el nombre que usaríamos en JS) que queramos cambiar
+//devuelve true si hay parametro container y el nodo si no lo hay.
+const createNode = (htmlElement, htmlAttributes, container) => {
+    
     const HTMLnode = document.createElement(htmlElement);
-    if (id) HTMLnode.id = id;
-    if (className) HTMLnode.className = className;
-    if (text) HTMLnode.innerText = text;
-    if (name) HTMLnode.name = name;
-    if (type) HTMLnode.type = type;
-    if (value) HTMLnode.value = value;
-    if (htmlFor) HTMLnode.htmlFor = htmlFor;
 
+    Object.entries(htmlAttributes).forEach(([key, val]) => {
+        HTMLnode[key] = val;
+    })
     if (container) {
         container.appendChild(HTMLnode);
         return true;
@@ -121,7 +107,7 @@ const generateForm = (question) => {
     //creamos el título de cada pregunta
     const titleHTML = createNode("p", {
         className: "title",
-        text: question.title
+        innerText: question.title
     });
 
     //creamos un wrapper para el título y lo añadimos dentro
@@ -179,7 +165,7 @@ function generateAnswers(question) {
 
         //creamos las label
         const answerHTMLlabel = createNode("label", {
-            text: answers[i],
+            innerText: answers[i],
             className: "answerLabel btn",
             htmlFor: `answer_${i}`
         });
@@ -301,43 +287,43 @@ const printResults = (results, $screenParent, $formParent) => {
 
     //creamos los nodos del HTML
     createNode("h2", {
-        text: "Partida finalizada",
+        innerText: "Partida finalizada",
         className: "finishedHeader"
     }, divFinished);
 
     createNode("span", {
-        text: "has acertado",
+        innerText: "has acertado",
         className: "finishedText"
     }, divFinished);
 
     createNode("div", {
-        text: points.toString(),
+        innerText: points.toString(),
         className: "finishedNumber"
     }, divFinished);
 
     createNode("span", {
-        text: "de", className: "finishedText"
+        innerText: "de", className: "finishedText"
     }, divFinished);
 
     createNode("div", {
-        text: totalPoints,
+        innerText: totalPoints,
         className: "finishedNumber"
     }, divFinished);
 
     createNode("span", {
-        text: "preguntas",
+        innerText: "preguntas",
         className: "finishedText",
     }, divFinished);
 
     divResultsScreen.appendChild(divFinished);
 
     createNode("span", {
-        text: "Jugar nueva partida",
+        innerText: "Jugar nueva partida",
         className: "finishedBtnText newGame"
     }, divNewGame);
 
     createNode("span", {
-        text: "Volver al inicio",
+        innerText: "Volver al inicio",
         className: "finishedBtnText goIndex"
     }, divGoIndex);
 
@@ -360,7 +346,7 @@ const printResults = (results, $screenParent, $formParent) => {
 //TODO: PONER MENSAJE CADA VEZ QUE FALLAS O ACIERTAS. Para eso está el parámetro sin uso message
 const changeScreen = ($div, questionIndex, numQuestions, message) => {
     const screen = createNode("div", {
-        text: `Pregunta ${questionIndex + 1} de ${numQuestions}`,
+        innerText: `Pregunta ${questionIndex + 1} de ${numQuestions}`,
         className: "footScreen"
     })
 
