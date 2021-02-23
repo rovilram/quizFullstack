@@ -78,6 +78,8 @@ const getQuestions = (questions, num) => {
 //Si container existe añadimos el nuevo nodo en container y devolvemos true;
 //si container no existe devolvemos el nodo
 const createNode = (tipo, message = "", className = "", container = false) => {
+//const createNode = (tipo, nodeObject, container);
+//nodeObject = 
     //TODO: Preguntar operador ternario
     //TODO: hacer objeto con parámetros?
 
@@ -99,9 +101,7 @@ const createNode = (tipo, message = "", className = "", container = false) => {
 // questionHTML=generateForm(question)
 // hace el nodo del formulario de una pregunta y lo devuelve
 const generateForm = (question) => {
-
-    //HTMLnode=createNode(tipo, message, className, container)
-
+    
     const questionHTML = createNode("form", "", "quizForm invisible");
     questionHTML.name = `quID_${question.questionID}`;
 
