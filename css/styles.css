@@ -27,13 +27,6 @@ body {
   height: 100vh;
 }
 
-.valid {
-  background-color: green;
-}
-
-.invalid {
-  background-color: red;
-}
 
 .hidden {
   display: none;
@@ -221,6 +214,31 @@ h1 {
   cursor: grab;
 }
 
+.valid {
+  background-color:lightgreen;
+  opacity:1;
+}
+.valid:hover {
+  background-color:lightgreen;
+}
+
+/* @keyframes valid {
+  0% {top: 0px;}
+  25% {top:100px;}
+  50% {top:0px;}
+  75% {top:-100px;}
+  100% {top:0px;}
+} */
+
+.invalid {
+  background-color:tomato;
+  opacity:1;
+}
+.invalid:hover {
+  background-color:tomato;
+}
+
+
 @media screen and (min-width: 768px) {
   #wrapper {
     width: 768px;
@@ -242,6 +260,8 @@ h1 {
 
   .answerWrapper {
     max-height: 70%;
+    position: relative;
+
   }
   .header {
     font-size: 2.5rem;
