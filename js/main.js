@@ -195,7 +195,6 @@ const main = (d) => {
         d.querySelector(`#${e.target.htmlFor}`);
       const $selectedLabel =
         d.querySelector(`label[for=answer_${$selectedInput.value}]`);
-
       result = validateAnswer(
         $selectedInput,
         $selectedLabel,

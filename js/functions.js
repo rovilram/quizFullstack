@@ -77,17 +77,27 @@ const getQuestions = (questions, num) => {
 //y de la clase className
 //Si container existe añadimos el nuevo nodo en container y devolvemos true;
 //si container no existe devolvemos el nodo
-const createNode = (tipo, message = "", className = "", container = false) => {
-//const createNode = (tipo, nodeObject, container);
-//nodeObject = 
-    //TODO: Preguntar operador ternario
-    //TODO: hacer objeto con parámetros?
-
-    const HTMLnode = document.createElement(tipo);
-    if (message) HTMLnode.innerText = message;
+//OLD: const createNode = (tipo, message = "", className = "", container = false) => {
+const createNode = (htmlElement, { id, className, text, name, type, value, htmlFor }, container) => {
+    /*     
+        nodeObject = {
+            id: "",
+            className:"",
+            text: "",
+            name:"",
+            type:"",
+            value:"",
+            htmlFor:""
+        } 
+    */
+    const HTMLnode = document.createElement(htmlElement);
+    if (id) HTMLnode.id = id;
     if (className) HTMLnode.className = className;
-
-    
+    if (text) HTMLnode.innerText = text;
+    if (name) HTMLnode.name = name;
+    if (type) HTMLnode.type = type;
+    if (value) HTMLnode.value = value;
+    if (htmlFor) HTMLnode.htmlFor = htmlFor;
 
     if (container) {
         container.appendChild(HTMLnode);
@@ -101,25 +111,34 @@ const createNode = (tipo, message = "", className = "", container = false) => {
 // questionHTML=generateForm(question)
 // hace el nodo del formulario de una pregunta y lo devuelve
 const generateForm = (question) => {
-    
-    const questionHTML = createNode("form", "", "quizForm invisible");
-    questionHTML.name = `quID_${question.questionID}`;
+
+    const questionHTML = createNode("form", {
+        className: "quizForm invisible",
+        name: `quID_${question.questionID}`
+    });
+
 
     //creamos el título de cada pregunta
-    const titleHTML = createNode("p", question.title, "title");
+    const titleHTML = createNode("p", {
+        className: "title",
+        text: question.title
+    });
 
     //creamos un wrapper para el título y lo añadimos dentro
-    const titleWrapper = createNode("div", "");
-    titleWrapper.id = "titleWrapper";
+    const titleWrapper = createNode("div", {
+        id: "titleWrapper"
+    });
     titleWrapper.appendChild(titleHTML);
 
     //añadimos el wrapper al formulario
     questionHTML.appendChild(titleWrapper);
 
-    const submitBtnHTML = createNode("input", "", "hidden");
-    submitBtnHTML.type = "submit";
-    submitBtnHTML.id = "questionBtn";
-    submitBtnHTML.value = "Corregir Pregunta";
+    const submitBtnHTML = createNode("input", {
+        className: "hidden",
+        id: "questionBtn",
+        type: "submit",
+        value: "Corregir Pregunta"
+    });
     questionHTML.appendChild(submitBtnHTML);
 
     return questionHTML;
@@ -133,31 +152,37 @@ const generateForm = (question) => {
 function generateAnswers(question) {
     const answers = question.answers;
 
-    const answersHTML = createNode("div");
-    answersHTML.id = "answersWrapper";
+    const answersHTML = createNode("div", { id: "answersWrapper" });
+
 
     const subDivArray = [];
     //para empaquetar las preguntas de dos en dos
     for (let j = 0; j < answers.length / 2; j++) {
-        subDivArray[j] = createNode("div", "", "answersSubWraper");
+        subDivArray[j] = createNode("div", { className: "answersSubWraper" });
     }
 
     for (let i = 0; i < answers.length; i++) { //creamos el html de cada pregunta
         //vemos en que subWrapper hay que ponerlo:
         let subWrapper = Math.floor(i / 2);
 
-        const answerWrapper = createNode("div", "", "answerWrapper btn");
+        const answerWrapper = createNode("div", { className: "answerWrapper btn" });
 
         //creamos los input
-        const answerHTMLinput = createNode("input", "", "answerInput");
-        answerHTMLinput.type = "radio";
-        answerHTMLinput.name = `quID_${question.questionID}`;
-        answerHTMLinput.id = `answer_${i}`;
-        answerHTMLinput.value = i;
+        const answerHTMLinput = createNode("input", {
+            className: "answerInput",
+            type: "radio",
+            name: `quID_${question.questionID}`,
+            id: `answer_${i}`,
+            value: i.toString()
+        });
+
 
         //creamos las label
-        const answerHTMLlabel = createNode("label", answers[i], "answerLabel btn");
-        answerHTMLlabel.htmlFor = `answer_${i}`;
+        const answerHTMLlabel = createNode("label", {
+            text: answers[i],
+            className: "answerLabel btn",
+            htmlFor: `answer_${i}`
+        });
 
         //los metemos en el wrapper de respuesta
         answerWrapper.appendChild(answerHTMLinput);
@@ -249,11 +274,21 @@ const printQuestion = (quizQuestions, questionIndex, $formParent, $screenParent)
 const printResults = (results, $screenParent, $formParent) => {
     let points = 0;
     const totalPoints = results.length;
-    const screen = createNode("div");
-    const divResultsScreen = createNode("div", "", "quizForm resultScreen invisible");
-    const divFinished = createNode("div", "", "finished");
-    const divNewGame = createNode("div", "", "finishedBtn newGame btn");
-    const divGoIndex = createNode("div", "", "finishedBtn goIndex btn");
+    const screen = createNode("div", {
+        className: "quizForm resultScreen invisible"
+    });
+    const divResultsScreen = createNode("div", {
+        className: "quizForm resultScreen invisible"
+    });
+    const divFinished = createNode("div", {
+        className: "finished"
+    });
+    const divNewGame = createNode("div", {
+        className: "finishedBtn newGame btn"
+    });
+    const divGoIndex = createNode("div", {
+        className: "finishedBtn goIndex btn"
+    });
 
     //vemos la puntuación obtenida
     results.forEach(result => {
@@ -265,17 +300,46 @@ const printResults = (results, $screenParent, $formParent) => {
     if ($screenParent.querySelector(".footScreen")) $screenParent.querySelector(".footScreen").remove();
 
     //creamos los nodos del HTML
-    createNode("h2", "Partida finalizada", "finishedHeader", divFinished);
-    createNode("span", "has acertado", "finishedText", divFinished);
-    createNode("div", points.toString(), "finishedNumber", divFinished);
-    createNode("span", "de", "finishedText", divFinished);
-    createNode("div", totalPoints, "finishedNumber", divFinished);
-    createNode("span", "preguntas", "finishedText", divFinished);
+    createNode("h2", {
+        text: "Partida finalizada",
+        className: "finishedHeader"
+    }, divFinished);
+
+    createNode("span", {
+        text: "has acertado",
+        className: "finishedText"
+    }, divFinished);
+
+    createNode("div", {
+        text: points.toString(),
+        className: "finishedNumber"
+    }, divFinished);
+
+    createNode("span", {
+        text: "de", className: "finishedText"
+    }, divFinished);
+
+    createNode("div", {
+        text: totalPoints,
+        className: "finishedNumber"
+    }, divFinished);
+
+    createNode("span", {
+        text: "preguntas",
+        className: "finishedText",
+    }, divFinished);
 
     divResultsScreen.appendChild(divFinished);
 
-    createNode("span", "Jugar nueva partida", "finishedBtnText newGame", divNewGame);
-    createNode("span", "Volver al inicio", "finishedBtnText goIndex", divGoIndex);
+    createNode("span", {
+        text: "Jugar nueva partida",
+        className: "finishedBtnText newGame"
+    }, divNewGame);
+
+    createNode("span", {
+        text: "Volver al inicio",
+        className: "finishedBtnText goIndex"
+    }, divGoIndex);
 
     divResultsScreen.appendChild(divNewGame);
     divResultsScreen.appendChild(divGoIndex);
@@ -295,8 +359,11 @@ const printResults = (results, $screenParent, $formParent) => {
 //cambia el screen del footer con datos sobre la evolución del juego
 //TODO: PONER MENSAJE CADA VEZ QUE FALLAS O ACIERTAS. Para eso está el parámetro sin uso message
 const changeScreen = ($div, questionIndex, numQuestions, message) => {
-    const screen = createNode("div",
-        `Pregunta ${questionIndex + 1} de ${numQuestions}`, "footScreen");
+    const screen = createNode("div", {
+        text: `Pregunta ${questionIndex + 1} de ${numQuestions}`,
+        className: "footScreen"
+    })
+
     //borrar el footscreen que había antes
     if ($div.querySelector(".footScreen")) {
         $div.querySelector(".footScreen").remove();
