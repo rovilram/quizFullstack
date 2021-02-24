@@ -222,28 +222,14 @@ const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
     else {
         result.choiseAnswer = $selectedInput.value;
         if ($selectedInput.value == validAnswer) {
+            $selectedLabel.parentNode.classList.remove("btn");
             $selectedLabel.parentNode.classList.add("valid");
-            $selectedLabel
-            .parentNode
-            .animate([
-                // keyframes
-                { transform: 'traslateY(10px)' },
-                { transform: 'translateY(-10px)' }
-              ],
-                {duration: 200, iterations: Infinity})
             result.isRight = true;
 
         }
         else {
+            $selectedLabel.parentNode.classList.remove("btn");
             $selectedLabel.parentNode.classList.add("invalid");
-            $selectedLabel
-            .parentNode
-            .animate([
-                // keyframes
-                { transform: 'translateX(-5px)' },
-                { transform: 'translateX(5px)' }
-              ],
-                {duration: 200, iterations: Infinity})
             result.isRight = false;
         }
         return result;

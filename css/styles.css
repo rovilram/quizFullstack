@@ -142,9 +142,7 @@ h1 {
   border: 1px solid black;
 }
 
-.answerWrapper:hover {
-  background-color: var(--body-bg-color);
-}
+
 
 .resultScreen {
   display: flex;
@@ -213,30 +211,41 @@ h1 {
 .btn {
   cursor: grab;
 }
+.btn:hover {
+  background-color: var(--body-bg-color);
+}
 
 .valid {
-  background-color:springgreen;
-  opacity:1;
-}
-.valid:hover {
-  background-color:springgreen;
+  background-color:green;
+  opacity:0.5;
+  animation: valid 0.25s 4;
 }
 
-/* @keyframes valid {
+
+ @keyframes valid {
   0% {top: 0px;}
-  25% {top:100px;}
+  25% {top:5px;}
   50% {top:0px;}
-  75% {top:-100px;}
+  75% {top:-5px;}
   100% {top:0px;}
-} */
+} 
 
 .invalid {
-  background-color:tomato;
-  opacity:1;
+  background-color:red;
+  opacity:0.5;
+  animation: invalid 0.25s 4;
+
 }
-.invalid:hover {
-  background-color:tomato;
-}
+
+
+@keyframes invalid {
+  0% {right: 0px;}
+  25% {right:5px;}
+  50% {right:0px;}
+  75% {right:-5px;}
+  100% {right:0px;}
+} 
+
 
 
 @media screen and (min-width: 768px) {
