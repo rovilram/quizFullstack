@@ -6,8 +6,8 @@ require("dotenv").config();
 server = express();
 
 const HTTP = {
-    port: process.env.HTTP_PORT || 80,
-    host: process.env.HTTP_HOST || "127.0.0.1"
+    port: process.env.HTTP_STATIC_PORT || 80,
+    host: process.env.HTTP_STATIC_HOST || "127.0.0.1"
 }
 
 //servidor de ficheros estáticos 
