@@ -10,6 +10,11 @@ const HTTP = {
     host: process.env.HTTP_STATIC_HOST || "127.0.0.1"
 }
 
+
+server.use(express.urlencoded({extended: false}))
+server.use(express.json())
+
+
 //servidor de ficheros estáticos 
 server.use('/', express.static('./staticFrontEnd'));
 
