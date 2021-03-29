@@ -4,7 +4,8 @@ const express = require("express");
 const cors = require('cors')
 require("dotenv").config();
 const questionsRouter = require("./routes/questionsRouter");
-const questionRouter = require("./routes/questionRouter")
+const questionRouter = require("./routes/questionRouter");
+const userRouter = require("./routes/userRouter");
 
 server = express();
 
@@ -27,10 +28,13 @@ server.get('/', (req, res) => {
 })
 
 
-server.use("/questions", questionsRouter)
+server.use("/questions", questionsRouter);
 
 
-server.use("/question", questionRouter)
+server.use("/question", questionRouter);
+
+
+server.use("/user", userRouter);
 
 
 server.listen(HTTP.port, HTTP.host, () => {
