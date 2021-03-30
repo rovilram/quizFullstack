@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {getQuestion, postQuestion, putQuestion, delQuestion} = require("../controllers/questionController");
+const {getQuestion, postQuestion, putQuestion, delQuestion, getAllQuestions} = require("../controllers/questionController");
 
 
 
@@ -8,6 +8,7 @@ const {getQuestion, postQuestion, putQuestion, delQuestion} = require("../contro
 
 router.route("/")
     .post(postQuestion)
+    .get(getAllQuestions)
 
 
 router.route("/:id")

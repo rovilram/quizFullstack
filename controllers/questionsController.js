@@ -2,12 +2,27 @@ const Questions = require("../models/questionsModel");
 
 
 exports.getQuestions = async (req, res) => {
-    const num = (req.params.num > 0 || req.params.num < questions.length) ?
-        parseInt(req.params.num) : questions.length;
+    try {
+        const numQuestions = await Questions.find().estimatedDocumentCount();
 
-    const quizQuestions = await Questions.aggregate().match({}).sample(num);
+        const num = (req.params.num > 0 || req.params.num < numQuestions) ?
+            parseInt(req.params.num) : numQuestions;
 
-    res.json(quizQuestions)
+        try {
+            const quizQuestions = await Questions.aggregate().match({}).sample(num);
+            res.send(quizQuestions);
+        }
+        catch (err) {
+            res.status(500).send({
+                OK: 0,
+                message: err.message
+            })
+        }
+    }
+    catch (err) {
+        res.status(500).send({
+            OK: 0,
+            message: err.message
+        })
+    }
 }
-
-

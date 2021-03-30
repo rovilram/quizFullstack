@@ -1,0 +1,30 @@
+
+#PROPIAS
+
+Al inicio poder elegir la temática.
+
+
+Archive:
+  ✔ #REQUERIMIENTOS / AYUDAS @done(21-02-21 23:40)
+  ✔ HTML @done(21-02-21 23:39)
+  ✔ index.html: Presentación @done(21-02-21 23:39)
+  ✔ quiz.html: Juego (solo formulario): @done(21-02-21 23:39)
+  ✔ Mínimo 5 preguntas @done(21-02-21 23:39)
+  ✔ los input tienen que ser radio o checkbox (según sean respuestas únicas/múltiples) @done(21-02-21 00:44)
+  ✔ Tener cuidado que no falten etiquetas @done(21-02-21 23:39)
+  ✔ Poner atributo name  formulario @done(21-02-21 00:45)
+  ✔ CSS @done(21-02-21 23:39)
+  ✔ Definir altura de preguntas y respuestas. @done(21-02-21 23:39)
+  ✔ Mobile first @done(21-02-21 23:39)
+  ✔ responsive a 768px y 1366px @done(21-02-21 23:39)
+  ✔ JS @done(21-02-21 23:39)
+  ✔ Evitar que el formulario se reinicie al hacer submit @done(21-02-21 00:45)
+  ✔ Hay que obligatoriamente responder a todas las preguntas @done(21-02-21 00:45)
+  ✔ cambiar color respuesta según sea correcta/incorrecta @done(21-02-21 00:45)
+  ✔ Contador de aciertos VS fallos @done(21-02-21 00:45)
+  ✔ Al inicio poder elegir el número de preguntas @done(21-02-21 23:40)
+  ✔ hacer que se pueda responder con las teclas 1 2 3 y 4 @done(21-02-21 01:25)
+  ✘ Meter en objeto un campo para imagen de la pregunta y en cada respuesta meter también una imagen. Si están o no aparecerán en el html. @cancelled(21-02-23 11:35)
+  ✔ Hacer algún tipo de animación con la pregunta, respuestas, o con todo el formulario @done(21-02-23 11:35)
+  ✘ Poner algún mensaje al final del juego en función del resultado obtenido @cancelled(21-02-24 21:58)
+  ✘ Poner medidor respuestas @cancelled(21-02-24 21:58)

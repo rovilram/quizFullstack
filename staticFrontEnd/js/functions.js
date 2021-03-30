@@ -37,7 +37,7 @@ const createNode = (htmlElement, htmlAttributes, container) => {
     })
     if (container) {
         container.appendChild(HTMLnode);
-        return true;
+        return HTMLnode;
     } else {
         return HTMLnode;
     }

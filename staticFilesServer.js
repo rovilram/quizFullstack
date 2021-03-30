@@ -2,7 +2,7 @@
 
 const express = require ("express");
 require("dotenv").config();
-
+const {authUser} = require("./controllers/userController");
 server = express();
 
 const HTTP = {
@@ -17,7 +17,7 @@ server.use(express.json())
 
 //servidor de ficheros estáticos 
 server.use('/', express.static('./staticFrontEnd'));
-
+//TODO: hacer que no aparezca la extensión de los html en la barra del navegador
 
 server.listen(HTTP.port, HTTP.host, () => {
   console.log(`Static File server running at http://${HTTP.host}:${HTTP.port}`)

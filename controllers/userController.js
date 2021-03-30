@@ -74,10 +74,17 @@ exports.signUp = async (req, res) => {
             });
         }
         catch (error) {
+            if (error.code === 11000) {
+                res.status(409).send({
+                    OK: 0,
+                    error: 409,
+                    message: error.message,
+                })
+            }
             res.status(500).send({
                 OK: 0,
                 error: 500,
-                message: error.message
+                message: error.message,
             })
         }
     };
@@ -94,7 +101,7 @@ exports.login = async (req, res) => {
 
         if (response) {
             const payload = { user, userType: response.userType };
-            const options = { expiresIn: "10m"}
+            const options = { expiresIn: "10m" }
             const token = jwt.sign(payload, response.secret);
             res.send({
                 OK: 1,
@@ -117,13 +124,13 @@ exports.login = async (req, res) => {
 exports.signOut = async (req, res) => {
 
     const authorization = req.headers.authorization;
-    
+
     const token = authorization.split(" ")[1];
 
     const user = jwt.decode(token).user;
 
-    const response = await User.findOne({user})
-    
+    const response = await User.findOne({ user })
+
     if (response) {
         const secret = response.secret;
 
@@ -131,7 +138,7 @@ exports.signOut = async (req, res) => {
             jwt.verify(token, secret);
             try {
                 const newSecret = nanoid();
-                const updateResponse = await User.updateOne({user}, {secret: newSecret});
+                const updateResponse = await User.updateOne({ user }, { secret: newSecret });
                 res.send({
                     OK: 1,
                     message: "User Disconnected"
@@ -160,26 +167,56 @@ exports.signOut = async (req, res) => {
 exports.authUser = async (req, res, next) => {
 
     const authorization = req.headers.authorization;
-    
-    const token = authorization.split(" ")[1];
+    if (authorization) {
+        const token = authorization.split(" ")[1];
 
-    const user = jwt.decode(token).user;
+        const payload = jwt.decode(token);
 
-    const response = await User.findOne({user})
-    
-    if (response) {
-        const secret = response.secret;
-
-        try {
-            jwt.verify(token, secret);
-            next();
-        }
-        catch (error) {
+        if (!payload) {
             res.status(401).send({
                 OK: 0,
-                error: 401,
-                message: error.message
+                status: 401,
+                message: "invalid Token"
             })
         }
+
+        else {
+            const user = payload.user;
+
+            const response = await User.findOne({ user })
+
+            if (response) {
+                const secret = response.secret;
+
+                try {
+                    jwt.verify(token, secret);
+                    //TODO: si algun dia necesito autenticacion de estudiante o admin
+                    //habrá que hacerlo desde aquí
+                    next();
+                }
+                catch (error) {
+
+                    res.status(401).send({
+                        OK: 0,
+                        error: 401,
+                        message: error.message
+                    })
+                }
+            }
+            else {
+                res.status(401).send({
+                    OK: 0,
+                    error: 401,
+                    message: "User unknown / invalid Token"
+                })
+            }
+        }
+    }
+    else {
+        res.status(401).send({
+            OK: 0,
+            error: 401,
+            message: "Token required"
+        })
     }
 }

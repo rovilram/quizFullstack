@@ -66,12 +66,14 @@ exports.postQuestion = async (req, res) => {
         try {
             const newQuestion = new Question(question);
             const response = await newQuestion.save();
-            res.send({ OK: 1, newQuestion: {
-                questionID: response.questionID,
-                title: response.title,
-                answers: response.answers,
-                validAnswer: response.validAnswer
-            } });
+            res.send({
+                OK: 1, newQuestion: {
+                    questionID: response.questionID,
+                    title: response.title,
+                    answers: response.answers,
+                    validAnswer: response.validAnswer
+                }
+            });
         }
         catch (error) {
             res.status(500).send({
@@ -173,6 +175,22 @@ exports.delQuestion = async (req, res) => {
     }
 }
 
+exports.getAllQuestions = async (req, res) => {
+    try {
+        const quizQuestions = await Question.find({});
+        res.send({
+            OK: 1,
+            questions: quizQuestions
+        });
+
+    }
+    catch (err) {
+        res.status(500).send({
+            OK: 0,
+            message: err.message
+        })
+    }
+}
 
 //import a question to DB (not to use as middleware)
 //returns false if error or question added if OK

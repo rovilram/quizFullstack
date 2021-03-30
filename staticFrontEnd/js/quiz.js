@@ -20,7 +20,11 @@ const main = async (d) => {
   //quizQuestions = getQuestions(questions, numQuestions);
 
   //para guardar las preguntas elegidas para el quiz
+  //tengo doble await para esperar primero al fetch y luego a que se haga el json
+  //si lo hago con .then tengo que meter todo el código dentro (incluido los eventos)
+  //por lo que queda menos legible.
   const quizQuestions = await (await fetch(`http://localhost:3000/questions/${numQuestions}`)).json()
+
   printQuestion(quizQuestions, questionIndex, $formParent, $screenParent)
 
 

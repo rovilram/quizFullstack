@@ -6,6 +6,7 @@ require("dotenv").config();
 const questionsRouter = require("./routes/questionsRouter");
 const questionRouter = require("./routes/questionRouter");
 const userRouter = require("./routes/userRouter");
+const {authUser} = require("./controllers/userController");
 
 server = express();
 
@@ -30,7 +31,7 @@ server.get('/', (req, res) => {
 
 server.use("/questions", questionsRouter);
 
-
+server.use("/question", authUser)
 server.use("/question", questionRouter);
 
 
