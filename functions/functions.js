@@ -46,6 +46,4 @@ const getQuestions = (questions, num) => {
     return returnQuestions;
 }
 
-
-//TODO: sacar las funciones que no se vayan a usar en front, sino en back para cambiarlas de sitio
 module.exports = getQuestions;

@@ -16,7 +16,7 @@ if (token) {
             console.log(response)
             if (response.OK) {
                 console.log("usuario autentificado")
-                window.location.href = "admin/questions.html"
+                window.location.href = "admin/questions"
             }
             else {
                 localStorage.removeItem("token");
@@ -50,7 +50,7 @@ loginBtn.addEventListener("click", (e) => {
                 if (response.OK) {
                     localStorage.setItem("token", response.token);
                     console.log(response.token)
-                    window.location.href = "admin/questions.html"
+                    window.location.href = "admin/questions"
                 }
                 else {
                     alert(response.message)

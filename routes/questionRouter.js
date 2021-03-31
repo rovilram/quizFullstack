@@ -4,8 +4,6 @@ const {getQuestion, postQuestion, putQuestion, delQuestion, getAllQuestions} = r
 
 
 
-//TODO: Add auth with JWT token
-
 router.route("/")
     .post(postQuestion)
     .get(getAllQuestions)

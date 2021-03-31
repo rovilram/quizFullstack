@@ -26,7 +26,7 @@ window.addEventListener("load", () => {
                     className: "errorDiv"
                 }, questionsWrapper);
                 errorDiv.appendChild(document.createTextNode(`ERROR: ${questions.message}`));
-                window.location.href = "/login.html"
+                window.location.href = "/login"
                 //TODO: hacer redirección a Login
             }
 
@@ -46,7 +46,7 @@ window.addEventListener("load", () => {
     document.
         querySelector(".newQuestionBtn").
         addEventListener("click", async () => {
-            window.location.href = "question.html";
+            window.location.href = "/admin/question";
         })
 
     document.
@@ -67,7 +67,7 @@ window.addEventListener("load", () => {
                 .then(result => result.json())
                 .then(result => {
                     console.log("Usuario desconectado");
-                    window.location.href = "/index.html"
+                    window.location.href = "/"
                 })
 
         })
@@ -137,7 +137,7 @@ const printQuestionTitle = (question, token) => {
 
 
     editQuestionBtn.addEventListener("click", async () => {
-        window.location.href = `./question.html?id=${question.questionID}`;
+        window.location.href = `./question?id=${question.questionID}`;
     })
 
 

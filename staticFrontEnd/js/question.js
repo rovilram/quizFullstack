@@ -6,7 +6,7 @@ const printError = (err) => {
     //hay algunos para redirigir a questions y otros a login...
     //los hay que tienen message y status y otros no...
     setInterval(() => {
-        window.location.href = "./questions.html"
+        window.location.href = "/admin/questions"
     }, 1000);
     const errorWrapper = createNode("div", {
         className: "errorWrapper"
@@ -165,7 +165,7 @@ const printQuestionEditor = (question, token) => {
 
 
     cancelBtn.addEventListener("click", () => {
-        window.location.href = "questions.html"
+        window.location.href = "/admin/questions"
     })
 
     editBtn.addEventListener("click", () => {
@@ -200,7 +200,7 @@ const printQuestionEditor = (question, token) => {
                     .catch(async (err) => {
                         await alert(`Ha habido un error ${err}`);
                     })
-                    .finally(() => window.location.href = "questions.html")
+                    .finally(() => window.location.href = "/admin/questions")
             }
             else {
                 fetch(`http://localhost:3000/question/${newQuestion.questionID}`, {
@@ -214,11 +214,11 @@ const printQuestionEditor = (question, token) => {
                     .then(data => data.json())
                     .then(async (response) => {
                         await alert(`Pregunta modificada: ${JSON.stringify(response)}`);
-                        window.location.href = "questions.html"
+                        window.location.href = "/admin/questions"
                     })
                     .catch(async (err) => {
                         await alert(`Ha habido un error ${err}`);
-                        window.location.href = "questions.html"
+                        window.location.href = "/admin/questions"
                     })
             }
         }
