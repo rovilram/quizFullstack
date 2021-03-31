@@ -26,22 +26,22 @@ const printAnswerEditor = (answer, index, validAnswer) => {
     else checked = false
 
 
-    const answerWrapper = createNode("div", {
-        className: "answerWrapper"
+    const editAnswerWrapper = createNode("div", {
+        className: "editAnswerWrapper"
     });
 
     const answerLabel = createNode("label", {
         for: `answer${index}`
-    }, answerWrapper);
+    }, editAnswerWrapper);
     answerLabel.appendChild(document.createTextNode(`Respuesta ${index + 1}:`))
 
 
     createNode("input", {
         type: "text",
-        className: "answerInput",
+        className: "editAnswerInput",
         id: `answer${index}`,
         value: answer
-    }, answerWrapper);
+    }, editAnswerWrapper);
 
 
 
@@ -51,22 +51,22 @@ const printAnswerEditor = (answer, index, validAnswer) => {
         className: "answerRadio",
         name: "validAnswer",
         value: index
-    }, answerWrapper);
+    }, editAnswerWrapper);
 
     const answerDelBtn = createNode("button", {
         type: "button",
         className: "answerDelBtn",
-    }, answerWrapper);
+    }, editAnswerWrapper);
     answerDelBtn.appendChild(document.createTextNode("Borrar"))
 
 
     //eventos
     answerDelBtn.addEventListener("click", () => {
-        answerWrapper.remove();
+        editAnswerWrapper.remove();
     })
 
 
-    return answerWrapper;
+    return editAnswerWrapper;
 
 }
 
@@ -89,23 +89,23 @@ const printQuestionEditor = (question, token) => {
     });
 
     //create H3 questionID
-    const h3Text = (question.questionID) ? `questionID: ${question.questionID}` : "Nueva Pregunta";
+    const h4Text = (question.questionID) ? `questionID: ${question.questionID}` : "Nueva Pregunta";
 
-    const h3 = createNode("h3", {
-        className: "questionID"
+    const h4 = createNode("h4", {
+        className: "questionID headerAdmin questionID"
     }, questionWrapper);
-    h3.appendChild(document.createTextNode(h3Text))
+    h4.appendChild(document.createTextNode(h4Text))
 
 
     //create div title
-    const titleWrapper = createNode("div", {
-        className: "titleWrapper",
+    const editTitleWrapper = createNode("div", {
+        className: "editTitleWrapper",
     }, questionWrapper)
 
 
     const titleLabel = createNode("label", {
         for: "questionTitle"
-    }, titleWrapper);
+    }, editTitleWrapper);
     titleLabel.appendChild(document.createTextNode("Pregunta:"))
 
 
@@ -114,7 +114,7 @@ const printQuestionEditor = (question, token) => {
         type: "text",
         id: "questionTitle",
         value: question.title
-    }, titleWrapper);
+    }, editTitleWrapper);
 
     //create div answers
     const answersWrapper = createNode("div", {
@@ -125,14 +125,13 @@ const printQuestionEditor = (question, token) => {
 
     //create new Answer button
     const newAnswerBtnWrapper = createNode("div", {
-        className: "editBtnWrapper",
+        className: "newAnswerBtnWrapper",
     }, questionWrapper)
     const newAnswerBtn = createNode("button", {
         className: "newAnswerBtn",
         type: "button"
     }, newAnswerBtnWrapper);
     newAnswerBtn.appendChild(document.createTextNode("Añadir Respuesta"));
-
 
 
     //create Save button
@@ -158,7 +157,7 @@ const printQuestionEditor = (question, token) => {
 
     //eventos
     newAnswerBtn.addEventListener("click", () => {
-        const newAnswerIndex = document.querySelectorAll(".answerInput").length;
+        const newAnswerIndex = document.querySelectorAll(".editAnswerInput").length;
         const newAnswer = printAnswerEditor("", newAnswerIndex);
         answersWrapper.appendChild(newAnswer)
     })
@@ -169,7 +168,7 @@ const printQuestionEditor = (question, token) => {
     })
 
     editBtn.addEventListener("click", () => {
-        const answersInput = document.querySelectorAll(".answerInput");
+        const answersInput = document.querySelectorAll(".editAnswerInput");
         const answersRadio = document.querySelector(".answerRadio:checked");
         const newQuestion = {};
 
@@ -239,7 +238,7 @@ window.addEventListener("load", () => {
     const token = localStorage.getItem("token");
     console.log("token", token);
     
-    const wrapper = document.querySelector(".wrapper");
+    const adminWrapper = document.querySelector(".adminWrapper");
 
 
     if (questionID) {
@@ -253,11 +252,11 @@ window.addEventListener("load", () => {
             .then(response => response.json())
             .then(response => {
                 if (!response.OK) {
-                    wrapper.appendChild(printError(response.message, "/admin/questions"));
+                    adminWrapper.appendChild(printError(response.message, "/admin/questions"));
                 }
                 else {
                     const questionWrapper = printQuestionEditor(response.question, token);
-                    wrapper.appendChild(questionWrapper);
+                    adminWrapper.appendChild(questionWrapper);
                 }
             })
 
@@ -274,7 +273,7 @@ window.addEventListener("load", () => {
         .then (response => {
             if (response.OK) {
                 const questionWrapper = printQuestionEditor(null, token);
-                wrapper.appendChild(questionWrapper);
+                adminWrapper.appendChild(questionWrapper);
                 console.log ("usuario autorizado");
             }
             else {

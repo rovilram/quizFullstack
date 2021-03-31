@@ -15,7 +15,6 @@ server.use(express.json())
 
 //Hacemos sendFile para los html, de forma que no aparezca el nombre de archivo
 //y la extensión en la barra del navegador
-console.log(__dirname)
 const sendFileOptions = {
   root: `${__dirname}/staticFrontEnd/`,
 }
@@ -23,6 +22,11 @@ const sendFileOptions = {
 server.get("/", (req, res) => {
   res.sendFile("index.html", sendFileOptions);
 })
+
+server.get("/quiz", (req, res)=> {
+  res.sendFile("quiz/quiz.html", sendFileOptions);
+})
+
 
 server.get("/login", (req, res) => {
   console.log("AI")

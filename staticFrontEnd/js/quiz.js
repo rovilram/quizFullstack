@@ -4,7 +4,7 @@
 const main = async (d) => {
 
 
-  const numQuestions =
+  let numQuestions =
     (!isNaN(window.location.search.split("=")[1])) ?
       parseInt(window.location.search.split("=")[1]) : 5
 
@@ -21,6 +21,8 @@ const main = async (d) => {
   //si lo hago con .then tengo que meter todo el código dentro (incluido los eventos)
   //por lo que queda menos legible.
   const quizQuestions = await (await fetch(`http://localhost:3000/questions/${numQuestions}`)).json()
+  //volvemos a calcular el numero de preguntas del quiz, ya que nos podría haber dado menos de las que hemos pedido
+  numQuestions = quizQuestions.length;
 
   printQuestion(quizQuestions, questionIndex, $formParent, $screenParent)
 
@@ -70,16 +72,16 @@ const main = async (d) => {
       e.target.lastChild.click();
     }
     else if (e.target.classList.contains("goIndex")) {
-      window.location.assign("index.html");
+      window.location.assign("/");
     }
     else if (e.target.classList.contains("newGame")) {
-      window.location.assign("quiz.html");
+      window.location.assign("/quiz");
     }
   })
   //eventos de teclado 
   d.addEventListener("keyup", (e) => {
     if (e.code === "Escape") {
-      window.location.assign("index.html");
+      window.location.assign("/");
     }
     //generamos los eventos de teclado dinámicamente sobre el número de etiquetas de preguntas que tenemos
     d.querySelectorAll('.answerLabel').forEach((label, index) => {

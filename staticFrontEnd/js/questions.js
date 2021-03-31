@@ -31,8 +31,8 @@ window.addEventListener("load", () => {
             if (questions.OK) {
                 console.log("questions", questions)
                 questions.questions.map((question) => {
-                    const questionWrapper = printQuestionTitle(question, token);
-                    questionsWrapper.appendChild(questionWrapper);
+                    const questionTitleWrapper = printQuestionTitle(question, token);
+                    questionsWrapper.appendChild(questionTitleWrapper);
                 })
             }
             else {
@@ -83,31 +83,31 @@ window.addEventListener("load", () => {
 
 const printQuestionTitle = (question, token) => {
     //TODO sacar este questionsWrapper a la función principal
-    const questionWrapper = createNode("div", {
-        className: "questionWrapper"
+    const questionTitleWrapper = createNode("div", {
+        className: "questionTitleWrapper"
     });
 
     const questionID = createNode("div", {
         className: "questionID"
-    }, questionWrapper);
+    }, questionTitleWrapper);
     const questionIDText = document.createTextNode(`questionID: ${question.questionID}`);
     questionID.appendChild(questionIDText)
 
     const questionTitle = createNode("div", {
         className: "questionTitle"
-    }, questionWrapper);
+    }, questionTitleWrapper);
     questionTitle.appendChild(document.createTextNode(question.title))
 
     const btnWrapper = createNode("div", {
         className: "btnWrapper"
-    }, questionWrapper)
+    }, questionTitleWrapper)
 
-    const editQuestionBtn = createNode("div", {
+    const editQuestionBtn = createNode("button", {
         className: "editQuestionBtn"
     }, btnWrapper);
     editQuestionBtn.appendChild(document.createTextNode("Editar"));
 
-    const delQuestionBtn = createNode("div", {
+    const delQuestionBtn = createNode("button", {
         className: "delQuestionBtn"
     }, btnWrapper);
     delQuestionBtn.appendChild(document.createTextNode("Eliminar"));
@@ -127,7 +127,7 @@ const printQuestionTitle = (question, token) => {
                 .then(response => {
                     if (response.OK) {
                         console.log("Pregunta borrada");
-                        questionWrapper.remove();
+                        questionTitleWrapper.remove();
                     }
                     else printError(response.message, "/admin/questions")
                 }
@@ -142,6 +142,6 @@ const printQuestionTitle = (question, token) => {
         window.location.href = `./question?id=${question.questionID}`;
     })
 
-    return questionWrapper;
+    return questionTitleWrapper;
 
 }

@@ -1,25 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Questions</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Akaya+Kanadaka&family=RocknRoll+One&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
+
 <body>
-    <h1>Zona administrador Quiz</h1>
-    <h2>Listado preguntas</h2>
-    <div class="wrapper">
+    <header class="header">
+        <h1>The Quiz</h1>
+    </header>
+    <h2 class="headerAdmin">Zona administrador</h2>
+    <h3 class="headerAdmin">Listado preguntas</h3>
+    <div id="wrapper">
         <div class="QuestionBtnWrapper">
-            <div class="newQuestionBtn">
+            <button class="newQuestionBtn">
                 Nueva Pregunta
-            </div>
-            <div class="toIndexBtn">
+            </button>
+            <button class="toIndexBtn">
                 Regresar
-            </div>
-            <div class="disconnectBtn">
+            </button>
+            <button class="disconnectBtn">
                 Desconectar
-            </div>
+            </button>
         </div>
         <div class="questionsWrapper"></div>
     </div>
@@ -27,4 +36,5 @@
     <script src="../js/functions.js"></script>
     <script src="../js/questions.js"></script>
 </body>
+
 </html>
