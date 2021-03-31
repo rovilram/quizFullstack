@@ -88,13 +88,13 @@ const printQuestionEditor = (question, token) => {
         className: "questionWrapper"
     });
 
-    //create H2 questionID
-    const h2Text = (question.questionID) ? `questionID: ${question.questionID}` : "Nueva Pregunta";
+    //create H3 questionID
+    const h3Text = (question.questionID) ? `questionID: ${question.questionID}` : "Nueva Pregunta";
 
-    const h2 = createNode("h2", {
+    const h3 = createNode("h3", {
         className: "questionID"
     }, questionWrapper);
-    h2.appendChild(document.createTextNode(h2Text))
+    h3.appendChild(document.createTextNode(h3Text))
 
 
     //create div title
@@ -238,7 +238,10 @@ window.addEventListener("load", () => {
 
 
     //TODO: quitar este token hardcodeado
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoicm9iZXJ0bzJAZW1haWwuY29tIiwidXNlclR5cGUiOiJzdHVkZW50IiwiaWF0IjoxNjE3MDk5NzE1fQ.InglUxNoNGYlQN1jDNpyi3qm6yi3P5Feh1fB4TpnpLk";
+    //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoicm9iZXJ0bzJAZW1haWwuY29tIiwidXNlclR5cGUiOiJzdHVkZW50IiwiaWF0IjoxNjE3MDk5NzE1fQ.InglUxNoNGYlQN1jDNpyi3qm6yi3P5Feh1fB4TpnpLk";
+    const token = localStorage.getItem("token");
+    console.log("token", token);
+    
     const wrapper = document.querySelector(".wrapper");
 
 

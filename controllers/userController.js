@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const { nanoid } = require('nanoid');
 const jwt = require('jsonwebtoken');
-const auth = require("registry-auth-token");
+const md5 = require("md5");
 
 
 const isValidUser = (user) => {
@@ -64,14 +64,15 @@ exports.signUp = async (req, res) => {
         try {
             const newUser = new User({
                 user,
-                password,
+                password:md5(password),
                 secret,
                 userType
             })
             const response = await newUser.save();
             res.send({
                 OK: 1,
-                newUser: response
+                message: "New user created",
+                newUser: response.user
             });
         }
         catch (error) {
@@ -96,21 +97,27 @@ exports.login = async (req, res) => {
     const user = req.body.user;
     const password = req.body.password;
 
+    console.log("LOGIN")
+
     if (isValidUserPass(user, password, res)) {
 
-        const response = await User.findOne({ user, password });
+        const response = await User.findOne({ user, password: md5(password) });
 
         if (response) {
             const payload = { user, userType: response.userType };
             const options = { expiresIn: "10m" }
-            const token = jwt.sign(payload, response.secret);
+            const token = jwt.sign(payload, response.secret, options);
+            console.log("AUTORIZADO")
             res.send({
                 OK: 1,
+                message: "Authorized user",
                 token
             })
         }
         else {
-            send.status(401).send({
+            console.log("NO ATORIZADO");
+
+            res.status(401).send({
                 OK: 0,
                 error: 401,
                 message: `'usuario / contraseña' no válidos`
@@ -168,6 +175,7 @@ exports.signOut = async (req, res) => {
 exports.authUser = async (req, res, next) => {
 
     const authorization = req.headers.authorization;
+    console.log("authorization", authorization)
     if (authorization) {
         const token = authorization.split(" ")[1];
 

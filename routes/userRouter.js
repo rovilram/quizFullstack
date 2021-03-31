@@ -13,7 +13,8 @@ router.route("/login")
 router.route("/signout")
     .get(signOut)
 
-router.route("/authuser",authUser)
+router.route("/authuser")
+    .get(authUser)
     .get((req, res) => {
         res.send({
             OK: 1,

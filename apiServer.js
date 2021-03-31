@@ -19,8 +19,8 @@ const HTTP = {
 server.use(cors());
 
 
-server.use(express.urlencoded({extended: false}))
-server.use(express.json())
+server.use(express.urlencoded({extended: false}));
+server.use(express.json());
 
 
 //test endpoint

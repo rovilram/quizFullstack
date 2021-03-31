@@ -1,15 +1,12 @@
 "use strict";
 
-document.
-    querySelector(".newQuestionBtn").
-    addEventListener("click", async () => {
-    window.location.href = `question.html`;
-    })
+
+
 
 window.addEventListener("load", () => {
 
     //TODO: quitar este token hardcodeado
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoicm9iZXJ0bzJAZW1haWwuY29tIiwidXNlclR5cGUiOiJzdHVkZW50IiwiaWF0IjoxNjE3MDk5NzE1fQ.InglUxNoNGYlQN1jDNpyi3qm6yi3P5Feh1fB4TpnpLk";
+    const token = localStorage.getItem("token");
 
     fetch(`http://localhost:3000/question/`, {
         method: 'GET',
@@ -20,15 +17,16 @@ window.addEventListener("load", () => {
         .then(data => data.json())
         .then(questions => {
             if (questions.OK) {
-                console.log("questions",questions)
+                console.log("questions", questions)
                 questions.questions.map((question) => printQuestionTitle(question, token));
             }
             else {
                 const questionsWrapper = document.querySelector(".questionsWrapper");
                 const errorDiv = createNode("div", {
-                    class: "errorDiv"
+                    className: "errorDiv"
                 }, questionsWrapper);
                 errorDiv.appendChild(document.createTextNode(`ERROR: ${questions.message}`));
+                window.location.href = "/login.html"
                 //TODO: hacer redirección a Login
             }
 
@@ -36,10 +34,41 @@ window.addEventListener("load", () => {
         .catch(error => {
             const questionsWrapper = document.querySelector(".questionsWrapper");
             const errorDiv = createNode("div", {
-                class: "errorDiv"
+                className: "errorDiv"
             }, questionsWrapper);
             errorDiv.appendChild(document.createTextNode(`ERROR: ${error}`));
             //TODO: hacer redirección a Login
+
+        })
+
+    //eventos
+
+    document.
+        querySelector(".newQuestionBtn").
+        addEventListener("click", async () => {
+            window.location.href = "question.html";
+        })
+
+    document.
+        querySelector(".toIndexBtn").
+        addEventListener("click", async () => {
+            window.location.href = "/";
+        })
+
+    document.
+        querySelector(".disconnectBtn").
+        addEventListener("click", async () => {
+            fetch(`http://localhost:3000/user/signout`, {
+                method: 'GET',
+                headers: new Headers({
+                    'Authorization': 'Bear ' + token,
+                })
+            })
+                .then(result => result.json())
+                .then(result => {
+                    console.log("Usuario desconectado");
+                    window.location.href = "/index.html"
+                })
 
         })
 
@@ -47,33 +76,34 @@ window.addEventListener("load", () => {
 
 
 const printQuestionTitle = (question, token) => {
+    //TODO sacar este questionsWrapper a la función principal
     const questionsWrapper = document.querySelector(".questionsWrapper");
     const questionWrapper = createNode("div", {
-        class: "questionWrapper"
+        className: "questionWrapper"
     }, questionsWrapper);
 
     const questionID = createNode("div", {
-        class: "questionID"
+        className: "questionID"
     }, questionWrapper);
     const questionIDText = document.createTextNode(`questionID: ${question.questionID}`);
     questionID.appendChild(questionIDText)
 
     const questionTitle = createNode("div", {
-        class: "questionTitle"
+        className: "questionTitle"
     }, questionWrapper);
     questionTitle.appendChild(document.createTextNode(question.title))
 
     const btnWrapper = createNode("div", {
-        class: "btnWrapper"
+        className: "btnWrapper"
     }, questionWrapper)
 
     const editQuestionBtn = createNode("div", {
-        class: "editQuestionBtn"
+        className: "editQuestionBtn"
     }, btnWrapper);
     editQuestionBtn.appendChild(document.createTextNode("Editar"));
 
     const delQuestionBtn = createNode("div", {
-        class: "delQuestionBtn"
+        className: "delQuestionBtn"
     }, btnWrapper);
     delQuestionBtn.appendChild(document.createTextNode("Eliminar"));
 
@@ -109,6 +139,7 @@ const printQuestionTitle = (question, token) => {
     editQuestionBtn.addEventListener("click", async () => {
         window.location.href = `./question.html?id=${question.questionID}`;
     })
+
 
 
 }
