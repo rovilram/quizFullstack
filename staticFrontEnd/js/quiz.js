@@ -16,9 +16,6 @@ const main = async (d) => {
   let clickFlag = false; //Flag para evitar hacer dos veces seguidas click en evento
 
 
-  //guardamos las numQuestions que vamos a necesitar en el quiz
-  //quizQuestions = getQuestions(questions, numQuestions);
-
   //para guardar las preguntas elegidas para el quiz
   //tengo doble await para esperar primero al fetch y luego a que se haga el json
   //si lo hago con .then tengo que meter todo el código dentro (incluido los eventos)

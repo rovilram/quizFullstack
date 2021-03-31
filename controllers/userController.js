@@ -185,7 +185,7 @@ exports.authUser = async (req, res, next) => {
             res.status(401).send({
                 OK: 0,
                 status: 401,
-                message: "invalid Token"
+                message: "Invalid token"
             })
         }
 

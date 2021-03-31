@@ -1,12 +1,24 @@
 "use strict";
 
-
+const printError = (err, redirection) => {
+    setInterval(() => {
+        window.location.href = redirection
+    }, 2500);
+    const errorWrapper = createNode("div", {
+        className: "errorWrapper"
+    });
+    const errorDiv = createNode("div", {
+        className: "errorDiv"
+    }, errorWrapper);
+    errorDiv.appendChild(document.createTextNode("ERROR: ", JSON.stringify(err)))
+    return errorWrapper;
+}
 
 
 window.addEventListener("load", () => {
 
-    //TODO: quitar este token hardcodeado
     const token = localStorage.getItem("token");
+    const questionsWrapper = document.querySelector(".questionsWrapper");
 
     fetch(`http://localhost:3000/question/`, {
         method: 'GET',
@@ -18,26 +30,21 @@ window.addEventListener("load", () => {
         .then(questions => {
             if (questions.OK) {
                 console.log("questions", questions)
-                questions.questions.map((question) => printQuestionTitle(question, token));
+                questions.questions.map((question) => {
+                    const questionWrapper = printQuestionTitle(question, token);
+                    questionsWrapper.appendChild(questionWrapper);
+                })
             }
             else {
-                const questionsWrapper = document.querySelector(".questionsWrapper");
-                const errorDiv = createNode("div", {
-                    className: "errorDiv"
-                }, questionsWrapper);
-                errorDiv.appendChild(document.createTextNode(`ERROR: ${questions.message}`));
-                window.location.href = "/login"
-                //TODO: hacer redirección a Login
+                const errorDiv = printError(questions.message, "/login");
+                questionsWrapper.appendChild(errorDiv);
+
             }
 
         })
         .catch(error => {
-            const questionsWrapper = document.querySelector(".questionsWrapper");
-            const errorDiv = createNode("div", {
-                className: "errorDiv"
-            }, questionsWrapper);
-            errorDiv.appendChild(document.createTextNode(`ERROR: ${error}`));
-            //TODO: hacer redirección a Login
+            const errorDiv = printError(error.message, "/login");
+            questionsWrapper.appendChild(errorDiv);
 
         })
 
@@ -64,11 +71,10 @@ window.addEventListener("load", () => {
                     'Authorization': 'Bear ' + token,
                 })
             })
-                .then(result => result.json())
-                .then(result => {
-                    console.log("Usuario desconectado");
+                .then(() => {
                     window.location.href = "/"
                 })
+                .catch(err => printError(err.message, "/admin/questions"))
 
         })
 
@@ -77,10 +83,9 @@ window.addEventListener("load", () => {
 
 const printQuestionTitle = (question, token) => {
     //TODO sacar este questionsWrapper a la función principal
-    const questionsWrapper = document.querySelector(".questionsWrapper");
     const questionWrapper = createNode("div", {
         className: "questionWrapper"
-    }, questionsWrapper);
+    });
 
     const questionID = createNode("div", {
         className: "questionID"
@@ -112,9 +117,6 @@ const printQuestionTitle = (question, token) => {
         const result = confirm(`¿Quieres borrar la pregunta '${question.questionID}'`)
         if (result) {
 
-
-
-
             fetch(`http://localhost:3000/question/${question.questionID}`, {
                 method: 'DELETE',
                 headers: new Headers({
@@ -127,10 +129,10 @@ const printQuestionTitle = (question, token) => {
                         console.log("Pregunta borrada");
                         questionWrapper.remove();
                     }
-                    else console.log("Error al borrar", response.message)
+                    else printError(response.message, "/admin/questions")
                 }
                 )
-                .catch(error => console.log(error))
+                .catch(error => printError(error.message, "/admin/questions"))
         }
     })
 
@@ -140,6 +142,6 @@ const printQuestionTitle = (question, token) => {
         window.location.href = `./question?id=${question.questionID}`;
     })
 
-
+    return questionWrapper;
 
 }

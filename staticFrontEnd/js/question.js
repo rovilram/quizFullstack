@@ -1,20 +1,20 @@
 "use strict";
 
-const printError = (err) => {
+const printError = (err, redirection) => {
     //TODO: VER QUE HACER CON LOS ERRORES DE ESTA PAGINA
     //CUIDADO, hay de varios tipos 
     //hay algunos para redirigir a questions y otros a login...
     //los hay que tienen message y status y otros no...
     setInterval(() => {
-        window.location.href = "/admin/questions"
-    }, 1000);
+        window.location.href = redirection
+    }, 2500);
     const errorWrapper = createNode("div", {
         className: "errorWrapper"
     });
     const errorDiv = createNode("div", {
         className: "errorDiv"
     }, errorWrapper);
-    errorDiv.appendChild(document.createTextNode(JSON.stringify(err)))
+    errorDiv.appendChild(document.createTextNode("ERROR: ", JSON.stringify(err)))
     return errorWrapper;
 }
 
@@ -213,7 +213,7 @@ const printQuestionEditor = (question, token) => {
                 })
                     .then(data => data.json())
                     .then(async (response) => {
-                        await alert(`Pregunta modificada: ${JSON.stringify(response)}`);
+                        await alert(`Pregunta modificada: ${response.questionID}`);
                         window.location.href = "/admin/questions"
                     })
                     .catch(async (err) => {
@@ -227,7 +227,7 @@ const printQuestionEditor = (question, token) => {
     return questionWrapper;
 }
 
-
+//TODO: clear console.log
 
 window.addEventListener("load", () => {
     //recojo los parámetros del URL
@@ -236,9 +236,6 @@ window.addEventListener("load", () => {
     const questionID = params.get("id");
 
 
-
-    //TODO: quitar este token hardcodeado
-    //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoicm9iZXJ0bzJAZW1haWwuY29tIiwidXNlclR5cGUiOiJzdHVkZW50IiwiaWF0IjoxNjE3MDk5NzE1fQ.InglUxNoNGYlQN1jDNpyi3qm6yi3P5Feh1fB4TpnpLk";
     const token = localStorage.getItem("token");
     console.log("token", token);
     
@@ -252,11 +249,11 @@ window.addEventListener("load", () => {
                 'Authorization': 'Bear ' + token,
             })
         })
-            .catch(err => printError(err))
+            .catch(err => printError(err.message, "/admin/questions"))
             .then(response => response.json())
             .then(response => {
                 if (!response.OK) {
-                    wrapper.appendChild(printError(response));
+                    wrapper.appendChild(printError(response.message, "/admin/questions"));
                 }
                 else {
                     const questionWrapper = printQuestionEditor(response.question, token);
@@ -281,7 +278,7 @@ window.addEventListener("load", () => {
                 console.log ("usuario autorizado");
             }
             else {
-                printError(response);
+                printError(response.message, "/admin/questions");
             }
         })
 
