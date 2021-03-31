@@ -31,7 +31,7 @@ server.get('/', (req, res) => {
 
 server.use("/questions", questionsRouter);
 
-server.use("/question", authUser)
+server.use("/question", authUser);
 server.use("/question", questionRouter);
 
 

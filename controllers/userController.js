@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const { nanoid } = require('nanoid');
 const jwt = require('jsonwebtoken');
+const auth = require("registry-auth-token");
 
 
 const isValidUser = (user) => {

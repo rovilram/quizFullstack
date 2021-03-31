@@ -20,6 +20,7 @@ window.addEventListener("load", () => {
         .then(data => data.json())
         .then(questions => {
             if (questions.OK) {
+                console.log("questions",questions)
                 questions.questions.map((question) => printQuestionTitle(question, token));
             }
             else {

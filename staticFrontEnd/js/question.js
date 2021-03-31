@@ -3,6 +3,8 @@
 const printError = (err) => {
     //TODO: VER QUE HACER CON LOS ERRORES DE ESTA PAGINA
     //CUIDADO, hay de varios tipos 
+    //hay algunos para redirigir a questions y otros a login...
+    //los hay que tienen message y status y otros no...
     setInterval(() => {
         window.location.href = "./questions.html"
     }, 1000);
@@ -251,18 +253,35 @@ window.addEventListener("load", () => {
             .then(response => response.json())
             .then(response => {
                 if (!response.OK) {
-                    wrapper.appendChild(printError(response))
+                    wrapper.appendChild(printError(response));
                 }
                 else {
                     const questionWrapper = printQuestionEditor(response.question, token);
-                    wrapper.appendChild(questionWrapper)
+                    wrapper.appendChild(questionWrapper);
                 }
             })
 
     }
-    else {
-        const questionWrapper = printQuestionEditor(null, token);
-        wrapper.appendChild(questionWrapper)
+    else { //hago este fetch para evitar que salga la pantalla de añadir pregunta
+           //si no estás autorizado
+        fetch(`http://localhost:3000/user/authuser`, {
+            method: 'GET',
+            headers: new Headers({
+                'Authorization': 'Bear ' + token,
+            })
+        })
+        .then (response=> response.json())
+        .then (response => {
+            if (response.OK) {
+                const questionWrapper = printQuestionEditor(null, token);
+                wrapper.appendChild(questionWrapper);
+                console.log ("usuario autorizado");
+            }
+            else {
+                printError(response);
+            }
+        })
+
     }
 
 
