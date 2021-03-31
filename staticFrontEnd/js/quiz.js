@@ -1,5 +1,8 @@
 "use strict;"
 
+import {printQuestion, validateAnswer, printResults} from "./functions.js"
+
+
 //main function: le pasamos por parámetro el document
 const main = async (d) => {
 

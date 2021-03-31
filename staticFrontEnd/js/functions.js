@@ -28,8 +28,7 @@ const getNumQuestions = (maxNum) => {
 //El parametro htmlAttributes es un objeto que tiene como propiedades
 //los atributos css (con el nombre que usaríamos en JS) que queramos cambiar
 //devuelve true si hay parametro container y el nodo si no lo hay.
-const createNode = (htmlElement, htmlAttributes, container) => {
-    
+export const createNode = (htmlElement, htmlAttributes, container) => {
     const HTMLnode = document.createElement(htmlElement);
 
     Object.entries(htmlAttributes).forEach(([key, val]) => {
@@ -164,7 +163,7 @@ const generateHTML = (question, $parent) => {
 
 //------------------------------------------------------------------
 //return result = validateAnswer ($selectedInput, $selectedLabel, validAnswer)
-const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
+export const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
     const result = {};
 
     if ($selectedInput === null) {
@@ -194,7 +193,7 @@ const validateAnswer = ($selectedInput, $selectedLabel, validAnswer) => {
 //------------------------------------------------------------------
 //printQuestion(quizQuestions, questionIndex, numQuestion, $formParent, $screenParent)
 //va a generar el HTML del formulario y cambiar el texto en el div.footer
-const printQuestion = (quizQuestions, questionIndex, $formParent, $screenParent) => {
+export const printQuestion = (quizQuestions, questionIndex, $formParent, $screenParent) => {
     generateHTML(quizQuestions[questionIndex], $formParent);
     changeScreen($screenParent, questionIndex, quizQuestions.length);
 
@@ -209,7 +208,7 @@ const printQuestion = (quizQuestions, questionIndex, $formParent, $screenParent)
 //------------------------------------------------------------------
 //va a generar el nodo html de los resultados
 //printResults = (results, $screenParent, $formParent)
-const printResults = (results, $screenParent, $formParent) => {
+export const printResults = (results, $screenParent, $formParent) => {
     let points = 0;
     const totalPoints = results.length;
     const screen = createNode("div", {

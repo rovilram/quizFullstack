@@ -1,4 +1,5 @@
 "use strict";
+import {createNode} from "./functions.js";
 
 const printError = (err, redirection) => {
     //TODO: VER QUE HACER CON LOS ERRORES DE ESTA PAGINA
@@ -212,7 +213,7 @@ const printQuestionEditor = (question, token) => {
                 })
                     .then(data => data.json())
                     .then(async (response) => {
-                        await alert(`Pregunta modificada: ${response.questionID}`);
+                        await alert(`Pregunta modificada: ${response.question.questionID}`);
                         window.location.href = "/admin/questions"
                     })
                     .catch(async (err) => {

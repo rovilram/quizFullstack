@@ -1,4 +1,5 @@
 "use strict";
+import {createNode} from "./functions.js"
 
 const printError = (err, redirection) => {
     setInterval(() => {
