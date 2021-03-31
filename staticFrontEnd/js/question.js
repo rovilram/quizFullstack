@@ -227,7 +227,6 @@ const printQuestionEditor = (question, token) => {
     return questionWrapper;
 }
 
-//TODO: clear console.log
 
 window.addEventListener("load", () => {
     //recojo los parámetros del URL
@@ -237,7 +236,6 @@ window.addEventListener("load", () => {
 
 
     const token = localStorage.getItem("token");
-    console.log("token", token);
     
     const adminWrapper = document.querySelector(".adminWrapper");
 
@@ -275,7 +273,6 @@ window.addEventListener("load", () => {
             if (response.OK) {
                 const questionWrapper = printQuestionEditor(null, token);
                 adminWrapper.appendChild(questionWrapper);
-                console.log ("usuario autorizado");
             }
             else {
                 printError(response.message, "/admin/questions");

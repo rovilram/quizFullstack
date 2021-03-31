@@ -67,7 +67,9 @@ exports.postQuestion = async (req, res) => {
             const newQuestion = new Question(question);
             const response = await newQuestion.save();
             res.send({
-                OK: 1, newQuestion: {
+                OK: 1, 
+                message: "Question added",
+                newQuestion: {
                     questionID: response.questionID,
                     title: response.title,
                     answers: response.answers,
@@ -133,7 +135,7 @@ exports.putQuestion = async (req, res) => {
                 question,
                 { new: true }
             );
-            res.send({ OK: 1, question: response });
+            res.send({ OK: 1, question: response, message: "Question updated" });
         }
         catch (error) {
             res.status(500).send({
@@ -163,7 +165,7 @@ exports.delQuestion = async (req, res) => {
     try {
         const response = await Question.deleteOne({ questionID });
         (response.deletedCount === 1) ?
-            res.send({ OK: 1, questionID: questionID }) :
+            res.send({ OK: 1, message: "Question deleted",  questionID: questionID }) :
             res.status(404).send({ OK: 0, message: `Question '${questionID}' not found` });
     }
     catch (error) {
@@ -180,6 +182,7 @@ exports.getAllQuestions = async (req, res) => {
         const quizQuestions = await Question.find({});
         res.send({
             OK: 1,
+            message: "All questions get complete",
             questions: quizQuestions
         });
 

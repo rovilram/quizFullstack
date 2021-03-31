@@ -90,7 +90,7 @@ const main = async (d) => {
     d.querySelectorAll('.answerLabel').forEach((label, index) => {
       if ((e.code === `Digit${index + 1}`) || (e.code === `Numpad${index + 1}`)) {
         d.querySelector(`label[for="answer_${index}"]`).click();
-      }//TODO: Preguntar si hay alguna forma de "optimizar" esto
+      }
     })
   })
 

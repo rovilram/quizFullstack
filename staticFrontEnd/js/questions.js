@@ -30,7 +30,6 @@ window.addEventListener("load", () => {
         .then(data => data.json())
         .then(questions => {
             if (questions.OK) {
-                console.log("questions", questions)
                 questions.questions.map((question) => {
                     const questionTitleWrapper = printQuestionTitle(question, token);
                     questionsWrapper.appendChild(questionTitleWrapper);
@@ -83,7 +82,6 @@ window.addEventListener("load", () => {
 
 
 const printQuestionTitle = (question, token) => {
-    //TODO sacar este questionsWrapper a la función principal
     const questionTitleWrapper = createNode("div", {
         className: "questionTitleWrapper"
     });
@@ -127,7 +125,6 @@ const printQuestionTitle = (question, token) => {
                 .then(data => data.json())
                 .then(response => {
                     if (response.OK) {
-                        console.log("Pregunta borrada");
                         questionTitleWrapper.remove();
                     }
                     else printError(response.message, "/admin/questions")

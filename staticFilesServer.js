@@ -29,17 +29,14 @@ server.get("/quiz", (req, res)=> {
 
 
 server.get("/login", (req, res) => {
-  console.log("AI")
   res.sendFile("login.html", sendFileOptions);
 }) 
 
 server.get("/admin/questions", (req, res) => {
-  console.log("AI")
   res.sendFile("admin/questions.html", sendFileOptions);
 })
 
 server.get("/admin/question", (req, res) => {
-  console.log("AI")
   res.sendFile("admin/question.html", sendFileOptions);
 })
 

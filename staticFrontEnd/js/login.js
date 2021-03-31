@@ -4,7 +4,6 @@ const token = localStorage.getItem("token");
 //hacemos un fetch por si ya tenemos un token en localstorage nos lleve directamente a questions.html
 //y sino nos saca la pantalla de login
 if (token) {
-    console.log(token)
     fetch(`http://localhost:3000/user/authuser`, {
         method: 'GET',
         headers: new Headers({
@@ -13,9 +12,7 @@ if (token) {
     })
         .then(response => response.json())
         .then(response => {
-            console.log(response)
             if (response.OK) {
-                console.log("usuario autentificado")
                 window.location.href = "admin/questions"
             }
             else {

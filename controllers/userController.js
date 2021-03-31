@@ -97,7 +97,6 @@ exports.login = async (req, res) => {
     const user = req.body.user;
     const password = req.body.password;
 
-    console.log("LOGIN")
 
     if (isValidUserPass(user, password, res)) {
 
@@ -107,7 +106,6 @@ exports.login = async (req, res) => {
             const payload = { user, userType: response.userType };
             const options = { expiresIn: "10m" }
             const token = jwt.sign(payload, response.secret, options);
-            console.log("AUTORIZADO")
             res.send({
                 OK: 1,
                 message: "Authorized user",
@@ -115,8 +113,6 @@ exports.login = async (req, res) => {
             })
         }
         else {
-            console.log("NO ATORIZADO");
-
             res.status(401).send({
                 OK: 0,
                 error: 401,
@@ -175,7 +171,6 @@ exports.signOut = async (req, res) => {
 exports.authUser = async (req, res, next) => {
 
     const authorization = req.headers.authorization;
-    console.log("authorization", authorization)
     if (authorization) {
         const token = authorization.split(" ")[1];
 
