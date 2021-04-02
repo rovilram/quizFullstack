@@ -2,6 +2,12 @@ const User = require("../models/userModel");
 const { nanoid } = require('nanoid');
 const jwt = require('jsonwebtoken');
 const md5 = require("md5");
+require("dotenv").config();
+const { OAuth2Client } = require('google-auth-library');
+
+
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+
 
 
 const isValidUser = (user) => {
@@ -89,7 +95,7 @@ exports.signUp = async (req, res) => {
                 message: error.message,
             })
         }
-    };
+    }
 }
 
 
@@ -133,7 +139,7 @@ exports.signOut = async (req, res) => {
 
     const user = jwt.decode(token).user;
 
-    const response = await User.findOne({ user })
+    const response = await User.findOne({ user });
 
     if (response) {
         const secret = response.secret;
@@ -142,7 +148,7 @@ exports.signOut = async (req, res) => {
             jwt.verify(token, secret);
             try {
                 const newSecret = nanoid();
-                const updateResponse = await User.updateOne({ user }, { secret: newSecret });
+                await User.updateOne({ user }, { secret: newSecret });
                 res.send({
                     OK: 1,
                     message: "User Disconnected"
@@ -221,6 +227,78 @@ exports.authUser = async (req, res, next) => {
             OK: 0,
             error: 401,
             message: "Token required"
+        })
+    }
+}
+
+
+exports.googleAuthUser = async (req, res) => {
+    const token = req.headers.authorization.split(" ")[1];
+    console.log(token);
+    try {
+        let ticket;
+        try {
+            const client = new OAuth2Client(CLIENT_ID);
+            ticket = await client.verifyIdToken({
+                idToken: token,
+                audience: CLIENT_ID
+            });
+        }
+        catch (error) {
+            throw {
+                status: 401,
+                message: `Invalid google token: ${error}`
+            }
+        }
+
+        const user = ticket.payload.email;
+        const verifiedUser = ticket.payload.email_verified;
+        console.log(user, verifiedUser)
+        if (user && verifiedUser) {
+            //tenemos el usuario hay que buscarlo en nuestra base de datos
+            try {
+                const result = await User.findOne({ user });
+                console.log("RESULT", result)
+                if (result) {
+                    console.log("USUARIO REGISTRADO");
+                    const payload = { user, userType: result.userType };
+                    const options = { expiresIn: "10m" }
+                    const token = jwt.sign(payload, result.secret, options);
+                    res.send({
+                        OK: 1,
+                        message: "Authorized user",
+                        token
+                    })
+                }
+                else { //el usuario no está en la base de datos
+                    throw {
+                        status: 401,
+                        message: "google account is not a valid user"
+                    }
+                }
+            }
+            catch (error) {
+                throw {
+                    status: 500,
+                    message: `DB Error: ${error}`
+                }
+            }
+
+        }
+        else {
+            //no ha venido nada en el correo electrónico o el correo no está verificado
+            throw {
+                status: 401,
+                message: "Invalid google account"
+            }
+        }
+    }
+    catch (error) {
+        console.log("ERROR", error)
+        res.status(error.status).send({
+            OK: 0,
+            status: error.status,
+            message: error.message
         })
     }
 }

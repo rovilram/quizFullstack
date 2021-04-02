@@ -8,7 +8,7 @@ const questionRouter = require("./routes/questionRouter");
 const userRouter = require("./routes/userRouter");
 const {authUser} = require("./controllers/userController");
 
-server = express();
+const server = express();
 
 const HTTP = {
     port: process.env.HTTP_API_PORT || 8081,

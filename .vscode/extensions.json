@@ -1,0 +1,6 @@
+{
+    "recommendations": [
+        "ghmcadams.lintlens",
+        "dbaeumer.vscode-eslint"
+    ]
+}

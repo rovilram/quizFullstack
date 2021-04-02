@@ -35,6 +35,10 @@ server.get("/login", (req, res) => {
 server.get("/admin/questions", (req, res) => {
   res.sendFile("admin/questions.html", sendFileOptions);
 })
+//hacemos que /admin también apunte a la gestión de preguntas
+server.get("/admin", (req, res) => {
+  res.sendFile("admin/questions.html", sendFileOptions);
+})
 
 server.get("/admin/question", (req, res) => {
   res.sendFile("admin/question.html", sendFileOptions);

@@ -8,10 +8,13 @@
 
     <meta name="author" content="TheBridge">
     <meta name="description" content="Plantilla simple HTML5">
+    <meta name="google-signin-client_id"
+        content="1067750231965-4bjrq69di3uk9tro9r2gs09upsfl3ram.apps.googleusercontent.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Akaya+Kanadaka&family=RocknRoll+One&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="./css/styles.css">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 
 <body>
@@ -23,6 +26,7 @@
     <div id="wrapper">
         <div id="questionWrapper">
             <div class="indexText">
+            
                 <p>Aquí puedes acceder a tu cuenta de usuario, tan solo necesitas tu usuario (email) y contraseña.</p>
                 <!-- TODO: Hacer funcionalidad de registro (Sign-Up) -->
 
@@ -41,6 +45,7 @@
                     </div>
                     <input class="loginBtn" type="submit" value="ACCEDER">
                 </form>
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
             </div>
         </div>
