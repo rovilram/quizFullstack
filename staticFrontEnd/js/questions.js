@@ -137,7 +137,7 @@ const printQuestionTitle = (question, token) => {
 
 
     editQuestionBtn.addEventListener("click", async () => {
-        window.location.href = `./question?id=${question.questionID}`;
+        window.location.href = `/admin/question?id=${question.questionID}`;
     })
 
     return questionTitleWrapper;
