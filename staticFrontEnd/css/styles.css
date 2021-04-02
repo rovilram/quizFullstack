@@ -110,7 +110,8 @@ h1 {
   justify-content: space-evenly;
 }
 
-.questionsWrapper, .adminWrapper {
+.questionsWrapper,
+.adminWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -234,16 +235,15 @@ h1 {
   align-items: center;
 }
 
-
 .editAnswerWrapper {
   margin: 5px 0;
 }
 
 .editTitleWrapper {
-  width:100%;
-  display:flex;
-  justify-content:center;
-  margin:15px 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 15px 0;
 }
 
 .questionTitleWrapper > * {
@@ -302,6 +302,14 @@ h1 {
 .editAnswerInput,
 #questionTitle {
   width: 50%;
+}
+
+.userPicture {
+  width: 10%;
+  border-radius: 50%;
+  position: absolute;
+  right: 5%;
+  top: 10px;
 }
 
 @keyframes valid {

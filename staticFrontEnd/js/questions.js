@@ -30,6 +30,17 @@ window.addEventListener("load", () => {
         .then(data => data.json())
         .then(questions => {
             if (questions.OK) {
+                const header = document.querySelector(".header");
+                if (questions.user.picture) {
+                    console.log(questions.user.picture)
+                    const picWrapper = createNode("div", {
+                        className: "picWrapper",
+                    }, header);
+                    createNode("img", {
+                        className: "userPicture",
+                        src: questions.user.picture
+                    },picWrapper)
+                }
                 questions.questions.map((question) => {
                     const questionTitleWrapper = printQuestionTitle(question, token);
                     questionsWrapper.appendChild(questionTitleWrapper);

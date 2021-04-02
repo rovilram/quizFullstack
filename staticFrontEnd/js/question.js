@@ -254,6 +254,17 @@ window.addEventListener("load", () => {
                     adminWrapper.appendChild(printError(response.message, "/admin/questions"));
                 }
                 else {
+                    if (response.user.picture) {
+                        const header = document.querySelector(".header");
+                        console.log(response.user.picture)
+                        const picWrapper = createNode("div", {
+                            className: "picWrapper",
+                        }, header);
+                        createNode("img", {
+                            className: "userPicture",
+                            src: response.user.picture
+                        },picWrapper)
+                    };
                     const questionWrapper = printQuestionEditor(response.question, token);
                     adminWrapper.appendChild(questionWrapper);
                 }

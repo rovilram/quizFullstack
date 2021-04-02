@@ -6,15 +6,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="author" content="TheBridge">
-    <meta name="description" content="Plantilla simple HTML5">
     <meta name="google-signin-client_id"
         content="1067750231965-4bjrq69di3uk9tro9r2gs09upsfl3ram.apps.googleusercontent.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Akaya+Kanadaka&family=RocknRoll+One&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="./css/styles.css">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+    <script>
+        function start() {
+            gapi.load('auth2', function () {
+                auth2 = gapi.auth2.init({
+                    client_id: '1067750231965-4bjrq69di3uk9tro9r2gs09upsfl3ram.apps.googleusercontent.com',
+                    // Scopes to request in addition to 'profile' and 'email'
+                    //scope: 'additional_scope'
+                });
+            });
+        }
+    </script>
 </head>
 
 <body>
@@ -26,7 +37,7 @@
     <div id="wrapper">
         <div id="questionWrapper">
             <div class="indexText">
-            
+
                 <p>Aquí puedes acceder a tu cuenta de usuario, tan solo necesitas tu usuario (email) y contraseña.</p>
                 <!-- TODO: Hacer funcionalidad de registro (Sign-Up) -->
 
@@ -45,7 +56,8 @@
                     </div>
                     <input class="loginBtn" type="submit" value="ACCEDER">
                 </form>
-                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+                <button id="signinButton">Sign in with Google</button>
 
             </div>
         </div>

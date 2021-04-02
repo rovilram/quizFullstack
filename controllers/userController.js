@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const md5 = require("md5");
 require("dotenv").config();
 const { OAuth2Client } = require('google-auth-library');
+const { google } = require('googleapis');
+
 
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
@@ -70,7 +72,7 @@ exports.signUp = async (req, res) => {
         try {
             const newUser = new User({
                 user,
-                password:md5(password),
+                password: md5(password),
                 secret,
                 userType
             })
@@ -173,7 +175,7 @@ exports.signOut = async (req, res) => {
 }
 
 
-
+//middleware!!!
 exports.authUser = async (req, res, next) => {
 
     const authorization = req.headers.authorization;
@@ -197,11 +199,14 @@ exports.authUser = async (req, res, next) => {
 
             if (response) {
                 const secret = response.secret;
+                req.name = response.name;
+                req.picture = response.picture
 
                 try {
                     jwt.verify(token, secret);
                     //TODO: si algun dia necesito autenticacion de estudiante o admin
                     //habrá que hacerlo desde aquí
+                    //pasamos datos de usuario en la request por si nos pueden ser útiles.
                     next();
                 }
                 catch (error) {
@@ -232,16 +237,36 @@ exports.authUser = async (req, res, next) => {
 }
 
 
-exports.googleAuthUser = async (req, res) => {
-    const token = req.headers.authorization.split(" ")[1];
-    console.log(token);
+
+exports.postGoogleCode = async (req, res) => {
+    const code = req.body.code;
+
+
+    const GOOGLE_SECRET = process.env.GOOGLE_AUTH_SECRET;
+    const GOOGLE_CLIENT_ID = process.env.GOOGLE_AUTH_CLIENT_ID;
+
+    console.log(GOOGLE_SECRET);
+
+    const oauth2Client = new google.auth.OAuth2({
+        clientId: GOOGLE_CLIENT_ID,
+        clientSecret: GOOGLE_SECRET,
+        redirectUri: 'postmessage'
+    }
+
+    );
+
+    const { tokens } = await oauth2Client.getToken(code);
+
+    console.log(tokens);
+
+    const token = tokens.id_token;
+
     try {
         let ticket;
         try {
-            const client = new OAuth2Client(CLIENT_ID);
-            ticket = await client.verifyIdToken({
+            ticket = await oauth2Client.verifyIdToken({
                 idToken: token,
-                audience: CLIENT_ID
+                audience: GOOGLE_CLIENT_ID
             });
         }
         catch (error) {
@@ -250,22 +275,26 @@ exports.googleAuthUser = async (req, res) => {
                 message: `Invalid google token: ${error}`
             }
         }
-
+        console.log(ticket.payload)
         const user = ticket.payload.email;
         const verifiedUser = ticket.payload.email_verified;
+        const name = ticket.payload.name;
+        const picture = ticket.payload.picture;
         console.log(user, verifiedUser)
         if (user && verifiedUser) {
             //tenemos el usuario hay que buscarlo en nuestra base de datos
             try {
-                const result = await User.findOne({ user });
+                const result = await User.findOneAndUpdate({ user },{name, picture});
                 console.log("RESULT", result)
                 if (result) {
                     console.log("USUARIO REGISTRADO");
                     const payload = { user, userType: result.userType };
                     const options = { expiresIn: "10m" }
                     const token = jwt.sign(payload, result.secret, options);
+                    console.log("NEWTOKEN", token);
                     res.send({
                         OK: 1,
+                        status: 200,
                         message: "Authorized user",
                         token
                     })
@@ -279,8 +308,8 @@ exports.googleAuthUser = async (req, res) => {
             }
             catch (error) {
                 throw {
-                    status: 500,
-                    message: `DB Error: ${error}`
+                    status: error.status,
+                    message: `Error: ${error.message}`
                 }
             }
 

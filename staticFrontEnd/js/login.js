@@ -14,46 +14,17 @@
 
 
 
+//Recursos más recientes de GOOGLE
+//Para cliente
+//https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow#js-client-library
+//Para node
+//https://github.com/googleapis/google-api-nodejs-client#retrieve-access-token
 
 
-"use strict"
+
+"use strict";
+
 const token = localStorage.getItem("token");
-
-
-function onSignIn(googleUser) {
-    var id_token = googleUser.getAuthResponse().id_token;
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-    console.log(id_token);
-
-    fetch('http://localhost:3000/user/googleauth', {
-        method: 'GET', 
-        headers: {
-            'Authorization': `bearer ${id_token}`,
-            'Content-Type': 'application/json'
-        }
-    }).then(res => res.json())
-        .catch(error => console.error('Error:', error))
-        .then(response => {
-            console.log('Success:', response);
-            localStorage.setItem("token", response.token);
-            window.location.href = "/admin"
-        })
-        .then( () => signOut()) //como ya tenemos nuestro token salimos de la cuenta de google
-
-}
-
-
-
-function signOut() {
-    var auth2 = window.gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-        console.log('User signed out.');
-    });
-}
 
 
 //hacemos un fetch por si ya tenemos un token en localstorage nos lleve directamente a questions.html
@@ -110,4 +81,50 @@ loginBtn.addEventListener("click", (e) => {
             })
     }
 })
+
+const signInCallBack = (authResult) => {
+    console.log(authResult)
+    if (authResult['code']) {
+        // Hide the sign-in button now that the user is authorized, for example:
+        //$('#signinButton').attr('style', 'display: none');
+
+        // Send the code to the server
+
+        fetch('http://localhost:3000/user/postgooglecode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(authResult)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.status === 200) {
+                    localStorage.setItem("token", data.token);
+                    window.location.href = "/admin/questions";
+                }
+                else {
+                    alert(`ERROR: ${data.message}`);
+                }
+            })
+            .catch(error => alert(JSON.stringify(error)))
+
+    } else {
+        console.log("ERROR: No se ha podido autenticar a ningún usuario")
+    }
+}
+
+
+
+
+
+
+document.querySelector("#signinButton").addEventListener("click", () => {
+    console.log("click")
+    auth2.grantOfflineAccess()
+        .then(signInCallBack);
+});
+
+
 

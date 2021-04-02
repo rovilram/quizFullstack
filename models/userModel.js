@@ -19,7 +19,9 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true,
         enum: ["admin", "student"]
-    }
+    },
+    name: String,
+    picture: String
 });
 
 const User = mongoose.model('User', userSchema);
