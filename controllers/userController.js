@@ -3,12 +3,10 @@ const { nanoid } = require('nanoid');
 const jwt = require('jsonwebtoken');
 const md5 = require("md5");
 require("dotenv").config();
-const { OAuth2Client } = require('google-auth-library');
 const { google } = require('googleapis');
 
 
 
-const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 
 
 

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { signUp, login, signOut, authUser ,googleAuthUser, postGoogleCode} = require("../controllers/userController");
+const { signUp, login, signOut, authUser, postGoogleCode } = require("../controllers/userController");
 
 
 router.route("/signup")

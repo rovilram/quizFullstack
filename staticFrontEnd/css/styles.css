@@ -284,8 +284,8 @@ h1 {
   font-size: 1.25rem;
 }
 
-.loginBtn {
-  margin: 10px;
+.loginBtn, .signinButton {
+  margin: 10px 0;
 }
 
 .btnWrapper {
