@@ -1,3 +1,34 @@
+# Quiz++ (FullStack MVC Version)
+
+## INSTALACIÓN
+
+1. Clonar repositorio: `git clone https://github.com/rovilram/quizFullstack`.
+2. reconstituir dependencias npm: `npm install`.
+3. Generar archivo .env con esta configuración:
+
+```bash
+#STATIC FRONTEND FILES SERVER
+HTTP_STATIC_PORT = 8080
+HTTP_STATIC_HOST = "localhost"
+
+#API SERVER
+HTTP_API_PORT = 3000
+HTTP_API_HOST = "localhost"
+
+#MONGODB SERVER
+DB_HOST = "localhost"
+DB_PORT = "27017"
+DB_NAME = "quiz"
+
+#GOOGLE AUTH
+GOOGLE_AUTH_SECRET = "AAAAAAAAAAAA" #Tu auth Secret
+GOOGLE_AUTH_CLIENT_ID = "TUAUTHCLIENTID.apps.googleusercontent.com"
+```
+
+4. Ejecutar script para recostituir la base de datos con las preguntas y respuestas predeterminadas: `npm run seeds`.
+5. Levantar el servidor API con node: `node apiServer.js`
+6. Levantar el servidor de ficheros html estáticos con node: `node staticFilesServer.js`
+
 ## CARACTERÍSTICAS
 
 - Se hace **servidor API** en node para servir preguntas al frontend que habíamos hecho como ejercicio anterior del Quiz.
