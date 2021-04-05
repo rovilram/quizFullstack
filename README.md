@@ -1,4 +1,24 @@
-Quiz++ (FullStack MVC Version)
+## CARACTERÍSTICAS
+
+- Se hace **servidor API** en node para servir preguntas al frontend que habíamos hecho como ejercicio anterior del Quiz.
+- Se **modifica el frontend** del ejercicio anterior del Quiz de forma que haga fetch para conseguir las preguntas desde back.
+- Se hace **servidor de ficheros estáticos** html para el frontend de la aplicación.
+- Se completa **CRUD** de la colección de preguntas:
+  -CREATE pregunta,
+  -READ pregunta y preguntas (ya los teníamos del primer punto),
+  -UPDATE pregunta
+  -DELETE pregunta
+- Se hace (como Multi Page App) **frontend CRUD** para listar, editar, modificar y crear preguntas y se enlazan con fetch a nuestro backend,
+- Se hace **sistema de autenticación** con JWT en back, que consta de los endpoints para signUp, signIn, signOut, que intercambia tokens con frontend dejando paso a la zona privada de administración (/admin) donde se gestionan las preguntas.
+- Se hace front para el sistema de autenticación (solo se hace **pantalla de login**(signIn)) (si queremos crear nuevos usuarios de administración lo tenemos que hacer a través del endpoint _/user/signout_). Los usuarios deben ser como este:
+  {
+  user: 'user1@email.es',
+  password: 'aA#00000',
+  userType: 'admin',
+  }
+- Se añade como método de autenticación un **botón OAuth de Google**, el cual evita el que el administrador tenga que meter su usuario y contraseña.
+
+## ENUNCIADO EJERCICIO
 
 -------------------- PRERREQUISITOS --------------------
 
